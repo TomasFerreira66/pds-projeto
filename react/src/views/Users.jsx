@@ -38,7 +38,7 @@ export default function Users() {
   return (
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h1>Utilizadores</h1>
+        <h1>Barbeiros</h1>
         <Link className="btn-add" to="/users/new">Adicionar</Link>
       </div>
       <div className="card animated fadeInDown">

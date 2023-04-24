@@ -6,9 +6,9 @@ import UserForm from "./views/UserForm.jsx";
 import NotFound from "./views/NotFound.jsx";
 import DefaultLayout from "./components/DefaultLayout.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
-import Dashboard from "./views/Dashboard.jsx";
+import Stock from "./views/Stock.jsx";
 import { Navigate } from "react-router-dom";
-import Contactos from "./views/Contactos.jsx";
+import Pedidos from "./views/Pedidos.jsx";
 
 const router = createBrowserRouter([
     {
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
           element: <Navigate to="/users"/>
         },
         {
-          path: '/dashboard',
-          element: <Dashboard/>
+          path: '/stock',
+          element: <Stock/>
         },
         {
           path: '/users',
@@ -36,9 +36,9 @@ const router = createBrowserRouter([
           element: <UserForm key="userUpdate" />
         },
         {
-          path: '/contactos',
-          element: <Contactos/>
-        },
+          path: '/pedidos',
+          element: <Pedidos/>
+        }
       ]
     },
     {
