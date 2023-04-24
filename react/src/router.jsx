@@ -9,6 +9,7 @@ import GuestLayout from "./components/GuestLayout.jsx";
 import Stock from "./views/Stock.jsx";
 import { Navigate } from "react-router-dom";
 import Pedidos from "./views/Pedidos.jsx";
+import Estatisticas from "./views/Estatisticas.jsx";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
         {
           path: '/pedidos',
           element: <Pedidos/>
+        },
+        {
+          path: '/estatisticas',
+          element: <Estatisticas/>
         }
       ]
     },
