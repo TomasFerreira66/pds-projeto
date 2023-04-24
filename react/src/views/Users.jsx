@@ -13,12 +13,12 @@ export default function Users() {
   }, [])
 
   const onDeleteClick = user => {
-    if (!window.confirm("Tem a certeza que pretende remover este utilizador?")) {
+    if (!window.confirm("Are you sure you want to delete this user?")) {
       return
     }
     axiosClient.delete(`/users/${user.id}`)
       .then(() => {
-        setNotification('Utilizador removido.')
+        setNotification('User was successfully deleted')
         getUsers()
       })
   }
@@ -38,8 +38,8 @@ export default function Users() {
   return (
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h1>Barbeiros</h1>
-        <Link className="btn-add" to="/users/new">Adicionar barberio</Link>
+        <h1>Utilizadores</h1>
+        <Link className="btn-add" to="/users/new">Adicionar</Link>
       </div>
       <div className="card animated fadeInDown">
         <table>
