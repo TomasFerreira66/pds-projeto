@@ -43,6 +43,10 @@ const router = createBrowserRouter([
         {
           path: '/estatisticas',
           element: <Estatisticas/>
+        },
+        {
+          path: '/barbeiro',
+          element: <barbeiro/>
         }
       ]
     },
