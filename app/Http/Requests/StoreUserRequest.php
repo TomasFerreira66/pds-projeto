@@ -32,6 +32,7 @@ class StoreUserRequest extends FormRequest
                 Password::min(8)
                     ->letters()
                     ->symbols(),
+            'tipo' => ['required', 'string'],
             ]
         ];
     }

@@ -11,7 +11,8 @@ export default function UserForm() {
     name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    tipo: '',
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)

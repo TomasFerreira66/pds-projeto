@@ -33,8 +33,9 @@ class SignupRequest extends FormRequest
                 Password::min(8)
                     ->letters()
                     ->symbols()
-                    ->numbers()
-            ]
+                    ->numbers(),
+            ],
+            'tipo' => ['required', 'string'],
         ];
     }
 }
