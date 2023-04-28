@@ -12,7 +12,7 @@ export default function UserForm() {
     email: '',
     password: '',
     password_confirmation: '',
-    tipo: '',
+    tipo: 'barbeiro',
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -84,7 +84,6 @@ export default function UserForm() {
             <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
             <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
             <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirmar palavra-passe"/>
-            <input value={user.tipo} onChange={ev => setUser({...user, tipo: ev.target.value})} placeholder="Tipo"/>
             <button className="btn">Adcionar barbeiro</button>
           </form>
         )}

@@ -48,6 +48,7 @@ export default function Users() {
             <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
+            <th>Tipo</th>
             <th>Criado a</th>
             <th>Ações</th>
           </tr>
@@ -68,6 +69,7 @@ export default function Users() {
                 <td>{u.id}</td>
                 <td>{u.name}</td>
                 <td>{u.email}</td>
+                <td>{u.tipo}</td>
                 <td>{u.created_at}</td>
                 <td>
                   <Link className="btn-edit" to={'/users/' + u.id}>Editar</Link>
