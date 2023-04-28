@@ -16,6 +16,7 @@ export default function Signup() {
     ev.preventDefault()
 
     const payload = {
+      
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -51,7 +52,7 @@ export default function Signup() {
           <input ref={emailRef} type="email" placeholder="Email"/>
           <input ref={passwordRef} type="password" placeholder="Palavra-passe"/>
           <input ref={passwordConfirmationRef} type="password" placeholder="Confirmar palavra-passe"/>
-          
+        
           <button className="btn btn-block">Seguinte</button>
           <p className="message">Já tem conta? <Link to="/login">Login</Link></p>
         </form>
