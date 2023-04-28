@@ -12,7 +12,7 @@ export default function UserForm() {
     email: '',
     password: '',
     password_confirmation: '',
-    tipo: 'barbeiro',
+    tipo: 'Barbeiro',
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
