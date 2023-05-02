@@ -34,7 +34,7 @@ export default function Login() {
         } else {
           setUser(data.user);
           setToken(data.token);
-          navigate("/signup");
+          navigate("/ajsdoiasi");
         }
       })
       .catch((err) => {
