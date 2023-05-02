@@ -10,7 +10,8 @@ import Stock from "./views/Stock.jsx";
 import { Navigate } from "react-router-dom";
 import Pedidos from "./views/Pedidos.jsx";
 import Estatisticas from "./views/Estatisticas.jsx";
-import PaginaBarbeiros from "./components/PaginaBarbeiro.jsx";
+import PaginaBarbeiro from "./components/PaginaBarbeiro.jsx";
+import barbeiro from "./viewBarbeiro/barbeiro.jsx"
 
 
 
@@ -67,6 +68,21 @@ const router = createBrowserRouter([
         }
       ]
     },
+  
+    {
+    path: '/',
+    element: <PaginaBarbeiro/>,
+    children: [
+      {
+        path: '/',
+        element: <Navigate to="/barbeiro"/>
+
+      }
+
+    ]
+
+    },
+
     {
       path: "*",
       element: <NotFound/>
