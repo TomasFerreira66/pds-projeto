@@ -22,20 +22,10 @@ export default function Login() {
     axiosClient
       .post("/login", payload)
       .then(({ data }) => {
-        // Verifique se o tipo do usuário é "admin"
-        if (data.user.tipo === "Admin") {
+  
           setUser(data.user);
           setToken(data.token);
-          navigate("/users");
-        } else if (data.user.tipo === "Cliente"){
-          setUser(data.user);
-          setToken(data.token);
-          navigate("/teste");
-        } else {
-          setUser(data.user);
-          setToken(data.token);
-          navigate("/ajsdoiasi");
-        }
+          
       })
       .catch((err) => {
         const response = err.response;

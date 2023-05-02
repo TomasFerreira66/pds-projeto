@@ -11,8 +11,7 @@ import Teste from "./views/Teste.jsx";
 import { Navigate } from "react-router-dom";
 import Pedidos from "./views/Pedidos.jsx";
 import Estatisticas from "./views/Estatisticas.jsx";
-import PaginaBarbeiro from "./components/PaginaBarbeiro.jsx";
-import barbeiro from "./viewBarbeiro/barbeiro.jsx"
+
 
 
 
@@ -45,20 +44,7 @@ const router = createBrowserRouter([
           path: '/estatisticas',
           element: <Estatisticas/>
         },
-        {
-          path: '/barbeiro',
-          element: <barbeiro/>
-        }
-      ]
-    },
-    {
-      path: '/',
-      element: <PaginaBarbeiro/>,
-      children: [
-        {
-          path: '/teste',
-          element: <Teste/>
-        }
+        
       ]
     },
     {
@@ -74,20 +60,6 @@ const router = createBrowserRouter([
           element: <Signup/>
         }
       ]
-    },
-  
-    {
-    path: '/',
-    element: <PaginaBarbeiro/>,
-    children: [
-      {
-        path: '/',
-        element: <Navigate to="/barbeiro"/>
-
-      }
-
-    ]
-
     },
 
     {
