@@ -3,7 +3,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect } from "react";
 
-export default function PaginaAdmin() {
+export default function PaginaMain() {
   const { user, token, setUser, setToken, notification } = useStateContext();
 
   if (!token) {
@@ -55,6 +55,8 @@ export default function PaginaAdmin() {
         </div>
       </div>
     );
+
+
   } else if (user.tipo == "Barbeiro") {
 
     return (
@@ -84,11 +86,15 @@ export default function PaginaAdmin() {
         </div>
       </div>
     );
+
+
   } else if (user.tipo == "Cliente") {
 
     return (
       <div id="defaultLayout">
         <aside>
+          <Link to="/horarios">Horários</Link>
+          <Link to="/marcacoes">Marcações</Link>
           <Link to="/contactos">Contactos</Link>
          
          

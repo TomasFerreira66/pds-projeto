@@ -1,23 +1,29 @@
 import {createBrowserRouter} from "react-router-dom";
-import Login from "./views/Login.jsx";
-import Signup from "./views/Signup.jsx";
-import Users from "./views/Users.jsx";
-import UserForm from "./views/UserForm.jsx";
-import NotFound from "./views/NotFound.jsx";
-import PaginaAdmin from "./components/PaginaAdmin.jsx";
+import Login from "./viewsAdmin/Login.jsx";
+import Signup from "./viewsAdmin/Signup.jsx";
+import Users from "./viewsAdmin/Users.jsx";
+import UserForm from "./viewsAdmin/UserForm.jsx";
+import NotFound from "./viewsAdmin/NotFound.jsx";
+import PaginaMain from "./components/PaginaMain.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
-import Stock from "./views/Stock.jsx";
-import { Navigate } from "react-router-dom";
-import Pedidos from "./views/Pedidos.jsx";
-import Estatisticas from "./views/Estatisticas.jsx";
-
+import Stock from "./viewsAdmin/Stock.jsx";
+import Pedidos from "./viewsAdmin/Pedidos.jsx";
+import Estatisticas from "./viewsAdmin/Estatisticas.jsx";
+//Cliente
+import Contactos from "./viewsClientes/contactos.jsx";
+import Horarios from "./viewsClientes/horarios.jsx";
+import Marcacoes from "./viewsClientes/marcacoes.jsx";
+//barbeiro
+import Agenda from "./viewsBarbeiro/agenda.jsx";
+import Perfil from "./viewsBarbeiro/perfil.jsx";
 
 
 const router = createBrowserRouter([
     {
       path: '/',
-      element: <PaginaAdmin/>,
+      element: <PaginaMain/>,
       children: [
+        
         {
           path: '/stock',
           element: <Stock/>
@@ -42,9 +48,33 @@ const router = createBrowserRouter([
           path: '/estatisticas',
           element: <Estatisticas/>
         },
-        
+        {
+          path: '/contactos',
+          element: <Contactos/>
+        },
+        {
+          path: '/horarios',
+          element: <Horarios/>
+        },
+        {
+          path: '/marcacoes',
+          element: <Marcacoes/>
+        },
+        {
+          path: '/perfil',
+          element: <Perfil/>
+        },
+        {
+          path: '/agenda',
+          element: <Agenda/>
+        },
       ]
     },
+    
+
+
+
+   
     {
       path: '/',
       element: <GuestLayout/>,
