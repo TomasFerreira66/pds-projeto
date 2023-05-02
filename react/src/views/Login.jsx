@@ -7,7 +7,10 @@ import { useState } from "react";
 export default function Login() {
   const emailRef = createRef();
   const passwordRef = createRef();
+<<<<<<< Updated upstream
   const tipoRet = createRef();
+=======
+>>>>>>> Stashed changes
   const { setUser, setToken } = useStateContext();
   const [errors, setErrors] = useState(null);
 
@@ -22,6 +25,7 @@ export default function Login() {
     axiosClient
       .post("/login", payload)
       .then(({ data }) => {
+<<<<<<< Updated upstream
         setUser(data.user);
         setToken(data.token);
         if (data.user.tipo === "admin") {
@@ -30,6 +34,14 @@ export default function Login() {
         } else if (data.user.tipo === "Barbeiro") {
           // Redirect to PaginaBarbeiro if tipo is barbeiro
           navigate("/barbeiro");
+=======
+        // Verifique se o tipo do usuário é "admin"
+        if (data.user.tipo === "admin") {
+          setUser(data.user);
+          setToken(data.token);
+        } else {
+          setErrors({ auth: ["Acesso negado"] });
+>>>>>>> Stashed changes
         }
       })
       .catch((err) => {
