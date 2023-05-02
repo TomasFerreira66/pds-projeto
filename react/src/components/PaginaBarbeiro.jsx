@@ -20,14 +20,6 @@ export default function PaginaAdmin() {
       })
   }
 
-
-  useEffect(() => {
-    axiosClient.get('/user')
-      .then(({data}) => {
-         setUser(data)
-      })
-  }, [])
-
   useEffect(() => {
     axiosClient.get('/user')
       .then(({data}) => {
@@ -38,9 +30,28 @@ export default function PaginaAdmin() {
   return (
     <div id="defaultLayout">
       <aside>
-        iaojsl
-    
+        teste
       </aside>
+      <div className="content">
+        <header>
+          <div>
+            
+          </div>
+
+          <div>
+            {user.name} &nbsp; &nbsp;
+            <a onClick={onLogout} className="btn-logout" href="#">Terminar sessão</a>
+          </div>
+        </header>
+        <main>
+          <Outlet/>
+        </main>
+        {notification &&
+          <div className="notification">
+            {notification}
+          </div>
+        }
       </div>
+    </div>
   )
-    }
+}
