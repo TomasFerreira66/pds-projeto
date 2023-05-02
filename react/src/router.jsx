@@ -7,11 +7,9 @@ import NotFound from "./views/NotFound.jsx";
 import PaginaAdmin from "./components/PaginaAdmin.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
 import Stock from "./views/Stock.jsx";
-import Teste from "./views/Teste.jsx";
 import { Navigate } from "react-router-dom";
 import Pedidos from "./views/Pedidos.jsx";
 import Estatisticas from "./views/Estatisticas.jsx";
-
 
 
 
