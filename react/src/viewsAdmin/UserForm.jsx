@@ -13,6 +13,7 @@ export default function UserForm() {
     password: '',
     password_confirmation: '',
     tipo: 'Barbeiro',
+    especialidade: '',
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -80,12 +81,19 @@ export default function UserForm() {
         }
         {!loading && (
           <form onSubmit={onSubmit}>
-            <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Nome"/>
-            <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
-            <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
-            <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirmar palavra-passe"/>
-            <button className="btn">Adcionar barbeiro</button>
-          </form>
+          <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Nome"/>
+          <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
+          <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
+          <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirmar palavra-passe"/>
+          <select value={user.especialidade} onChange={ev => setUser({...user, especialidade: ev.target.value})}>
+            <option>Especialidade:</option>
+            <option value="Corte geral">Corte geral</option>
+            <option value="Barba">Barba</option>
+          </select>
+
+          <button className="btn">Adicionar barbeiro</button>
+        </form>
+        
         )}
       </div>
     </>

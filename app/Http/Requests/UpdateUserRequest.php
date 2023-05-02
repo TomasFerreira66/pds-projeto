@@ -29,11 +29,12 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,'.$this->id,
             'password' => [
                 'confirmed',
-                Password::min(8)
+                Password::min(5)
                     ->letters(),
                     
             ], // Add a closing square bracket here
             'tipo' => ['required', 'string'],
+            'especialidade' => ['required', 'string'],
         ];
     }
 }    
