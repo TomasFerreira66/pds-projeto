@@ -12,7 +12,6 @@ import { Navigate } from "react-router-dom";
 import Pedidos from "./views/Pedidos.jsx";
 import Estatisticas from "./views/Estatisticas.jsx";
 import PaginaBarbeiro from "./components/PaginaBarbeiro.jsx";
-import barbeiro from "./viewBarbeiro/barbeiro.jsx"
 
 
 
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
         {
           path: '/estatisticas',
           element: <Estatisticas/>
-        },
-        {
-          path: '/barbeiro',
-          element: <barbeiro/>
         }
       ]
     },
