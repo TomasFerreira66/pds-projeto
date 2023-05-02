@@ -3,7 +3,7 @@ import {useStateContext} from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import {useEffect} from "react";
 
-export default function DefaultLayout() {
+export default function PaginaAdmin() {
   const {user, token, setUser, setToken, notification} = useStateContext();
 
   if (!token) {
