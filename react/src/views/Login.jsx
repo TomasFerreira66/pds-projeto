@@ -27,7 +27,7 @@ export default function Login() {
           setUser(data.user);
           setToken(data.token);
           navigate("/users");
-        } else if (data.user.tipo === "cliente"){
+        } else if (data.user.tipo === "Cliente"){
           setUser(data.user);
           setToken(data.token);
           navigate("/teste");
