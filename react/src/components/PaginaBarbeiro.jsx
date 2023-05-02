@@ -38,7 +38,7 @@ export default function PaginaAdmin() {
   return (
     <div id="defaultLayout">
       <aside>
-        <Link to="/barbeiro">Barbeiros</Link>
+        iaojsl
     
       </aside>
       </div>

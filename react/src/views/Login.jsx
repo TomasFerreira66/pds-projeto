@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../axios-client.js";
 import { createRef } from "react";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
@@ -7,12 +7,9 @@ import { useState } from "react";
 export default function Login() {
   const emailRef = createRef();
   const passwordRef = createRef();
-<<<<<<< Updated upstream
-  const tipoRet = createRef();
-=======
->>>>>>> Stashed changes
   const { setUser, setToken } = useStateContext();
   const [errors, setErrors] = useState(null);
+  const navigate = useNavigate();
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -25,23 +22,19 @@ export default function Login() {
     axiosClient
       .post("/login", payload)
       .then(({ data }) => {
-<<<<<<< Updated upstream
-        setUser(data.user);
-        setToken(data.token);
-        if (data.user.tipo === "admin") {
-          // Redirect to PaginaAdmin if tipo is admin
-          navigate("/users");
-        } else if (data.user.tipo === "Barbeiro") {
-          // Redirect to PaginaBarbeiro if tipo is barbeiro
-          navigate("/barbeiro");
-=======
         // Verifique se o tipo do usuário é "admin"
-        if (data.user.tipo === "admin") {
+        if (data.user.tipo === "Admin") {
           setUser(data.user);
           setToken(data.token);
+          navigate("/users");
+        } else if (data.user.tipo === "cliente"){
+          setUser(data.user);
+          setToken(data.token);
+          navigate("/teste");
         } else {
-          setErrors({ auth: ["Acesso negado"] });
->>>>>>> Stashed changes
+          setUser(data.user);
+          setToken(data.token);
+          navigate("/signup");
         }
       })
       .catch((err) => {

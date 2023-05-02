@@ -7,6 +7,7 @@ import NotFound from "./views/NotFound.jsx";
 import PaginaAdmin from "./components/PaginaAdmin.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
 import Stock from "./views/Stock.jsx";
+import Teste from "./views/Teste.jsx";
 import { Navigate } from "react-router-dom";
 import Pedidos from "./views/Pedidos.jsx";
 import Estatisticas from "./views/Estatisticas.jsx";
@@ -20,10 +21,6 @@ const router = createBrowserRouter([
       path: '/',
       element: <PaginaAdmin/>,
       children: [
-        {
-          path: '/',
-          element: <Navigate to="/users"/>
-        },
         {
           path: '/stock',
           element: <Stock/>
@@ -51,6 +48,16 @@ const router = createBrowserRouter([
         {
           path: '/barbeiro',
           element: <barbeiro/>
+        }
+      ]
+    },
+    {
+      path: '/',
+      element: <PaginaBarbeiro/>,
+      children: [
+        {
+          path: '/teste',
+          element: <Teste/>
         }
       ]
     },
