@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
                     
             ], // Add a closing square bracket here
             'tipo' => ['required', 'string'],
-            'especialidade' => ['required', 'string'],
+            
         ];
     }
 }    

@@ -125,7 +125,7 @@ export default function PaginaMain() {
     </div>
   
             <div>
-            <a className="no-underline" href="/perfil">{user.name}</a>&nbsp; &nbsp;
+            <a className="no-underline" href="/perfilMain">{user.name}</a>&nbsp; &nbsp;
               <a onClick={onLogout} className="btn-logout" href="#">
                 Terminar sessão
               </a>

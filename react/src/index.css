@@ -54,6 +54,40 @@ input:focus {
     cursor: pointer;
 }
 
+.btn-marcacao {
+    border-radius: 15px;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #0ACF83;
+    border: 0;
+    text-decoration: none;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 16px;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    width: 300px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
+
+.btn-comprar{
+    border-radius: 15px;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #0ACF83;
+    border: 0;
+    text-decoration: none;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 16px;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    width: 150px;
+}
+
 .btn-block {
     width: 100%;
 }
@@ -251,6 +285,15 @@ table > tbody > tr > td {
     height: 110px;
     
   }
+
+.imagem-cabelo,
+.imagem-barba{
+    display: block;
+    margin: 0 auto;
+    width: 270px;
+    height: 180px;
+    border-radius: 15px;
+}
 
 .no-underline {
     text-decoration: none;
