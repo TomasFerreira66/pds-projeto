@@ -40,6 +40,11 @@ export default function Signup() {
     <div className="login-signup-form animated fadeInDown">
       <div className="form">
         <form onSubmit={onSubmit}>
+        <img
+            src="../src/img/IPCA-BarberShop.png"
+            alt="Imagem de login"
+            className="imagem-login"
+          />
           <h1 className="title">Criar conta</h1>
           {errors &&
             <div className="alert">
