@@ -17,6 +17,7 @@ export default function UserForm() {
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [filtro, setFiltro] = useState("Todos") // novo estado para armazenar o tipo de filtro selecionado
   const {setNotification} = useStateContext()
 
   if (id) {
@@ -93,6 +94,7 @@ export default function UserForm() {
           </select>
           <br></br><br></br>
           <button className="btn">Adicionar barbeiro</button>
+
         </form>
         
         )}

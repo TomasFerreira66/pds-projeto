@@ -6,11 +6,17 @@ import {useStateContext} from "../contexts/ContextProvider.jsx";
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {setNotification} = useStateContext()
+  const {setNotification} = useStateContext();
+  const [filter, setFilter] = useState('Todos');
 
   useEffect(() => {
     getUsers();
   }, [])
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+    getUsers(event.target.value);
+  }
 
   const onDeleteClick = user => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
@@ -19,13 +25,17 @@ export default function Users() {
     axiosClient.delete(`/users/${user.id}`)
       .then(() => {
         setNotification('User was successfully deleted')
-        getUsers()
+        getUsers(filter)
       })
   }
 
-  const getUsers = () => {
+  const getUsers = (filter = 'Todos') => {
     setLoading(true)
-    axiosClient.get('/users')
+    let url = '/users';
+    if (filter !== 'Todos') {
+      url += `?tipo=${filter}`;
+    }
+    axiosClient.get(url)
       .then(({ data }) => {
         setLoading(false)
         setUsers(data.data)
@@ -39,7 +49,15 @@ export default function Users() {
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
         <h1>Utilizadores</h1>
-        <Link className="btn-add" to="/users/new">Adicionar barbeiro</Link>
+        <div>
+          <Link className="btn-add" to="/users/new">Adicionar Barbeiro</Link>
+          <select value={filter} onChange={handleFilterChange}>
+            <option value="Todos">Todos</option>
+            <option value="Barbeiro">Barbeiro</option>
+            <option value="admin">Admin</option>
+            <option value="Cliente">Cliente</option>
+          </select>
+        </div>
       </div>
       <div className="card animated fadeInDown">
         <table>
@@ -48,8 +66,7 @@ export default function Users() {
             <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
-            <th>Tipo</th>
-            <th>Especialidade</th>
+            <th>Tipo</th>           
             <th>Criado a</th>
             <th>Ações</th>
           </tr>
@@ -57,7 +74,7 @@ export default function Users() {
           {loading &&
             <tbody>
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="6" className="text-center">
                 Loading...
               </td>
             </tr>
@@ -65,18 +82,16 @@ export default function Users() {
           }
           {!loading &&
             <tbody>
-            {users.map(u => (
-              <tr key={u.id}>
-                <td>{u.id}</td>
-                <td>{u.name}</td>
-                <td>{u.email}</td>
-                <td>{u.tipo}</td>
-                <td>{u.especialidade}</td>
-                <td>{u.created_at}</td>
+            {users.filter(user => filter === 'Todos' || user.tipo === filter).map(user => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.nome}</td>
+                <td>{user.email}</td>
+                <td>{user.tipo}</td>               
+                <td>{user.created_at}</td>
                 <td>
-                  <Link className="btn-edit" to={'/users/' + u.id}>Editar</Link>
-                  &nbsp;
-                  <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Remover</button>
+                  <Link to={`/users/${user.id}`} className="btn-add">Editar</Link>
+                  <button onClick={() => onDeleteClick(user)} className="btn-delete">Apagar</button>
                 </td>
               </tr>
             ))}
@@ -87,3 +102,4 @@ export default function Users() {
     </div>
   )
 }
+

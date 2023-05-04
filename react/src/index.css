@@ -256,4 +256,66 @@ table > tbody > tr > td {
     text-decoration: none;
     color: black;
 }
+/* Estilo padrão do select */
+select {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #00a762;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white;
+    width: 120px;
+    margin-left: 10px;
+
+  }
+  
+  /* Estilo para o ícone do dropdown */
+  select::-ms-expand {
+    display: none;
+  }
+  
+  select::-webkit-select-placeholder {
+    color: #6c757d;
+  }
+  
+  select::-moz-placeholder {
+    color: #6c757d;
+  }
+  
+  select:-ms-input-placeholder {
+    color: #6c757d;
+  }
+  
+  select::placeholder {
+    color: #6c757d;
+  }
+  
+  /* Estilo para quando o usuário abre o dropdown */
+  select:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: none;
+  }
+  
+  /* Estilo para as opções do dropdown */
+  select option {
+    color: #495057;
+    background-color: #fff;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 0;
+    transition: all 0.3s ease;
+  }
+  
+  /* Estilo para as opções do dropdown quando o mouse está sobre elas */
+  select option:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+  }
+  
   
