@@ -70,8 +70,7 @@ export default function PaginaMain() {
     return (
       <div id="defaultLayout">
         <aside>
-          <Link to="/agenda">Agenda</Link>
-          <Link to="/perfil">Perfil</Link>
+          <Link to="/agenda">Marcações</Link>
          
         </aside>
         <div className="content">
@@ -108,9 +107,9 @@ export default function PaginaMain() {
     return (
       <div id="defaultLayout">
         <aside>
-          <Link to="/paginainicial">Pagina Inicial</Link>
+          <Link to="/paginainicial">Página Inicial</Link>
           <Link to="/marcacoes">Marcações</Link>
-          <Link to="loja">Loja</Link>
+          <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
          
          
