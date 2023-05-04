@@ -145,6 +145,7 @@ table > tbody > tr > td {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #00a762;
 }
 
 .login-signup-form .form {
@@ -250,3 +251,7 @@ table > tbody > tr > td {
     height: 110px;
   }
   
+.no-underline {
+    text-decoration: none;
+    color: black;
+}
