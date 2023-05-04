@@ -30,7 +30,7 @@ export default function PaginaMain() {
     return (
       <div id="defaultLayout">
         <aside>
-          <Link to="/users">Barbeiros</Link>
+          <Link to="/users">Utilizadores</Link>
           <Link to="/stock">Stock</Link>
           <Link to="/pedidos">Pedidos</Link>
           <Link to="/estatisticas">Estatísticas</Link>

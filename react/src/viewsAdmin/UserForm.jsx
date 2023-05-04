@@ -64,7 +64,7 @@ export default function UserForm() {
 
   return (
     <>
-      {user.id && <h1>Editar barbeiro: {user.name}</h1>}
+      {user.id && <h1>Editar utilizador: {user.name}</h1>}
       {!user.id && <h1>Adicionar barbeiro</h1>}
       <div className="card animated fadeInDown">
         {loading && (
@@ -90,7 +90,7 @@ export default function UserForm() {
             <option value="Corte geral">Corte geral</option>
             <option value="Barba">Barba</option>
           </select>
-
+          <br></br>
           <button className="btn">Adicionar barbeiro</button>
         </form>
         
