@@ -362,4 +362,7 @@ table > tbody > tr > td {
     cursor: pointer;
   }
 
-  
+  .img-barbeiro {
+    height: 230px;
+    width: 300px;
+  }

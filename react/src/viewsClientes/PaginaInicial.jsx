@@ -13,12 +13,15 @@ export default function PaginaInicial() {
     const getBarbeiros = () => {
       axiosClient.get('/users')
         .then(({ data }) => {
-          const barbeirosList = data.data.filter(user => user.tipo === 'Barbeiro');
+          const barbeirosList = data.data.filter(user => user.tipo === 'Barbeiro').map(barbeiro => ({
+            ...barbeiro,
+            imgUrl: `../src/img/${barbeiro.id}.png`
+          }));
           setBarbeiros(barbeirosList);
         })
         .catch(() => {
         })
-    }
+    }    
   
     return (
       <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
@@ -58,12 +61,15 @@ export default function PaginaInicial() {
         </div>
         <br /><br />
         <h3>Barbeiros</h3>
-        <div className='card animated fadeInDown'>
-            {barbeiros.map((barbeiro, index) => (
-                <li key={index}>{barbeiro.name}</li>
-            ))}
+        <br />
+        <div className='card animated fadeInDown' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          {barbeiros.map((barbeiro, index) => (
+            <div className='card animated fadeInDown' key={index} style={{ width: '48%', marginBottom: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <img className='img-barbeiro' src={barbeiro.imgUrl} alt={barbeiro.name}/>
+            <h4 style={{ marginTop: '10px' }}>{barbeiro.name}</h4>
+          </div>                   
+          ))}
         </div>
-
       </div>
     );
   }
