@@ -37,9 +37,17 @@ export default function PaginaMain() {
         </aside>
         <div className="content">
           <header>
-            <div></div>
+          <div>
+      <img
+        src="../src/img/IPCA-BarberShop.png"
+        alt="Imagem de login"
+        className="imagem-login"
+        style={{ width: '170px', height: '90px'}}
+      />
+    </div>
   
             <div>
+              
               {user.name} &nbsp; &nbsp;
               <a onClick={onLogout} className="btn-logout" href="#">
                 Terminar sessão
@@ -68,7 +76,14 @@ export default function PaginaMain() {
         </aside>
         <div className="content">
           <header>
-            <div></div>
+          <div>
+      <img
+        src="../src/img/IPCA-BarberShop.png"
+        alt="Imagem de login"
+        className="imagem-login"
+        style={{ width: '170px', height: '90px'}}
+      />
+    </div>
   
             <div>
               {user.name} &nbsp; &nbsp;
@@ -93,15 +108,23 @@ export default function PaginaMain() {
     return (
       <div id="defaultLayout">
         <aside>
-          <Link to="/horarios">Horários</Link>
+          <Link to="/paginainicial">Pagina Inicial</Link>
           <Link to="/marcacoes">Marcações</Link>
+          <Link to="loja">Loja</Link>
           <Link to="/contactos">Contactos</Link>
          
          
         </aside>
         <div className="content">
           <header>
-            <div></div>
+          <div>
+      <img
+        src="../src/img/IPCA-BarberShop.png"
+        alt="Imagem de login"
+        className="imagem-login"
+        style={{ width: '170px', height: '90px'}}
+      />
+    </div>
   
             <div>
               {user.name} &nbsp; &nbsp;

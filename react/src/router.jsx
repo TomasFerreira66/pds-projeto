@@ -11,8 +11,9 @@ import Pedidos from "./viewsAdmin/Pedidos.jsx";
 import Estatisticas from "./viewsAdmin/Estatisticas.jsx";
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
-import Horarios from "./viewsClientes/horarios.jsx";
+import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
+import Loja from "./viewsClientes/loja.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 import Perfil from "./viewsBarbeiro/perfil.jsx";
@@ -53,8 +54,8 @@ const router = createBrowserRouter([
           element: <Contactos/>
         },
         {
-          path: '/horarios',
-          element: <Horarios/>
+          path: '/paginainicial',
+          element: <PaginaInicial/>
         },
         {
           path: '/marcacoes',
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
         {
           path: '/agenda',
           element: <Agenda/>
+        },
+        {
+          path: '/loja',
+          element: <Loja/>
         },
       ]
     },

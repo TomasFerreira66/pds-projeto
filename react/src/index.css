@@ -14,9 +14,9 @@ body {
     font-family: 'Nunito', sans-serif;
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 20px;
     color: #212121;
-    background-color: #f6f6f6;
+    background-color: #ffffff;
 }
 
 input {
@@ -85,7 +85,7 @@ input:focus {
 
 .btn:active,
 .btn:focus {
-    background: #00a762;
+    background: #43b485;
 }
 
 .text-center {

@@ -1,8 +1,8 @@
-export default function horarios(){
+export default function PaginaInicial(){
     return (
         <div>
             <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
-            <h1>Horarios</h1>
+            <h1>Pagina Inicial</h1>
         </div>
     )
 }
