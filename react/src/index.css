@@ -252,5 +252,8 @@ table > tbody > tr > td {
     
   }
 
-
+.no-underline {
+    text-decoration: none;
+    color: black;
+}
   
