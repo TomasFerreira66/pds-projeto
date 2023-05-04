@@ -111,7 +111,7 @@ export default function PaginaMain() {
           <Link to="/marcacoes">Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
-         
+          <Link to="/perfil">Perfil</Link>
          
         </aside>
         <div className="content">
