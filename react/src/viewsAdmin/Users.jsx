@@ -51,7 +51,7 @@ export default function Users() {
         <h1>Utilizadores</h1>
         <div>
           <Link className="btn-add" to="/users/new">Adicionar Barbeiro</Link>
-          <select value={filter} onChange={handleFilterChange}>
+          <select name="filtro" value={filter} onChange={handleFilterChange}>
             <option value="Todos">Todos</option>
             <option value="Barbeiro">Barbeiro</option>
             <option value="admin">Admin</option>
