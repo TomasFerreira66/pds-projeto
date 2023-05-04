@@ -1,8 +1,8 @@
 export default function Stock(){
     return (
-        <div>
+        <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
             <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
-            <h1>Stock</h1>
+            <h2>Stock</h2>
         </div>
     )
 }

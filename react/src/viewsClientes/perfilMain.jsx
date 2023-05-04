@@ -25,9 +25,9 @@ export default function Users() {
   }
 
   return (
-    <div>
+    <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h1>Conta</h1>
+        <h2>Conta</h2>
       </div>
       <div className="card animated fadeInDown">
         <table>

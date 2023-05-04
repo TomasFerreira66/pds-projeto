@@ -1,8 +1,8 @@
 export default function Estatisticas(){
     return (
-        <div>
+        <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
             <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
-            <h1>Estatísticas</h1>
+            <h2>Estatísticas</h2>
 
         </div>
     )
