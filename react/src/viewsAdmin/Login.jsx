@@ -47,7 +47,7 @@ export default function Login() {
         <form onSubmit={onSubmit}>
           <img
             src="../src/img/IPCA-BarberShop.png"
-            alt="Imagem de login"
+            alt="IPCA Barber Shop"
             className="imagem-login"
           />
           <h1 className="title">Iniciar sessão</h1>
