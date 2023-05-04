@@ -5,12 +5,12 @@ export default function Contactos(){
             <h2>Marcação por telefone:</h2>
             
             <div style={{ marginTop: '5px' }}>
-            <h3>912 031 823</h3>
+            <h4>912 031 823</h4>
             </div>
 
             <div style={{ marginTop: '20px' }}>
                 <h2>Para outros esclarecimentos:</h2>
-                <h3>ipcabarbearia@geral.com</h3>
+                <h4>ipcabarbearia@geral.com</h4>
             </div>
 
             </div>
