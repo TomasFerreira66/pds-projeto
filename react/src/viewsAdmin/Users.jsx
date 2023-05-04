@@ -50,7 +50,7 @@ export default function Users() {
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
         <h1>Utilizadores</h1>
         <div>
-          <Link className="btn-add" to="/users/new">Adicionar Barbeiro</Link>
+          <Link className="btn-add" to="/users/new">Adicionar barbeiro</Link>
           <select value={filter} onChange={handleFilterChange}>
             <option value="Todos">Todos</option>
             <option value="Barbeiro">Barbeiro</option>
