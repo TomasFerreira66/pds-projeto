@@ -14,7 +14,8 @@ import Contactos from "./viewsClientes/contactos.jsx";
 import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
-import Perfil from "./viewsClientes/Perfil.jsx";
+import PerfilMain from "./viewsClientes/perfilMain.jsx";
+import Perfil from "./viewsClientes/Perfil.jsx"
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
@@ -70,9 +71,13 @@ const router = createBrowserRouter([
           element: <Produtos/>
         },
         {
-          path: '/perfil',
-          element: <Perfil/>
-        }
+          path: '/perfilMain',
+          element: <PerfilMain/>
+        },
+        {
+          path: '/perfil/:id',
+          element: <Perfil key="userUpdate" />
+        },
       ]
     },
     
