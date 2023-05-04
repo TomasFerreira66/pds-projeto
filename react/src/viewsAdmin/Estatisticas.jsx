@@ -3,6 +3,7 @@ export default function Estatisticas(){
         <div>
             <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
             <h1>Estatísticas</h1>
+
         </div>
     )
 }

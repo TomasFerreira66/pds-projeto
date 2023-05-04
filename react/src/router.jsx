@@ -14,7 +14,7 @@ import Contactos from "./viewsClientes/contactos.jsx";
 import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
-import Perfil from "./viewsClientes/perfil.jsx";
+import Perfil from "./viewsClientes/Perfil.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
