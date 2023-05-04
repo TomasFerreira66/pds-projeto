@@ -46,9 +46,9 @@ export default function Users() {
   }
 
   return (
-    <div>
+    <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h1>Utilizadores</h1>
+        <h2>Utilizadores</h2>
         <div>
           <Link className="btn-add" to="/users/new">Adicionar barbeiro</Link>
           <select value={filter} onChange={handleFilterChange}>

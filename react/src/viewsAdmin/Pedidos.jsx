@@ -1,8 +1,8 @@
 export default function Pedidos(){
     return (
-        <div>
+        <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
             <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
-            <h1>Pedidos</h1>
+            <h2>Pedidos</h2>
         </div>
     )
 }
