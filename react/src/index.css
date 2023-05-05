@@ -2,7 +2,6 @@
 * {
     box-sizing: border-box;
     font-family: 'Nunito Sans', sans-serif;
-        font-weight:bold;
 }
 html, body, #root, #defaultLayout, #guestLayout {
     min-height: 100vh;
@@ -103,15 +102,9 @@ input:focus {
 }
 .btn-add {
     background-color: #00a762;
-    font-weight: bold;
 }
-
 .btn-delete {
     background-color: #b72424;
-}
-.btn-edit {
-    margin-right: 3px;
-    background-color: #00a762;
 }
 
 .btn-logout {
@@ -308,17 +301,16 @@ table > tbody > tr > td {
     color: black;
 }
 
-
 [name="filtro"]{
-    padding: 3px;
+    padding: 6px;
     border-radius: 4px;
     border: 1px solid #ccc;
     background-color: #00a762;
     font-size: 16px;
-    font-weight:bolder;
+    font-weight: 400;
     line-height: 1.5;
     color: white;
-    width: 90px;
+    width: 120px;
     margin-left: 10px;
 
   }
@@ -359,7 +351,7 @@ table > tbody > tr > td {
     line-height: 1.5;
     padding: 6px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 400;
     border-radius: 0;
     transition: all 0.3s ease;
   }
@@ -373,30 +365,4 @@ table > tbody > tr > td {
   .img-barbeiro {
     height: 230px;
     width: 300px;
-  }
-
-  
-  [name="ordenar"] {
-    padding: 3px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #00a762;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 1.5;
-    color: white;
-    width: 100px;
-    margin-left: 10px;
-  }
-
-  [name="ordenar"] option {
-    color: #495057;
-    background-color: #fff;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 0;
-    transition: all 0.3s ease;
   }
