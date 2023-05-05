@@ -86,7 +86,7 @@ export default function UserForm() {
           <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
           <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
           <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirmar palavra-passe"/>
-          <select value={user.especialidade} onChange={ev => setUser({...user, especialidade: ev.target.value})}>
+          <select name="especialidade" value={user.especialidade} onChange={ev => setUser({...user, especialidade: ev.target.value})}>
             <option>Especialidade</option>
             <option value="Corte">Corte</option>
             <option value="Barba">Barba</option>

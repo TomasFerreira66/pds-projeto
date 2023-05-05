@@ -404,3 +404,33 @@ table > tbody > tr > td {
     border-radius: 0;
     transition: all 0.3s ease;
   }
+
+  [name="especialidade"] {
+   
+    border: 2px solid #ccc;
+   
+  }
+
+  [name="especialidade"] option {
+    color: #495057;
+    background-color: #fff;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 0;
+    transition: all 0.3s ease;
+  }
+
+  [name="especialidade"]:focus {
+    border: 3px solid #0ACF83;
+  }
+
+  [name="especialidade"] option:checked:focus {
+    border: 3px solid #0ACF83;
+  }
+  
+  [name="especialidade"] option:checked {
+    border: 3px solid #0ACF83;
+  }
