@@ -77,9 +77,9 @@ export default function marcacoes() {
             onChange={(date) => setDataHoraSelecionada(date)}
             value={dataHoraSelecionada}
             dateFormat="DD/MM/YYYY HH:mm"
-            minDate={new Date()} // Data mínima é hoje
-            maxDate={new Date('2030-12-31')} // Data máxima é 31 de dezembro de 2030
-            timeConstraints={{ minutes: { step: 30 } }} // A hora é arredondada para 15 minutos
+            minDate={new Date()} 
+            maxDate={new Date('2030-12-31')}
+            timeConstraints={{ minutes: { step: 30 } }}
             />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
