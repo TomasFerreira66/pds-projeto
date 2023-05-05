@@ -2,7 +2,7 @@
 * {
     box-sizing: border-box;
     font-family: 'Nunito Sans', sans-serif;
-        font-weight:bold;
+    font-weight:bold;
 }
 html, body, #root, #defaultLayout, #guestLayout {
     min-height: 100vh;
@@ -104,6 +104,7 @@ input:focus {
 .btn-add {
     background-color: #00a762;
     font-weight: bold;
+    
 }
 
 .btn-delete {
