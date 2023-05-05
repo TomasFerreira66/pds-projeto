@@ -87,7 +87,7 @@ export default function UserForm() {
           <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
           <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirmar palavra-passe"/>
           <br></br><br></br>
-          <button className="btn">Adicionar barbeiro</button>
+          <button className="btn">Atualizar</button>
         </form>
         
         )}
