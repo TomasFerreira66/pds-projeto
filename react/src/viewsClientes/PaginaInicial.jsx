@@ -62,7 +62,7 @@ export default function PaginaInicial() {
         <br /><br />
         <h3>Barbeiros</h3>
         <br />
-        <div className='card animated fadeInDown' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
           {barbeiros.map((barbeiro, index) => (
             <div className='card animated fadeInDown' key={index} style={{ width: '48%', marginBottom: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <img className='img-barbeiro' src={barbeiro.imgUrl} alt={barbeiro.name}/>
