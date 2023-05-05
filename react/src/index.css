@@ -48,7 +48,8 @@ input {
 }
 
 .dropdown-servico,
-.dropdown-barbeiro{
+.dropdown-barbeiro,
+.dropdown-horario{
     border-radius: 15px;
     outline: 0;
     background: #ffffff;

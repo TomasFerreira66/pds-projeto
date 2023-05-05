@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import axiosClient from '../axios-client';
-
-export default function Marcacoes() {
+import DateTime from 'react-datetime';
+export default function marcacoes() {
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
-  const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState('');
+  const [dataHoraSelecionada, setDataHoraSelecionada] = useState([]);
 
   useEffect(() => {
     getBarbeiros();
@@ -35,10 +34,6 @@ export default function Marcacoes() {
       .catch(() => {
       });
   };
-  
-  const handleEspecialidadeSelecionada = (event) => {
-    setEspecialidadeSelecionada(event.target.value);
-  }
 
   const getBarbeirosEspecialidade = (especialidadeSelecionada) => {
     axiosClient.get('/users')
@@ -74,6 +69,18 @@ export default function Marcacoes() {
             <option value={barbeiro.id} key={index}>{barbeiro.name}</option>
           ))}
         </select>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+        <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
+        <DateTime 
+            className='dropdown-horario'
+            onChange={(date) => setDataHoraSelecionada(date)}
+            value={dataHoraSelecionada}
+            dateFormat="DD/MM/YYYY HH:mm"
+            minDate={new Date()} // Data mínima é hoje
+            maxDate={new Date('2030-12-31')} // Data máxima é 31 de dezembro de 2030
+            timeConstraints={{ minutes: { step: 30 } }} // A hora é arredondada para 15 minutos
+            />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
         <button className='btn-marcacao'>Confirmar marcação</button>
