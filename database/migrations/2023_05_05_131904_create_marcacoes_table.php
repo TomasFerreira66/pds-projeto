@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('marcacoes', function (Blueprint $table) {
             $table->id();
+            $table->string('servico');
+            $table->dateTime('data');
+            $table->integer('idBarbeiro');
+            $table->integer('idCliente');
             $table->timestamps();
         });
     }
