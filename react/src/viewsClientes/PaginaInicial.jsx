@@ -26,7 +26,7 @@ export default function PaginaInicial() {
     return (
       <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '10vh' }}>
-          <Link to="/marcacoes" className='no-underline' >
+          <Link to="/marcacoes">
             <button className="btn-marcacao">FAZER MARCAÇÃO</button>
           </Link>
         </div>
@@ -41,7 +41,7 @@ export default function PaginaInicial() {
             <br />
             <h4>CABELO</h4>
             <br />
-            <Link to="/produtos" className='no-underline' >
+            <Link to="/produtos">
               <button className="btn-comprar">Comprar</button>
             </Link>
           </div>
@@ -54,7 +54,7 @@ export default function PaginaInicial() {
             <br />
             <h4>BARBA</h4>
             <br />
-            <Link to="/produtos" className='no-underline' >
+            <Link to="/produtos">
               <button className="btn-comprar">Comprar</button>
             </Link>
           </div>

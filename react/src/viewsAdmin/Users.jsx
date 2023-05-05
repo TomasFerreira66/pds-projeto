@@ -117,7 +117,7 @@ export default function Users() {
                 <td>{user.email}</td>
                 <td>{user.tipo}</td>
                 <td>{user.especialidade}</td>               
-                <td>{user.created_at}</td>
+                <td>{new Date(user.created_at).toLocaleDateString()}</td>
                 <td>
                   <Link to={`/users/${user.id}`} className="btn-edit">Editar</Link>
                   <button onClick={() => onDeleteClick(user)} className="btn-delete">Apagar</button>
