@@ -25,33 +25,42 @@ export default function Users() {
   }
 
   return (
-    <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
-      <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h2>Conta</h2>
-      </div>
-      <div className="card animated fadeInDown">
-        <table>
-          {loading &&
-            <tbody>
-              <tr>
-                <td colSpan="5" className="text-center">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
-          }
-          {!loading &&
-            <tbody>
-              {users.filter(u => u.id === user.id).map(u => (
-                <tr key={u.id}>
-                  <td style={{textAlign: "center"}}>
-                    <Link className="btn-edit" to={'/Perfil/' + u.id}>Editar</Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          }
-        </table>
+    <div className="container-fluid" style={{marginLeft: '100px', marginRight: '100px'}}>
+      <div className="row">
+        <div className="col-12">
+          <div className="d-flex justify-content-between align-items-center">
+            <h1>Conta</h1>
+          </div>
+          <div>
+            <table>
+              {loading &&
+                <tbody>
+                  <tr>
+                    <td colSpan="5" className="text-center">
+                      Loading...
+                    </td>
+                  </tr>
+                </tbody>
+              }
+                                                                                                                                                                                                                          <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>
+              {!loading &&
+                <tbody>
+                  {users.filter(u => u.id === user.id).map(u => (
+                    <tr key={u.id}>
+                     
+                      <td style={{textAlign: "center"}}>
+                        <Link className="btn btn-lg btn-primary me-3" style={{padding: "60px", fontSize: "30px", border: "1px solid black", borderRadius: "10px", boxShadow: "0px 0px 5px rgba(0,0,0,0.5)"}} to={'/Perfil/' + u.id}>Editar</Link>
+                      </td>
+                      <td style={{textAlign: "center"}}>
+                        <Link className="btn btn-lg btn-primary" style={{padding: "60px", fontSize: "30px", border: "1px solid black", borderRadius: "10px", boxShadow: "0px 0px 5px rgba(0,0,0,0.5)"}} to={'/Historico/' + u.id}>Historico</Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              }
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   )
