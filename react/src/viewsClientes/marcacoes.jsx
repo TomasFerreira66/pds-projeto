@@ -1,90 +1,78 @@
-import React, { useState, useEffect } from 'react';
-import axiosClient from '../axios-client';
-import DateTime from 'react-datetime';
+import {useEffect, useState} from "react";
+import axiosClient from "../axios-client.js";
+import {Link} from "react-router-dom";
+
 export default function marcacoes() {
-  const [barbeiros, setBarbeiros] = useState([]);
-  const [especialidades, setEspecialidades] = useState([]);
-  const [dataHoraSelecionada, setDataHoraSelecionada] = useState([]);
+  const [marcacoes, setMarcacoes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getBarbeiros();
-    getEspecialidades();
+    getMarcacoes();
   }, [])
 
-  const getBarbeiros = () => {
-    axiosClient.get('/users')
-      .then(({ data }) => {
-        const barbeirosList = data.data.filter(user => user.tipo === 'Barbeiro').map(barbeiro => ({
-          ...barbeiro
-        }));
-        setBarbeiros(barbeirosList);
-      })
-      .catch(() => {
+  const onDeleteClick = marcacoes => {
+    if (!window.confirm("Are you sure you want to delete this user?")) {
+      return
+    }
+    axiosClient.delete(`/marcacoes/${marcacoes.id}`)
+      .then(() => {
+        getMarcacoes()
       })
   }
 
-  const getEspecialidades = () => {
-    axiosClient.get('/users')
+  const getMarcacoes = () => {
+    setLoading(true)
+    axiosClient.get('/marcacoes')
       .then(({ data }) => {
-        const especialidadesList = data.data.filter(user => ['Corte', 'Barba', 'Corte + Barba'].includes(user.especialidade))
-                                            .map(user => user.especialidade)
-                                            .filter((value, index, self) => self.indexOf(value) === index);
-        setEspecialidades(especialidadesList);
+        setLoading(false)
+        setMarcacoes(data.data)
       })
       .catch(() => {
-      });
-  };
-
-  const getBarbeirosEspecialidade = (especialidadeSelecionada) => {
-    axiosClient.get('/users')
-      .then(({ data }) => {
-        const barbeirosList = data.data.filter(user => user.tipo === 'Barbeiro' && user.especialidade === especialidadeSelecionada)
-          .map(barbeiro => ({
-            ...barbeiro
-          }));
-        setBarbeiros(barbeirosList);
-      })
-      .catch(() => {
+        setLoading(false)
       })
   }
 
   return (
-    <div className='card animated fadeInDown' style={{ marginLeft: '100px', marginRight: '100px' }}>
-      <h2>Marcações</h2>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <br /><br />
-        <h4 style={{ marginBottom: '10px' }}>Selecionar serviço:</h4>
-        <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(event) => getBarbeirosEspecialidade(event.target.value)}>
-          <option value="">Escolha uma opção</option>
-          {especialidades.map((especialidade, index) => (
-            <option value={especialidade} key={index}>{especialidade}</option>
-          ))}
-        </select>
+    <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
+      <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
+        <h1>Marcações</h1>
+        <Link className="btn-add" to="/novaMarcacao">Add new</Link>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <h4 style={{ marginBottom: '10px' }}>Selecionar barbeiro:</h4>
-        <select className='dropdown-barbeiro' style={{ marginTop: '20px' }}>
-          <option value=''>Escolha uma opção</option>
-          {barbeiros.map((barbeiro, index) => (
-            <option value={barbeiro.id} key={index}>{barbeiro.name}</option>
-          ))}
-        </select>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
-        <DateTime 
-            className='dropdown-horario'
-            onChange={(date) => setDataHoraSelecionada(date)}
-            value={dataHoraSelecionada}
-            dateFormat="DD/MM/YYYY HH:mm"
-            minDate={new Date()} 
-            maxDate={new Date('2030-12-31')}
-            timeConstraints={{ minutes: { step: 30 } }}
-            />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <button className='btn-marcacao'>Confirmar marcação</button>
+      <div className="card animated fadeInDown">
+        <table>
+          <thead>
+          <tr>
+            <th>Serviço</th>
+            <th>Barbeiro</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+          </thead>
+          {loading &&
+            <tbody>
+            <tr>
+              <td colSpan="5" className="text-center">
+                Loading...
+              </td>
+            </tr>
+            </tbody>
+          }
+          {!loading &&
+            <tbody>
+            {marcacoes.map(m => (
+              <tr key={m.id}>
+                <td>{m.servico}</td>
+                <td>{m.idBarbeiro}</td>
+                <td>{m.data}</td>
+                <td>
+                  <button className="btn-delete" onClick={ev => onDeleteClick(m)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+            </tbody>
+          }
+        </table>
       </div>
     </div>
-  );
-          }
+  )
+}

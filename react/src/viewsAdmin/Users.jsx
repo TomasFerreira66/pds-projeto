@@ -10,12 +10,9 @@ export default function Users() {
   const [filter, setFilter] = useState('Todos');
   const [sortOrder, setSortOrder] = useState("desc");
 
-
   useEffect(() => {
     getUsers();
   }, [])
-
-
   
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -113,7 +110,7 @@ export default function Users() {
             {users.filter(user => filter === 'Todos' || user.tipo === filter).map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.nome}</td>
+                <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.tipo}</td>
                 <td>{user.especialidade}</td>               

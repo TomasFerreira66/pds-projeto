@@ -16,6 +16,7 @@ import Marcacoes from "./viewsClientes/marcacoes.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
 import PerfilMain from "./viewsClientes/perfilMain.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
+import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
         {
           path: '/marcacoes',
           element: <Marcacoes/>
+        },
+        {
+          path: '/novaMarcacao',
+          element: <NovaMarcacao/>
         },
         {
           path: '/agenda',

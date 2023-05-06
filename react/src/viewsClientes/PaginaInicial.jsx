@@ -26,7 +26,7 @@ export default function PaginaInicial() {
     return (
       <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '10vh' }}>
-          <Link to="/marcacoes">
+          <Link to="/novaMarcacao">
             <button className="btn-marcacao">FAZER MARCAÇÃO</button>
           </Link>
         </div>
