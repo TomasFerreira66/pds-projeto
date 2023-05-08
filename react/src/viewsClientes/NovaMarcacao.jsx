@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
-export default function marcacoes() {
+import { useNavigate } from 'react-router-dom';
+
+export default function NovaMarcacao() {
+  const navigate = useNavigate();
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [dataHoraSelecionada, setDataHoraSelecionada] = useState([]);
+  const [marcacao, setMarcacao] = useState({
+    id: null,
+    servico: '',
+    data: '',
+    idBarbeiro: '',
+    idCliente: ''
+  })  
 
   useEffect(() => {
     getBarbeiros();
