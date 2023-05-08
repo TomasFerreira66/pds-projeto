@@ -65,8 +65,10 @@ export default function PaginaMain() {
           <Link to="/marcacoes">Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
-          <Link to="Carrinho">Carrinho</Link>
+          <Link to="/carrinho">Carrinho</Link>
+          <Link to="/perfilMain">Editar Perfil</Link>
         </aside>
+        
       )}
       <div className="content">
         <header>
