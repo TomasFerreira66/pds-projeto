@@ -1,10 +1,9 @@
-import { Link, Navigate, Outlet, useNavigate} from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect } from "react";
 
 export default function PaginaMain() {
-  const navigate = useNavigate();
   const { user, token, setUser, setToken, notification } = useStateContext();
 
   if (!token) {
@@ -20,8 +19,6 @@ export default function PaginaMain() {
     });
   };
 
-
-  
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
       setUser(data);
@@ -108,13 +105,12 @@ export default function PaginaMain() {
   } else if (user.tipo == "Cliente") {
 
     return (
-      <div id="defaultLayout">       
+      <div id="defaultLayout">
         <aside>
           <Link to="/paginainicial">Página Inicial</Link>
           <Link to="/marcacoes">Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
-          <Link to="Carrinho">Carrinho</Link>
          
         </aside>
         <div className="content">
