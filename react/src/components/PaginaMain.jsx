@@ -1,4 +1,4 @@
-import { Link, Navigate, Outlet, useNavigate} from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect } from "react";
@@ -30,6 +30,13 @@ export default function PaginaMain() {
 
   // Only return the page if the user is of tipo "admin"
   if (user.tipo == "admin") {
+
+    const navigate = useNavigate();
+    // Navigate to the "/paginainicial" route when the component is rendered
+    React.useEffect(() => {
+      navigate("/Users");
+    }, []);
+
     return (
       <div id="defaultLayout">
         <aside>
@@ -70,6 +77,12 @@ export default function PaginaMain() {
 
   } else if (user.tipo == "Barbeiro") {
 
+    const navigate = useNavigate();
+    // Navigate to the "/paginainicial" route when the component is rendered
+    React.useEffect(() => {
+      navigate("/marcacoes");
+    }, []);
+
     return (
       <div id="defaultLayout">
         <aside>
@@ -106,6 +119,12 @@ export default function PaginaMain() {
 
 
   } else if (user.tipo == "Cliente") {
+
+    const navigate = useNavigate();
+    // Navigate to the "/paginainicial" route when the component is rendered
+    React.useEffect(() => {
+      navigate("/paginainicial");
+    }, []);
 
     return (
       <div id="defaultLayout">       
