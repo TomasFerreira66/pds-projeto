@@ -9,16 +9,7 @@ const Produtos = () => {
   }
 
   const produtos = [
-    {
-      nome: 'Shampoo para cabelo',
-      quantidade: 10,
-      preco: 20.00,
-    },
-    {
-      nome: 'Óleo para barba',
-      quantidade: 5,
-      preco: 15.00,
-    },
+   
   ];
 
   return (

@@ -1,9 +1,20 @@
-export default function Carrinho(){
-    return (
-        <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
-            <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
-            <h2>Carrinho</h2>
-
-        </div>
-    )
+import React from 'react';
+const Carrinho = ({ carrinho }) => {
+  return (
+    <div>
+      <h1>Carrinho</h1>
+      <ul>
+        {carrinho.map((produto, index) => (
+          <li key={index}>
+            <p>{produto.nome}</p>
+            <p>Quantidade: 1</p>
+            <p>Preço: R$ {produto.preco}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
+
+export default Carrinho;
+
