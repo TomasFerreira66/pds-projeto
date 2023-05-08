@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
+
 export default function marcacoes() {
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [dataHoraSelecionada, setDataHoraSelecionada] = useState([]);
+  const [marcacao, setMarcacao] = useState({
+    id: null,
+    servico: '',
+    data: '', 
+    idBarbeiro: '',
+    idCliente: ''
+  })
 
   useEffect(() => {
     getBarbeiros();
@@ -50,10 +58,10 @@ export default function marcacoes() {
 
   const onSubmit = ev => {
     ev.preventDefault()
-      axiosClient.post('/users', user)
+      axiosClient.post('/marcacoes', marcacao)
         .then(() => {
           setNotification('User was successfully created')
-          navigate('/users')
+          navigate('/marcacoes')
         })
         .catch(err => {
           const response = err.response;
@@ -70,7 +78,7 @@ export default function marcacoes() {
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
         <br /><br />
         <h4 style={{ marginBottom: '10px' }}>Selecionar serviço:</h4>
-        <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(event) => getBarbeirosEspecialidade(event.target.value)}>
+        <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(ev) => getBarbeirosEspecialidade(ev.target.value)}>
           <option value="">Escolha uma opção</option>
           {especialidades.map((especialidade, index) => (
             <option value={especialidade} key={index}>{especialidade}</option>

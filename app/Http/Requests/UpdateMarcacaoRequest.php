@@ -23,7 +23,7 @@ class UpdateMarcacaoRequest extends FormRequest
     {
         return [
             'servico' => 'required',
-            'data' => 'required|unique:marcacoes,data',
+            'data' => 'required|unique:marcacoes,data'.$this->id,
             'idBarbeiro' => 'required',
             'idCliente' => 'required'
         ];
