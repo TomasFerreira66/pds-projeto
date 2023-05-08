@@ -1,5 +1,4 @@
 import {createBrowserRouter} from "react-router-dom";
-
 import Login from "./viewsAdmin/Login.jsx";
 import Signup from "./viewsAdmin/Signup.jsx";
 import Users from "./viewsAdmin/Users.jsx";
