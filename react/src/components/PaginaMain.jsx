@@ -20,7 +20,6 @@ export default function PaginaMain() {
     });
   };
 
-
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
       setUser(data);
@@ -66,8 +65,10 @@ export default function PaginaMain() {
           <Link to="/marcacoes">Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
-          <Link to="Carrinho">Carrinho</Link>
+          <Link to="/carrinho">Carrinho</Link>
+          <Link to="/perfilMain">Editar Perfil</Link>
         </aside>
+        
       )}
       <div className="content">
         <header>
@@ -92,31 +93,6 @@ export default function PaginaMain() {
         </main>
         {notification && <div className="notification">{notification}</div>}
       </div>
-    );
-
-
-  } else if (user.tipo == "Cliente") {
-
-    return (
-      <div id="defaultLayout">       
-        <aside>
-          <Link to="/paginainicial">Página Inicial</Link>
-          <Link to="/marcacoes">Marcações</Link>
-          <Link to="/produtos">Produtos</Link>
-          <Link to="/contactos">Contactos</Link>
-          <Link to="Carrinho">Carrinho</Link>
-         
-        </aside>
-        <div className="content">
-          <header>
-          <div>
-      <img
-        src="../src/img/IPCA-BarberShop.png"
-        alt="Imagem de login"
-        className="imagem-login"
-        style={{ width: '170px', height: '90px'}}
-      />
     </div>
   );
 }
-
