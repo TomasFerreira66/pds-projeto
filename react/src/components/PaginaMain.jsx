@@ -34,7 +34,7 @@ export default function PaginaMain() {
         navigate("/Users");
         break;
       case "Barbeiro":
-        navigate("/marcacoes");
+        navigate("/agenda");
         break;
       case "Cliente":
         navigate("/paginainicial");
