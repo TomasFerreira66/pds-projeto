@@ -25,11 +25,9 @@ export default function Users() {
   }
 
   return (
-    <div className="container-fluid" style={{marginLeft: '100px', marginRight: '100px'}}>
-      <div className="row">
-        <div className="col-12">
-          <div className="d-flex justify-content-between align-items-center">
-            <h1>Conta</h1>
+    <div>
+          <div className='card animated fadeInDown ' style={{ marginLeft: '100px', marginRight: '100px' }}>
+            <h2>Conta</h2>
           </div>
           <div>
             <table>
@@ -60,8 +58,6 @@ export default function Users() {
               }
             </table>
           </div>
-        </div>
-      </div>
     </div>
   )
 }
