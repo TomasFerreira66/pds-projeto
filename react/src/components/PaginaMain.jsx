@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import React from "react";
 
 export default function PaginaMain() {
-  
   const { user, token, setUser, setToken, notification } = useStateContext();
 
   if (!token) {
@@ -21,147 +20,77 @@ export default function PaginaMain() {
     });
   };
 
-
-  
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
       setUser(data);
     });
   }, []);
+
   const navigate = useNavigate();
-  // Only return the page if the user is of tipo "admin"
-  if (user.tipo == "admin") {
 
-   
-    // Navigate to the "/paginainicial" route when the component is rendered
-    React.useEffect(() => {
-      navigate("/Users");
-    }, []);
+  useEffect(() => {
+    switch (user.tipo) {
+      case "admin":
+        navigate("/Users");
+        break;
+      case "Barbeiro":
+        navigate("/marcacoes");
+        break;
+      case "Cliente":
+        navigate("/paginainicial");
+        break;
+      default:
+        break;
+    }
+  }, [user]);
 
-    return (
-      <div id="defaultLayout">
+  return (
+    <div id="defaultLayout">
+      {user.tipo === "admin" && (
         <aside>
           <Link to="/users">Utilizadores</Link>
           <Link to="/stock">Stock</Link>
           <Link to="/pedidos">Pedidos</Link>
           <Link to="/estatisticas">Estatísticas</Link>
         </aside>
-        <div className="content">
-          <header>
-          <div>
-      <img
-        src="../src/img/IPCA-BarberShop.png"
-        alt="Imagem de login"
-        className="imagem-login"
-        style={{ width: '170px', height: '90px'}}
-      />
-    </div>
-  
-            <div>
-              
-              {user.name} &nbsp; &nbsp;
-              <a onClick={onLogout} className="btn-logout" href="#">
-                Terminar sessão
-              </a>
-            </div>
-          </header>
-          <main>
-            <Outlet />
-          </main>
-          {notification && (
-            <div className="notification">{notification}</div>
-          )}
-        </div>
-      </div>
-    );
-
-
-  } else if (user.tipo == "Barbeiro") {
-
-    React.useEffect(() => {
-      navigate("/marcacoes");
-    }, []);
-
-    return (
-      <div id="defaultLayout">
+      )}
+      {user.tipo === "Barbeiro" && (
         <aside>
           <Link to="/agenda">Marcações</Link>
-         
         </aside>
-        <div className="content">
-          <header>
-          <div>
-      <img
-        src="../src/img/IPCA-BarberShop.png"
-        alt="Imagem de login"
-        className="imagem-login"
-        style={{ width: '170px', height: '90px'}}
-      />
-    </div>
-  
-            <div>
-              {user.name} &nbsp; &nbsp;
-              <a onClick={onLogout} className="btn-logout" href="#">
-                Terminar sessão
-              </a>
-            </div>
-          </header>
-          <main>
-            <Outlet />
-          </main>
-          {notification && (
-            <div className="notification">{notification}</div>
-          )}
-        </div>
-      </div>
-    );
-
-
-  } else if (user.tipo == "Cliente") {
-
-    React.useEffect(() => {
-      navigate("/paginainicial");
-    }, []);
-
-    return (
-      <div id="defaultLayout">       
+      )}
+      {user.tipo === "Cliente" && (
         <aside>
           <Link to="/paginainicial">Página Inicial</Link>
           <Link to="/marcacoes">Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
           <Link to="Carrinho">Carrinho</Link>
-         
         </aside>
-        <div className="content">
-          <header>
+      )}
+      <div className="content">
+        <header>
           <div>
-      <img
-        src="../src/img/IPCA-BarberShop.png"
-        alt="Imagem de login"
-        className="imagem-login"
-        style={{ width: '170px', height: '90px'}}
-      />
-    </div>
-  
-            <div>
-            <a className="no-underline" href="/perfilMain">{user.name}</a>&nbsp; &nbsp;
-              <a onClick={onLogout} className="btn-logout" href="#">
-                Terminar sessão
-              </a>
-            </div>
-          </header>
-          <main>
-            <Outlet />
-          </main>
-          {notification && (
-            <div className="notification">{notification}</div>
-          )}
-        </div>
+            <img
+              src="../src/img/IPCA-BarberShop.png"
+              alt="Imagem de login"
+              className="imagem-login"
+              style={{ width: "170px", height: "90px" }}
+            />
+          </div>
+
+          <div>
+            {user.name} &nbsp; &nbsp;
+            <a onClick={onLogout} className="btn-logout" href="#">
+              Terminar sessão
+            </a>
+          </div>
+        </header>
+        <main>
+          <Outlet />
+        </main>
+        {notification && <div className="notification">{notification}</div>}
       </div>
-    );
-
-  }
-  }
-
-  
+    </div>
+  );
+}
