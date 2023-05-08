@@ -83,7 +83,7 @@ export default function marcacoes() {
             />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <button className='btn-marcacao'>Confirmar marcação</button>
+        <button type='submit' className='btn-marcacao'>Confirmar marcação</button>
       </div>
     </div>
   );
