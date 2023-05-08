@@ -2,9 +2,9 @@ import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect } from "react";
-import React from "react";
 
 export default function PaginaMain() {
+  const navigate = useNavigate();
   const { user, token, setUser, setToken, notification } = useStateContext();
 
   if (!token) {
@@ -20,17 +20,18 @@ export default function PaginaMain() {
     });
   };
 
+
+  
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
       setUser(data);
     });
   }, []);
 
-  const navigate = useNavigate();
   // Only return the page if the user is of tipo "admin"
   if (user.tipo == "admin") {
 
-    
+    const navigate = useNavigate();
     // Navigate to the "/paginainicial" route when the component is rendered
     React.useEffect(() => {
       navigate("/Users");
@@ -76,7 +77,7 @@ export default function PaginaMain() {
 
   } else if (user.tipo == "Barbeiro") {
 
-    
+    const navigate = useNavigate();
     // Navigate to the "/paginainicial" route when the component is rendered
     React.useEffect(() => {
       navigate("/marcacoes");
@@ -119,24 +120,23 @@ export default function PaginaMain() {
 
   } else if (user.tipo == "Cliente") {
 
+    const navigate = useNavigate();
     // Navigate to the "/paginainicial" route when the component is rendered
     React.useEffect(() => {
       navigate("/paginainicial");
     }, []);
 
     return (
-      <div id="defaultLayout">
+      <div id="defaultLayout">       
         <aside>
           <Link to="/paginainicial">Página Inicial</Link>
           <Link to="/marcacoes">Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
-          <Link to="/carrinho">Carrinho</Link>
+          <Link to="Carrinho">Carrinho</Link>
          
         </aside>
-        
         <div className="content">
-          
           <header>
           <div>
       <img
