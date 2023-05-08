@@ -18,6 +18,7 @@ import Produtos from "./viewsClientes/produtos.jsx";
 import PerfilMain from "./viewsClientes/perfilMain.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
+import Carrinho from "./viewsClientes/carrinho.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
@@ -27,7 +28,6 @@ const router = createBrowserRouter([
       path: '/',
       element: <PaginaMain/>,
       children: [
-        
         {
           path: '/stock',
           element: <Stock/>
@@ -75,6 +75,10 @@ const router = createBrowserRouter([
         {
           path: '/produtos',
           element: <Produtos/>
+        },
+        {
+          path: '/carrinho',
+          element: <Carrinho/>
         },
         {
           path: '/perfilMain',

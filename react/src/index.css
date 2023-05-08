@@ -538,3 +538,7 @@ table > tbody > tr > td {
   .dropdown-barbeiro option:checked {
     border: px solid #0ACF83;
   }
+  [name="quanti"]{
+  padding: 4px;
+   width: 40px; 
+  }

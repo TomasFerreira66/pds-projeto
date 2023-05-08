@@ -26,12 +26,12 @@ export default function Users() {
  
 
   const onDeleteClick = user => {
-    if (!window.confirm("Tem a certeza que pretende remover este utilizador?")) {
+    if (!window.confirm("Are you sure you want to delete this user?")) {
       return
     }
     axiosClient.delete(`/users/${user.id}`)
       .then(() => {
-        setNotification('Utilizador removido com sucesso')
+        setNotification('User was successfully deleted')
         getUsers(filter)
       })
   }
