@@ -48,7 +48,23 @@ export default function marcacoes() {
       })
   }
 
+  const onSubmit = ev => {
+    ev.preventDefault()
+      axiosClient.post('/users', user)
+        .then(() => {
+          setNotification('User was successfully created')
+          navigate('/users')
+        })
+        .catch(err => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            setErrors(response.data.errors)
+          }
+        })
+  }
+
   return (
+    <form onSubmit={onSubmit}>
     <div className='card animated fadeInDown' style={{ marginLeft: '100px', marginRight: '100px' }}>
       <h2>Agendar uma marcação</h2>
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
@@ -86,5 +102,6 @@ export default function marcacoes() {
         <button type='submit' className='btn-marcacao'>Confirmar marcação</button>
       </div>
     </div>
+    </form>
   );
-          }
+}
