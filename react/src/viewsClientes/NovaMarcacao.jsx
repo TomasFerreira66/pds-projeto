@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
-import DateTime from 'react-datetime';
 import { useNavigate, useParams } from 'react-router-dom';
-import 'react-datetime/css/react-datetime.css';
+import { useStateContext } from '../contexts/ContextProvider';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
-  const [notification, setNotification] = useState('');
-  const [errors, setErrors] = useState([]);
+  const {setNotification} = useStateContext()
+  const [errors, setErrors] = useState(null)
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,12 +18,11 @@ export default function NovaMarcacao() {
   
   const [marcacao, setMarcacao] = useState({
     id: null,
-    servico: '', // iniciando com uma string vazia
+    servico: '', 
     data: new Date(), 
     idBarbeiro: '',
     idCliente: id,
   })
-//aaa
   
   useEffect(() => {
     getBarbeiros();
@@ -74,7 +75,6 @@ export default function NovaMarcacao() {
   const onSubmit = ev => {
     ev.preventDefault();
     setMarcacao({ ...marcacao, data: new Date( document.querySelector('.dropdown-horario').value) });
-    // adicionando o valor de 'servico' ao estado da marcação antes de enviar a solicitação de criação
     setMarcacao(prevMarcacao => ({
       ...prevMarcacao,
       servico: document.querySelector('.dropdown-servico').value,
@@ -84,8 +84,8 @@ export default function NovaMarcacao() {
 
     axiosClient.post('/marcacoes', marcacao)
       .then(() => {
-        setNotification('User was successfully created')
-        navigate('/marcacoes')
+        setNotification('Marcação criada com sucesso')
+        navigate('/paginainicial')
       })
       .catch(err => {
         const response = err.response;
@@ -96,52 +96,74 @@ export default function NovaMarcacao() {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className='card animated fadeInDown' style={{ marginLeft: '100px', marginRight: '100px' }}>
-        <h2>Agendar uma marcação</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-          <br /><br />
-          <h4 style={{ marginBottom: '10px' }}>Selecionar serviço:</h4>
-          <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(ev) => {
-            setMarcacao({ ...marcacao, servico: ev.target.value });
-            getBarbeirosEspecialidade(ev.target.value);
-          }}>
-            <option value="">Escolha uma opção</option>
-            {especialidades.map((especialidade, index) => (
-              <option value={especialidade} key={index}>
-                {especialidade}
-              </option>
-            ))}
-          </select>
+    <>
+    <div className='cardd animated fadeInDown'>
+      {loading && (
+        <div className='text-center'>
+          Loading...
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-          <h4 style={{ marginBottom: '10px' }}>Selecionar barbeiro:</h4>
-          <select className='dropdown-barbeiro' style={{ marginTop: '20px' }} onChange={(ev) => setMarcacao({ ...marcacao, idBarbeiro: ev.target.value })}>
-            <option value=''>Escolha uma opção</option>
-            {barbeiros.map((barbeiro, index) => (
-              <option value={barbeiro.id} key={index}>
-                {barbeiro.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-          <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
-          <DateTime
-            className='dropdown-horario'
-            onChange={(date) => mudarData(date)}
-            value={dataHoraSelecionada}
-            dateFormat='DD/MM/YYYY HH:mm'
-            minDate={new Date()}
-            maxDate={new Date('2030-12-31')}
-            timeConstraints={{ minutes: { step: 30 } }}
-          />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-          <button className='btn-marcacao'>Confirmar marcação</button>
-        </div>
-      </div>
-    </form>
-  );
-  
-    }
+      )}
+      {errors &&
+      <div className='alert'>
+        {Object.keys(errors).map(key => (
+          <p key={key}>{errors[key][0]}</p>
+          ))}
+          </div>
+          }
+        {!loading && (
+          <form onSubmit={onSubmit}>
+          <div className='card animated fadeInDown' style={{ marginLeft: '100px', marginRight: '100px' }}>
+            <h2>Agendar uma marcação</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+              <br /><br />
+              <h4 style={{ marginBottom: '10px' }}>Selecionar serviço:</h4>
+              <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(ev) => {
+                setMarcacao({ ...marcacao, servico: ev.target.value });
+                getBarbeirosEspecialidade(ev.target.value);
+              }}>
+                <option value="">Escolha uma opção</option>
+                {especialidades.map((especialidade, index) => (
+                  <option value={especialidade} key={index}>
+                    {especialidade}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+              <h4 style={{ marginBottom: '10px' }}>Selecionar barbeiro:</h4>
+              <select className='dropdown-barbeiro' style={{ marginTop: '20px' }} onChange={(ev) => setMarcacao({ ...marcacao, idBarbeiro: ev.target.value })}>
+                <option value=''>Escolha uma opção</option>
+                {barbeiros.map((barbeiro, index) => (
+                  <option value={barbeiro.id} key={index}>
+                    {barbeiro.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px', textAlign: 'center' }}>
+              <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
+              <DatePicker 
+              style={{ width:'300px' }}
+              className='dropdown-horario'
+              selected={dataHoraSelecionada}
+              onChange={(date) => mudarData(date)}
+              showTimeSelect
+              timeIntervals={30}
+              timeFormat="HH:mm"
+              dateFormat="dd/MM/yyyy HH:mm"
+              minDate={new Date()}
+              maxDate={new Date('2030-12-31')}
+              minTime={new Date().setHours(9, 0)}
+              maxTime={new Date().setHours(17, 30)}
+            />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+              <button className='btn-marcacao'>Confirmar marcação</button>
+            </div>
+          </div>
+        </form>
+        )}
+    </div>
+    </>
+  )
+}
