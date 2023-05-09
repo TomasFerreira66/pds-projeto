@@ -9,9 +9,11 @@ import GuestLayout from "./components/GuestLayout.jsx";
 import Stock from "./viewsAdmin/Stock.jsx";
 import Pedidos from "./viewsAdmin/Pedidos.jsx";
 import Estatisticas from "./viewsAdmin/Estatisticas.jsx";
+
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
 import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
+import PaginaInicialOriginal from "./viewsClientes/PaginaInicialoriginal.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
 import PerfilMain from "./viewsClientes/perfilMain.jsx";
@@ -59,6 +61,7 @@ const router = createBrowserRouter([
           path: '/paginainicial',
           element: <PaginaInicial/>
         },
+        
         {
           path: '/marcacoes',
           element: <Marcacoes/>
@@ -105,7 +108,11 @@ const router = createBrowserRouter([
         {
           path: '/signup',
           element: <Signup/>
-        }
+        },
+        {
+          path: '/paginainicialoriginal',
+          element: <PaginaInicialOriginal/>
+        },
       ]
     },
 
