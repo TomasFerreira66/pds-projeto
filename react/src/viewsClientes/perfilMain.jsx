@@ -39,7 +39,7 @@ export default function Users() {
                     </td>
                   </tr>
                 </tbody>
-              }                                                                                                                                                            <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>
+              }                                                                                                                                                            
               {!loading &&
                 <tbody>
                   {users.filter(u => u.id === user.id).map(u => (
