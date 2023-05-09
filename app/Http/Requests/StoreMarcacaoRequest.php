@@ -22,10 +22,7 @@ class StoreMarcacaoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'servico' => 'required',
-            'data' => 'required|unique:marcacoes,data',
-            'idBarbeiro' => 'required',
-            'idCliente' => 'required'
+            
         ];
     }
 }
