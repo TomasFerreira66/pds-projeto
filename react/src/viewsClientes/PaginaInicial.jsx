@@ -8,13 +8,24 @@ export default function PaginaInicial() {
     const [barbeiros, setBarbeiros] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {user} = useStateContext()
+
   
     useEffect(() => {
       getBarbeiros();
+      getUsers();
     }, [])
   
-  
+    const getUsers = () => {
+      setLoading(true)
+      axiosClient.get('/users')
+        .then(({ data }) => {
+          setLoading(false)
+          setUsers(data.data)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+    }
    
   
     const getBarbeiros = () => {
@@ -31,10 +42,9 @@ export default function PaginaInicial() {
     }    
   
     return (
-      
       <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '10vh' }}>
-        <Link to={`/novaMarcacao/${user.id}`}>
+          <Link to="/novaMarcacao">
             <button className="btn-marcacao">FAZER MARCAÇÃO</button>
           </Link>
         </div>

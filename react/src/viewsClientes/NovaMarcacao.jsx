@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
@@ -10,18 +10,15 @@ export default function NovaMarcacao() {
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {id} = useParams();
 
   const [dataHoraSelecionada, setDataHoraSelecionada] = useState(new Date());
   
-
-
   const [marcacao, setMarcacao] = useState({
     id: null,
     servico: '', // iniciando com uma string vazia
     data: '', 
     idBarbeiro: '',
-    idCliente: id,
+    idCliente: '',
   })
 //aaa
   
@@ -76,7 +73,6 @@ export default function NovaMarcacao() {
       ...prevMarcacao,
       servico: document.querySelector('.dropdown-servico').value
     }));
-    
     axiosClient.post('/marcacoes', marcacao)
       .then(() => {
         setNotification('User was successfully created')
@@ -109,7 +105,6 @@ export default function NovaMarcacao() {
             ))}
           </select>
         </div>
-        
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
           <h4 style={{ marginBottom: '10px' }}>Selecionar barbeiro:</h4>
           <select className='dropdown-barbeiro' style={{ marginTop: '20px' }} onChange={(ev) => setMarcacao({ ...marcacao, idBarbeiro: ev.target.value })}>
@@ -121,7 +116,6 @@ export default function NovaMarcacao() {
             ))}
           </select>
         </div>
-
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
           <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
           <DateTime
