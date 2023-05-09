@@ -66,10 +66,11 @@ export default function PaginaMain() {
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
           <Link to="/carrinho">Carrinho</Link>
-          <Link to="/perfilMain">Editar Perfil</Link>
         </aside>
         
       )}
+
+      
       <div className="content">
         <header>
           <div>
@@ -82,7 +83,7 @@ export default function PaginaMain() {
           </div>
           
           <div>
-            {user.name} &nbsp; &nbsp;
+            <Link to="/perfilMain">{user.name}</Link> &nbsp; &nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">
               Terminar sessão
             </a>

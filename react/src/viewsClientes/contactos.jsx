@@ -19,7 +19,8 @@ export default function Contactos(){
           allowtransparency="true" 
           frameborder="0" 
           scrolling="no" 
-          style={{border: 0, width: '50%', height: '300px', margin: 'auto'}}>
+ 
+         style={{border: 0, width: '50%', height: '300px', margin: 'auto'}}>
           </iframe>
         </div>
         <div id="map-container-google-3" class="z-depth-1-half map-container-3" style={{ marginTop: '50px' }}>
@@ -33,6 +34,5 @@ export default function Contactos(){
 
     )
 }
-
 
 
