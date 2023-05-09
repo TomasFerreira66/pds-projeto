@@ -51,6 +51,7 @@ export default function Users() {
         setLoading(false)
       })
   }
+  
   const sortUsers = (order) => {
     let sortedUsers = [...users];
     sortedUsers.sort((a, b) => {

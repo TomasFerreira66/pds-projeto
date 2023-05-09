@@ -14,9 +14,6 @@ export default function PaginaInicial() {
       
     }, [])
   
-    
-   
-  
     const getBarbeiros = () => {
       axiosClient.get('/users')
         .then(({ data }) => {
