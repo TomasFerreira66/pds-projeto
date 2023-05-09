@@ -16,7 +16,7 @@ export default function NovaMarcacao() {
   const [marcacao, setMarcacao] = useState({
     id: null,
     servico: '', // iniciando com uma string vazia
-    data: '', 
+    data: new Date(), 
     idBarbeiro: '',
     idCliente: '',
   })
@@ -27,7 +27,11 @@ export default function NovaMarcacao() {
     getEspecialidades();
   }, [])
 
-
+  const mudarData = (ev) => {
+    setDataHoraSelecionada(ev);
+    setMarcacao({ ...marcacao, data: new Date(ev)});
+    
+    }
 
   const getBarbeiros = () => {
     axiosClient.get('/users')
@@ -68,11 +72,15 @@ export default function NovaMarcacao() {
 
   const onSubmit = ev => {
     ev.preventDefault();
+    setMarcacao({ ...marcacao, data: new Date( document.querySelector('.dropdown-horario').value) });
     // adicionando o valor de 'servico' ao estado da marcação antes de enviar a solicitação de criação
     setMarcacao(prevMarcacao => ({
       ...prevMarcacao,
-      servico: document.querySelector('.dropdown-servico').value
+      servico: document.querySelector('.dropdown-servico').value,
+      data:new Date( document.querySelector('.dropdown-horario').value),
+       
     }));
+
     axiosClient.post('/marcacoes', marcacao)
       .then(() => {
         setNotification('User was successfully created')
@@ -120,7 +128,7 @@ export default function NovaMarcacao() {
           <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
           <DateTime
             className='dropdown-horario'
-            onChange={(date) => setDataHoraSelecionada(date)}
+            onChange={(date) => mudarData(date)}
             value={dataHoraSelecionada}
             dateFormat='DD/MM/YYYY HH:mm'
             minDate={new Date()}

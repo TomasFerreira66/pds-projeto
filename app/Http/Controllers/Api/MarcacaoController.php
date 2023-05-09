@@ -23,8 +23,11 @@ class MarcacaoController extends Controller
      */
     public function store(StoreMarcacaoRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
         $marcacao = Marcacao::create($data);
+
+
+
         return response (new MarcacaoResource($marcacao), 201);
     }
 

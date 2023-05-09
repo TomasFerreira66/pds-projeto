@@ -25,13 +25,18 @@ export default function PaginaInicialoriginal() {
     
   
     return (
+
+      
       
       <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '10vh' }}>
-          <Link to="/novaMarcacao">
-            <button className="btn-marcacao">FAZER MARCAÇÃO</button>
-          </Link>
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '10vh' }}>
+        <Link to="/novaMarcacao">
+          <button className="btn-marcacao">FAZER MARCAÇÃO</button>
+        </Link>
+        <Link to="/login">
+          <button className="btn-login">LOGIN</button>
+        </Link>
+      </div>
         
         <h3>Produtos</h3><br /><br />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '30vh' }}>
