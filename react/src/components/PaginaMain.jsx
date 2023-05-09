@@ -8,7 +8,7 @@ export default function PaginaMain() {
   const { user, token, setUser, setToken, notification } = useStateContext();
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/PaginaInicialoriginal" />;
   }
 
   const onLogout = (ev) => {
@@ -80,7 +80,7 @@ export default function PaginaMain() {
               style={{ width: "170px", height: "90px" }}
             />
           </div>
-
+          
           <div>
             {user.name} &nbsp; &nbsp;
             <a onClick={onLogout} className="btn-logout" href="#">
