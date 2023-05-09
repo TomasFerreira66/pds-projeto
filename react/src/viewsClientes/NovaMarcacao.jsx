@@ -3,11 +3,11 @@ import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'react-datetime/css/react-datetime.css';
+import { useStateContext } from '../contexts/ContextProvider';
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
-  const [notification, setNotification] = useState('');
-  const [errors, setErrors] = useState([]);
+  const {setNotification} = useStateContext()
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,12 +16,11 @@ export default function NovaMarcacao() {
   
   const [marcacao, setMarcacao] = useState({
     id: null,
-    servico: '', // iniciando com uma string vazia
+    servico: '', 
     data: new Date(), 
     idBarbeiro: '',
     idCliente: id,
   })
-//aaa
   
   useEffect(() => {
     getBarbeiros();
@@ -74,7 +73,6 @@ export default function NovaMarcacao() {
   const onSubmit = ev => {
     ev.preventDefault();
     setMarcacao({ ...marcacao, data: new Date( document.querySelector('.dropdown-horario').value) });
-    // adicionando o valor de 'servico' ao estado da marcação antes de enviar a solicitação de criação
     setMarcacao(prevMarcacao => ({
       ...prevMarcacao,
       servico: document.querySelector('.dropdown-servico').value,
@@ -84,8 +82,8 @@ export default function NovaMarcacao() {
 
     axiosClient.post('/marcacoes', marcacao)
       .then(() => {
-        setNotification('User was successfully created')
-        navigate('/marcacoes')
+        setNotification('Marcação criada com sucesso')
+        navigate('/paginainicial')
       })
       .catch(err => {
         const response = err.response;
