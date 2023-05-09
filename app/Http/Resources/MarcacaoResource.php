@@ -17,7 +17,7 @@ class MarcacaoResource extends JsonResource
         return [
             'id' => $this->id,
             'servico' => $this->servico,
-            'data' => $this->data->format('Y-m-d H:i:s'),
+            'data' => $this->data,
             'idBarbeiro' => $this->idBarbeiro,
             'idCliente' => $this->idCliente
         ];
