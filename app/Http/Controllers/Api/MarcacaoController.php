@@ -6,6 +6,7 @@ use App\Models\Marcacao;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMarcacaoRequest;
 use App\Http\Requests\UpdateMarcacaoRequest;
+use App\Http\Resources\MarcacaoResource;
 
 class MarcacaoController extends Controller
 {
