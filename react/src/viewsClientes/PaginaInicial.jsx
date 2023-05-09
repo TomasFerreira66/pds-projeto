@@ -2,13 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
+import {useStateContext} from "../contexts/ContextProvider.jsx";
 
 export default function PaginaInicial() {
     const [barbeiros, setBarbeiros] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
+
   
     useEffect(() => {
       getBarbeiros();
+      getUsers();
     }, [])
+  
+    const getUsers = () => {
+      setLoading(true)
+      axiosClient.get('/users')
+        .then(({ data }) => {
+          setLoading(false)
+          setUsers(data.data)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+    }
+   
   
     const getBarbeiros = () => {
       axiosClient.get('/users')

@@ -22,6 +22,9 @@ class StoreMarcacaoRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'servico' => 'required',
+            'idBarbeiro' => 'required',
+            'idCliente' => 'required',
             
         ];
     }

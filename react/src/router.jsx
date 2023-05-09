@@ -64,8 +64,8 @@ const router = createBrowserRouter([
           element: <Marcacoes/>
         },
         {
-          path: '/novaMarcacao',
-          element: <NovaMarcacao/>
+          path: '/novaMarcacao/:id',
+          element: <NovaMarcacao key="userUpdate"/>
         },
         {
           path: '/agenda',

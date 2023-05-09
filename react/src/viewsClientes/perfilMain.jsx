@@ -46,7 +46,7 @@ export default function Users() {
                     <tr key={u.id}>
                      
                       <td style={{textAlign: "center"}}>
-                        <Link className="btn btn-lg btn-primary me-3" style={{padding: "60px", fontSize: "30px", border: "1px solid black", borderRadius: "10px", boxShadow: "0px 0px 5px rgba(0,0,0,0.5)"}} to={'/Perfil/' + u.id}>Editar</Link>
+                        <Link className="btn btn-lg btn-primary me-3" style={{padding: "60px", fontSize: "30px", border: "1px solid black", borderRadius: "10px", boxShadow: "0px 0px 5px rgba(0,0,0,0.5)"}} to={'/novaMarcacao/' + u.id}>Editar</Link>
                       </td>
                       <td style={{textAlign: "center"}}>
                         <Link className="btn btn-lg btn-primary" style={{padding: "60px", fontSize: "30px", border: "1px solid black", borderRadius: "10px", boxShadow: "0px 0px 5px rgba(0,0,0,0.5)"}} to={'/Historico/' + u.id}>Historico</Link>
