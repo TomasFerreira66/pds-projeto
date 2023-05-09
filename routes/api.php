@@ -24,9 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('/users', UserController::class);
+    Route::apiResource('/novaMarcacao', MarcacaoController::class);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::apiResource('/marcacoes', MarcacaoController::class);

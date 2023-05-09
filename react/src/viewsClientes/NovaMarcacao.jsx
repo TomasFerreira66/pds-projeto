@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
+import { navigate } from 'react-router-dom';
 
-export default function marcacoes() {
+
+export default function NovaMarcacao() {
+  const [notification, setNotification] = useState('');
+  const [errors, setErrors] = useState([]);
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
-  const [dataHoraSelecionada, setDataHoraSelecionada] = useState([]);
+  const [dataHoraSelecionada, setDataHoraSelecionada] = useState(new Date());
   const [marcacao, setMarcacao] = useState({
     id: null,
     servico: '',
@@ -58,7 +62,7 @@ export default function marcacoes() {
 
   const onSubmit = ev => {
     ev.preventDefault()
-      axiosClient.post('/marcacoes', marcacao)
+      axiosClient.post('/novaMarcacao', marcacao)
         .then(() => {
           setNotification('User was successfully created')
           navigate('/marcacoes')
@@ -107,7 +111,7 @@ export default function marcacoes() {
             />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <button type='submit' className='btn-marcacao'>Confirmar marcação</button>
+        <button className='btn-marcacao'>Confirmar marcação</button>
       </div>
     </div>
     </form>
