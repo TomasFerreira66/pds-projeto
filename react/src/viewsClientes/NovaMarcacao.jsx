@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
-import { navigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function NovaMarcacao() {
+  const navigate = useNavigate();
   const [notification, setNotification] = useState('');
   const [errors, setErrors] = useState([]);
   const [barbeiros, setBarbeiros] = useState([]);
@@ -62,7 +62,7 @@ export default function NovaMarcacao() {
 
   const onSubmit = ev => {
     ev.preventDefault()
-      axiosClient.post('/novaMarcacao', marcacao)
+      axiosClient.post('/marcacoes', marcacao)
         .then(() => {
           setNotification('User was successfully created')
           navigate('/marcacoes')
