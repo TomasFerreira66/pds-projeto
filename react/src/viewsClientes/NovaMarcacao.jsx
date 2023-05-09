@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
 import { useNavigate, useParams } from 'react-router-dom';
+import 'react-datetime/css/react-datetime.css';
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
