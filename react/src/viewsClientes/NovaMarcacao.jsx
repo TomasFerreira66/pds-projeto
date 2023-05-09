@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
@@ -10,35 +10,24 @@ export default function NovaMarcacao() {
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [dataHoraSelecionada, setDataHoraSelecionada] = useState(new Date());
-  let {id} = useParams();
+  
   const [marcacao, setMarcacao] = useState({
     id: null,
     servico: '', // iniciando com uma string vazia
     data: '', 
     idBarbeiro: '',
-    idCliente: ''
+    idCliente: '',
   })
-
-  if (id) {
-    useEffect(() => {
-      setLoading(true)
-      axiosClient.get(`/users/${id}`)
-        .then(({data}) => {
-          setLoading(false)
-          setUser(data)
-        })
-        .catch(() => {
-          setLoading(false)
-        })
-    }, [])
-  }
 
   
   useEffect(() => {
     getBarbeiros();
     getEspecialidades();
   }, [])
+
+
 
   const getBarbeiros = () => {
     axiosClient.get('/users')
