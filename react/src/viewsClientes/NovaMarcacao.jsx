@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
-import DateTime from 'react-datetime';
 import { useNavigate, useParams } from 'react-router-dom';
-import 'react-datetime/css/react-datetime.css';
 import { useStateContext } from '../contexts/ContextProvider';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
@@ -123,17 +124,22 @@ export default function NovaMarcacao() {
             ))}
           </select>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px', textAlign: 'center' }}>
           <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
-          <DateTime
-            className='dropdown-horario'
-            onChange={(date) => mudarData(date)}
-            value={dataHoraSelecionada}
-            dateFormat='DD/MM/YYYY HH:mm'
-            minDate={new Date()}
-            maxDate={new Date('2030-12-31')}
-            timeConstraints={{ minutes: { step: 30 } }}
-          />
+          <DatePicker 
+          style={{ width:'300px' }}
+          className='dropdown-horario'
+          selected={dataHoraSelecionada}
+          onChange={(date) => mudarData(date)}
+          showTimeSelect
+          timeIntervals={30}
+          timeFormat="HH:mm"
+          dateFormat="dd/MM/yyyy HH:mm"
+          minDate={new Date()}
+          maxDate={new Date('2030-12-31')}
+          minTime={new Date().setHours(9, 0)}
+          maxTime={new Date().setHours(17, 30)}
+        />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
           <button className='btn-marcacao'>Confirmar marcação</button>
