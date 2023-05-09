@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import DateTime from 'react-datetime';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import 'react-datetime/css/react-datetime.css';
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function NovaMarcacao() {
   const [barbeiros, setBarbeiros] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const {id} = useParams();
   const [dataHoraSelecionada, setDataHoraSelecionada] = useState(new Date());
   
   const [marcacao, setMarcacao] = useState({
@@ -18,9 +19,9 @@ export default function NovaMarcacao() {
     servico: '', // iniciando com uma string vazia
     data: new Date(), 
     idBarbeiro: '',
-    idCliente: '',
+    idCliente: id,
   })
-
+//aaa
   
   useEffect(() => {
     getBarbeiros();
