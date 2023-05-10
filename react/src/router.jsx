@@ -21,6 +21,7 @@ import PerfilMain from "./viewsClientes/perfilMain.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 import Carrinho from "./viewsClientes/carrinho.jsx";
+import Contactosguest from "./viewsClientes/contactosguest.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
         {
           path: '/paginainicialoriginal',
           element: <PaginaInicialOriginal/>
+        },
+        {
+          path: '/contactosguest',
+          element: <Contactosguest/>
         },
       ]
     },
