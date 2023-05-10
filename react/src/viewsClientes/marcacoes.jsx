@@ -8,26 +8,43 @@ export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
+  const [barbeiros, setBarbeiros] = useState({});
   const { id } = useParams();
 
+  const getBarbeiro = (marcacoes) => {
+    const barbeiroIds = [...new Set(marcacoes.map((marcacao) => marcacao.idBarbeiro))];
+    const promises = barbeiroIds.map((id) => axiosClient.get(`/users/${id}`));
+    Promise.all(promises)
+      .then((responses) => {
+        const newBarbeiros = {};
+        responses.forEach((response) => {
+          newBarbeiros[response.data.id] = response.data.name;
+        });
+        setBarbeiros(newBarbeiros);
+      })
+      .catch(() => {
+        setBarbeiros({});
+      });
+  };
+  
   const getMarcacoes = () => {
     setLoading(true);
     axiosClient.get('/marcacoes')
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
+        getBarbeiro(data.data);
       })
       .catch(() => {
         setLoading(false);
       });
   };
-
+  
   useEffect(() => {
     getMarcacoes();
   }, []);
 
 
-  //esta merda nao ta a dar
   const onDeleteClick = marcacao => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return
@@ -52,8 +69,11 @@ export default function Users() {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Nº</th>
+              <th>Serviço</th>
+              <th>Barbeiro</th>
               <th>Data</th>
+              <th>Ações</th>
             </tr>
           </thead>
           {loading &&
@@ -69,19 +89,30 @@ export default function Users() {
             <tbody>
               {users
                 .filter(marcacao => marcacao.idCliente === Number(id))
-                .map(marcacao => (
-                  <tr key={marcacao.id}>
-                    <td>{marcacao.id}</td>
-                    <td>{marcacao.data}</td>
-                    <td>
-                    <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
-                    </td>
-                  </tr>
-                ))}
+                .map(marcacao => {
+                  return (
+                    <tr key={marcacao.id}>
+                      <td>{marcacao.id}</td>
+                      <td>{marcacao.servico}</td>
+                      <td>{barbeiros[marcacao.idBarbeiro] || "-"}</td>
+                      <td>
+                        {new Date (marcacao.data).toLocaleString("pt-PT", {
+                          day: "numeric",
+                          month: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "numeric"
+                        })}
+                      </td>
+                      <td>
+                        <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           }
         </table>
-
       </div>
     </div>
   )
