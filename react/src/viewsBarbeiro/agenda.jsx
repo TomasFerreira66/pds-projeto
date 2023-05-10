@@ -3,12 +3,28 @@ import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [clientes, setClientes] = useState({});
   const { setNotification } = useStateContext();
   const { id } = useParams();
+
+  const getCliente = (marcacoes) => {
+    const clienteIds = [...new Set(marcacoes.map((marcacao) => marcacao.idCliente))];
+    const promises = clienteIds.map((id) => axiosClient.get(`/users/${id}`));
+    Promise.all(promises)
+    .then((responses) => {
+      const newClientes = {};
+      responses.forEach((response) => {
+        newClientes[response.data.id] = response.data.name;
+      });
+      setClientes(newClientes);
+    })
+    .catch(() => {
+      setClientes({});
+    });
+  };
 
   const getMarcacoes = () => {
     setLoading(true);
@@ -16,6 +32,7 @@ export default function Users() {
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
+        getCliente(data.data);
       })
       .catch(() => {
         setLoading(false);
@@ -52,8 +69,11 @@ export default function Users() {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Nº</th>
+              <th>Serviço</th>
+              <th>Cliente</th>
               <th>Data</th>
+              <th>Ações</th>
             </tr>
           </thead>
           {loading &&
@@ -72,7 +92,17 @@ export default function Users() {
                 .map(marcacao => (
                   <tr key={marcacao.id}>
                     <td>{marcacao.id}</td>
-                    <td>{marcacao.data}</td>
+                    <td>{marcacao.servico}</td>
+                    <td>{clientes[marcacao.idCliente] || "-"}</td>
+                    <td>
+                        {new Date (marcacao.data).toLocaleString("pt-PT", {
+                          day: "numeric",
+                          month: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "numeric"
+                        })}
+                      </td>
                     <td>
                     <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
                     </td>
