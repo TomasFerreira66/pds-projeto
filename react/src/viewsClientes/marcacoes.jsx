@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 
-export default function Users() {
+export default function Marcacoes() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
@@ -44,7 +44,6 @@ export default function Users() {
     getMarcacoes();
   }, []);
 
-
   const onDeleteClick = marcacao => {
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return
@@ -54,9 +53,6 @@ export default function Users() {
         setNotification('Marcação was successfully canceled')
         getMarcacoes()
       })
-      .catch(() => {
-        setNotification('There was an error while canceling the marcação')
-      });
   }
   
 
