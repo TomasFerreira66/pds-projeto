@@ -183,6 +183,7 @@ input:focus {
   margin-top: 20px;
   justify-content: center;
   align-items: center;
+  margin-bottom: 25px;
 }
 
 .btn:active,
