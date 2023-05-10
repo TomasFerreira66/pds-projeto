@@ -34,7 +34,7 @@ export default function PaginaMain() {
         navigate("/Users");
         break;
       case "Barbeiro":
-        navigate("/agenda");
+        navigate(`agenda/${user.id}`);
         break;
       case "Cliente":
         navigate("/paginainicial");
@@ -56,13 +56,13 @@ export default function PaginaMain() {
       )}
       {user.tipo === "Barbeiro" && (
         <aside>
-          <Link to="/agenda">Marcações</Link>
+          <Link to={`/agenda/${user.id}`}>Marcações</Link>
         </aside>
       )}
       {user.tipo === "Cliente" && (
         <aside>
           <Link to="/paginainicial">Página Inicial</Link>
-          <Link to="/marcacoes">Marcações</Link>
+          <Link to={`/marcacoes/${user.id}`}>Marcações</Link>
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
           <Link to="/carrinho">Carrinho</Link>
