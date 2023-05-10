@@ -9,6 +9,7 @@ import GuestLayout from "./components/GuestLayout.jsx";
 import Stock from "./viewsAdmin/Stock.jsx";
 import Pedidos from "./viewsAdmin/Pedidos.jsx";
 import Estatisticas from "./viewsAdmin/Estatisticas.jsx";
+import AdicionarProduto from "./viewsAdmin/AdicionarProduto.jsx";
 
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
         {
           path: '/estatisticas',
           element: <Estatisticas/>
+        },
+        {
+          path: '/adicionarProduto',
+          element: <AdicionarProduto/>
         },
         {
           path: '/contactos',
