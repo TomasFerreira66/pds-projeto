@@ -34,7 +34,9 @@ const AddProductForm = ({ onAdd }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Adicionar Produto</h2>
+      <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
+      <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
+      <h2>Adicionar produto</h2>
       <div>
         <label>Nome:</label>
         <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
@@ -56,6 +58,7 @@ const AddProductForm = ({ onAdd }) => {
         <input type="text" value={tipo} onChange={(e) => setTipo(e.target.value)} />
       </div>
       <button type="submit">Adicionar</button>
+      </div>
     </form>
   );
 };

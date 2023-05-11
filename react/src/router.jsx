@@ -10,6 +10,7 @@ import Stock from "./viewsAdmin/Stock.jsx";
 import Pedidos from "./viewsAdmin/Pedidos.jsx";
 import Estatisticas from "./viewsAdmin/Estatisticas.jsx";
 import AdicionarProduto from "./viewsAdmin/AdicionarProduto.jsx";
+import ListaProdutos from "./viewsAdmin/ListaProdutos.jsx";
 
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
         {
           path: '/pedidos',
           element: <Pedidos/>
+        },
+        {
+          path: '/listaProdutos',
+          element: <ListaProdutos/>
         },
         {
           path: '/estatisticas',
