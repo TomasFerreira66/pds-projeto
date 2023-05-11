@@ -54,7 +54,7 @@ export default function Contactosguest(){
           <iframe src={`https://maps.google.com/maps?q=41.554577,-8.430064&t=k&z=13&ie=UTF8&iwloc=&output=embed`} 
           frameborder="0" 
           style={{border: 0, width: '100%', height: '300px', margin: 'auto'}} 
-          allowfullscreen>
+          allowFullScreen>
           </iframe>
         </div>
     </div>

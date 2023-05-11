@@ -83,8 +83,12 @@ export default function PaginaMain() {
           </div>
           
           <div>
-            <Link to="/perfilMain">{user.name}</Link> &nbsp; &nbsp;
-            <Link to="/carrinho">Carrinho</Link>
+          <Link to="/perfilMain" className="no-underline">{user.name}</Link> &nbsp; &nbsp;
+          {user.tipo === 'Cliente' && (
+        <Link to="/carrinho" style={{marginRight:"10px"}}>
+          <img src="../src/img/carrinho.png" alt="Carrinho" width="40" height="23" />
+        </Link>
+      )}
             <a onClick={onLogout} className="btn-logout" href="#">
               Terminar sessão
             </a>
