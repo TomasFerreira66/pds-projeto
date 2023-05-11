@@ -1,66 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useStateContext } from '../contexts/ContextProvider';
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import axiosClient from "../axios-client.js";
+import {useStateContext} from "../contexts/ContextProvider.jsx";
 
-const AddProductForm = ({ onAdd }) => {
+export default function adicionarProduto() {
+  const navigate = useNavigate();
+  const [produto, setProduto] = useState({
+    id: null,
+    nome: '',
+    descricao: '',
+    preco: '',
+    quantidade: '0',
+    tipo: '',
 
-  const [nome, setNome] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [preco, setPreco] = useState(0);
-  const [quantidade, setQuantidade] = useState(0);
-  const [tipo, setTipo] = useState('');
+  })
+  const [errors, setErrors] = useState(null)
+  const [loading, setLoading] = useState(false)
+    const {setNotification} = useStateContext()
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/api/produtos', {
-        nome,
-        descricao,
-        preco,
-        quantidade,
-        tipo,
-      });
-      onAdd(response.data); 
-      setNome('');
-      setDescricao('');
-      setPreco(0);
-      setQuantidade(0);
-      setTipo('');
-    } catch (error) {
-      console.error(error);
+
+  const onSubmit = ev => {
+    ev.preventDefault()
+    
+      axiosClient.post('/produtos', produto)
+        .then(() => {
+          setNotification('Utilizador criado com sucesso')
+          navigate('/listaProdutos')
+        })
+        .catch(err => {
+          const response = err.response;
+          if (response && response.status === 422) {
+            setErrors(response.data.errors)
+          }
+        })
     }
-  };
+  
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
-      <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}/>
-      <h2>Adicionar produto</h2>
-      <div>
-        <label>Nome:</label>
-        <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
-      </div>
-      <div>
-        <label>Descrição:</label>
-        <textarea value={descricao} onChange={(e) => setDescricao(e.target.value)}></textarea>
-      </div>
-      <div>
-        <label>Preço:</label>
-        <input type="number" value={preco} onChange={(e) => setPreco(e.target.value)} />
-      </div>
-      <div>
-        <label>Quantidade:</label>
-        <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
-      </div>
-      <div>
-        <label>Tipo:</label>
-        <input type="text" value={tipo} onChange={(e) => setTipo(e.target.value)} />
-      </div>
-      <button type="submit">Adicionar</button>
-      </div>
-    </form>
-  );
-};
+    <>
+      {produto.id && <h1>Editar utilizador:</h1>}
+      {!produto.id && <h1>Adicionar barbeiro</h1>}
+      <div className="card animated fadeInDown">
+        {loading && (
+          <div className="text-center">
+            Loading...
+          </div>
+        )}
+        {errors &&
+          <div className="alert">
+            {Object.keys(errors).map(key => (
+              <p key={key}>{errors[key][0]}</p>
+            ))}
+          </div>
+        }
+        {!loading && (
+          <form onSubmit={onSubmit}>
+          <input value={produto.nome} onChange={ev => setProduto({...produto, nome: ev.target.value})} placeholder="Nome"/>
+          <input value={produto.descricao} onChange={ev => setProduto({...produto, descricao: ev.target.value})} placeholder="Descricao"/>
+          <input value={produto.preco} onChange={ev => setProduto({...produto, preco: ev.target.value})} placeholder="Preco"/>
+         
+          <select className="dropdown-menu" name="tipo" value={produto.tipo} onChange={ev => setProduto({...produto, tipo: ev.target.value})}>
+            <option>Tipo</option>
+            <option value="Corte">Cabelo</option>
+            <option value="Barba">Barba</option>
 
-export default AddProductForm;
+          </select>
+          <br></br><br></br>
+          <button className="btn">Adicionar produto</button>
+        </form>
+        
+        )}
+      </div>
+    </>
+  )
+}
