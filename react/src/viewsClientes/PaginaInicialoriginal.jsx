@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 
+
 export default function PaginaInicialoriginal() {
     const [barbeiros, setBarbeiros] = useState([]);
   
@@ -46,7 +47,7 @@ export default function PaginaInicialoriginal() {
           
           
           <Link to="/login">
-          <button className="btn-login">Iniciar sessão</button>
+          <button className="btn-login">Iniciar Sessão</button>
         </Link>
         </header>
 
