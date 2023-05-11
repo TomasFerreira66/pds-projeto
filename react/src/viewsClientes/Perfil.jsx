@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 
-export default function UserForm() {
+export default function Perfil() {
   const navigate = useNavigate();
   let {id} = useParams();
   const [user, setUser] = useState({

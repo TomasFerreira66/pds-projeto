@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-export default function ProdutosCliente() {
+export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const { carrinho, setCarrinho, setNotification } = useStateContext();
@@ -77,7 +77,6 @@ export default function ProdutosCliente() {
           <div>{produto.descricao}</div>
           <div>{`${produto.preco} €`}</div>
           <div>Quantidade em stock: {produto.quantidade}</div>
-          <div>Tipo: {produto.tipo}</div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <input
               style={{ width: 70, height: 53, marginRight: "10px", marginTop:9}}
@@ -93,7 +92,7 @@ export default function ProdutosCliente() {
                 }
               }}
             />
-            <button style={{width: 120, height: 50}} className="btn-login" onClick={() => handleAddToCart(produto, 1)}>Adicionar</button>
+            <button style={{width: 200, height: 50}} className="btn-login" onClick={() => handleAddToCart(produto, 1)}>Adicionar ao carrinho</button>
         </div>
         </div>
         ))}

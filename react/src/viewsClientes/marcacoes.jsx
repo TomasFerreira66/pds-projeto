@@ -3,7 +3,6 @@ import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-
 export default function Marcacoes() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);

@@ -3,7 +3,7 @@ import axiosClient from "../axios-client.js";
 import {Link} from "react-router-dom";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 
-export default function Produtos() {
+export default function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const {setNotification} = useStateContext();
