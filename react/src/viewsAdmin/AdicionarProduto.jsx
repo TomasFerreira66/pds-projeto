@@ -10,7 +10,7 @@ export default function adicionarProduto() {
     nome: '',
     descricao: '',
     preco: '',
-    quantidade: '0',
+    quantidade: '',
     tipo: '',
 
   })
@@ -59,6 +59,7 @@ export default function adicionarProduto() {
           <input value={produto.nome} onChange={ev => setProduto({...produto, nome: ev.target.value})} placeholder="Nome"/>
           <input value={produto.descricao} onChange={ev => setProduto({...produto, descricao: ev.target.value})} placeholder="Descrição"/>
           <input value={produto.preco} onChange={ev => setProduto({...produto, preco: ev.target.value})} placeholder="Preço"/>
+          <input value={produto.quantidade} onChange={ev => setProduto({...produto, quantidade: ev.target.value})} placeholder="Quantidade"/>
           <select className="dropdown-menu" name="tipo" value={produto.tipo} onChange={ev => setProduto({...produto, tipo: ev.target.value})}>
             <option>Tipo</option>
             <option value="Cabelo">Cabelo</option>
