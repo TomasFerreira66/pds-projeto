@@ -49,7 +49,7 @@ export default function ProdutosCliente() {
             <div>Quantidade em stock: {produto.quantidade}</div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <input
-                style={{ width: 70, height: 50, marginRight: "10px"}}
+                style={{ width: 70, height: 53, marginRight: "10px", marginTop:9}}
                 type="number"
                 min="1"
                 max={produto.quantidade}
