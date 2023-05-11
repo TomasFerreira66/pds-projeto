@@ -73,7 +73,7 @@ export default function Produtos() {
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Descriçao</th>
+            <th>Descrição</th>
             <th>Preço</th>
             <th>Quantidade</th>
             <th>Tipo</th> 
