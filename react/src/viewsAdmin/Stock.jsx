@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
-import { Link } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 export default function Stock() {
   const [produtos, setProdutos] = useState([]);
@@ -32,7 +30,6 @@ export default function Stock() {
 
   const handleAtualizarQuantidade = (produtoId) => {
     const quantidade = parseInt(quantidadeInput);
-    if (!isNaN(quantidade)) {
       const url = `/produtos/${produtoId}`;
       axiosClient.get(url)
         .then(({ data }) => {
@@ -53,7 +50,6 @@ export default function Stock() {
               setQuantidadeInput('');
             })
         })
-    }
   };
 
   return (
@@ -103,7 +99,10 @@ export default function Stock() {
                       value={quantidadeInput}
                       onChange={handleQuantidadeChange}
                     />
-                    <button onClick={() => handleAtualizarQuantidade(produto.id)} className="btn-edit">Adicionar</button>
+                    <button onClick={() => {
+                        handleAtualizarQuantidade(produto.id);
+                        window.location.reload();
+                        }} className="btn-edit">Adicionar</button>
                   </td>
               </tr>
             ))}
