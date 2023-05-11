@@ -65,9 +65,8 @@ export default function UserForm() {
 
   return (
     <>
-    <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
-      {user.id && <h2>Editar utilizador: {user.name}</h2>}
-      {!user.id && <h2>Adicionar barbeiro</h2>}
+      {user.id && <h1>Editar utilizador: {user.name}</h1>}
+      {!user.id && <h1>Adicionar barbeiro</h1>}
       <div className="card animated fadeInDown">
         {loading && (
           <div className="text-center">
@@ -98,7 +97,6 @@ export default function UserForm() {
         </form>
         
         )}
-      </div>
       </div>
     </>
   )
