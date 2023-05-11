@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
+import { Link } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 export default function Stock() {
   const [produtos, setProdutos] = useState([]);
@@ -49,8 +51,10 @@ export default function Stock() {
               setProdutos(updatedProdutos);
               setQuantidadeInput('');
             })
+            
         })
   };
+  
 
   return (
     <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
@@ -99,10 +103,7 @@ export default function Stock() {
                       value={quantidadeInput}
                       onChange={handleQuantidadeChange}
                     />
-                    <button onClick={() => {
-                        handleAtualizarQuantidade(produto.id);
-                        window.location.reload();
-                        }} className="btn-edit">Adicionar</button>
+                    <button onClick={() => handleAtualizarQuantidade(produto.id)} className="btn-edit">Adicionar</button>
                   </td>
               </tr>
             ))}
