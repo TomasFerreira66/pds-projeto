@@ -97,7 +97,7 @@ export default function NovaMarcacao() {
 
   return (
     <>
-    <div className='cardd animated fadeInDown'>
+    <div className="card animated fadeInDown" style={{ marginLeft: '100px', marginRight: '100px' }}>
       {loading && (
         <div className='text-center'>
           Loading...

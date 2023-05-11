@@ -25,7 +25,7 @@ class UpdateProdutoRequest extends FormRequest
             'nome' => 'required|string|max:55',
             'descricao' => 'required|string|max:55',
             'preco' => 'required',
-            //'quantidade' => 'required',
+            'quantidade' => 'required',
             'tipo' => 'required|string|max:55'
         ];
     }

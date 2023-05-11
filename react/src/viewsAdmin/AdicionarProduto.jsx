@@ -38,9 +38,10 @@ export default function adicionarProduto() {
 
   return (
     <>
-      {produto.id && <h1>Editar utilizador:</h1>}
-      {!produto.id && <h1>Adicionar barbeiro</h1>}
-      <div className="card animated fadeInDown">
+    <div className="card animated fadeInDown" style={{ marginLeft: '100px', marginRight: '100px' }}>
+      {produto.id && <h2>Editar produto:</h2>}
+      {!produto.id && <h2>Adicionar produto</h2>}
+      <br /><br />
         {loading && (
           <div className="text-center">
             Loading...
@@ -56,9 +57,8 @@ export default function adicionarProduto() {
         {!loading && (
           <form onSubmit={onSubmit}>
           <input value={produto.nome} onChange={ev => setProduto({...produto, nome: ev.target.value})} placeholder="Nome"/>
-          <input value={produto.descricao} onChange={ev => setProduto({...produto, descricao: ev.target.value})} placeholder="Descricao"/>
-          <input value={produto.preco} onChange={ev => setProduto({...produto, preco: ev.target.value})} placeholder="Preco"/>
-         
+          <input value={produto.descricao} onChange={ev => setProduto({...produto, descricao: ev.target.value})} placeholder="Descrição"/>
+          <input value={produto.preco} onChange={ev => setProduto({...produto, preco: ev.target.value})} placeholder="Preço"/>
           <select className="dropdown-menu" name="tipo" value={produto.tipo} onChange={ev => setProduto({...produto, tipo: ev.target.value})}>
             <option>Tipo</option>
             <option value="Cabelo">Cabelo</option>
