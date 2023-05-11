@@ -61,7 +61,7 @@ export default function adicionarProduto() {
          
           <select className="dropdown-menu" name="tipo" value={produto.tipo} onChange={ev => setProduto({...produto, tipo: ev.target.value})}>
             <option>Tipo</option>
-            <option value="Corte">Cabelo</option>
+            <option value="Cabelo">Cabelo</option>
             <option value="Barba">Barba</option>
 
           </select>
