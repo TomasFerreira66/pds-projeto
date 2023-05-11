@@ -20,13 +20,13 @@ class StoreProdutoRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
     public function rules(): array
-    {
-        return [
-            'nome' => 'required|string|max:55',
-            'descricao' => 'required|string|max:55',
-            'preco' => 'required',
-            'quantidade' => 'required',
-            'tipo' => 'required|string|max:55'
-        ];
-    }
+{
+    return [
+        'nome' => 'required|string|max:55',
+        'descricao' => 'required|string|max:55',
+        'preco' => 'required|integer',
+        'quantidade' => 'required|integer',
+        'tipo' => 'required|string|max:55'
+    ];
+}
 }
