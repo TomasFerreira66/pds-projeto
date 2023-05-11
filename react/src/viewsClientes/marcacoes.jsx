@@ -45,12 +45,12 @@ export default function Marcacoes() {
   }, []);
 
   const onDeleteClick = marcacao => {
-    if (!window.confirm("Are you sure you want to delete this user?")) {
+    if (!window.confirm("De certeza que queres cancelar a tua marcaçao?")) {
       return
     }
     axiosClient.delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
-        setNotification('Marcação was successfully canceled')
+        setNotification('Marcação cancelada com sucesso')
         getMarcacoes()
       })
   }
