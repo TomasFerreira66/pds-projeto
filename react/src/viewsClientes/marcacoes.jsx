@@ -29,7 +29,7 @@ export default function Marcacoes() {
   
   const getMarcacoes = () => {
     setLoading(true);
-    axiosClient.get('/marcacoes')
+    axiosClient.get('/marcacaos')
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
@@ -48,7 +48,7 @@ export default function Marcacoes() {
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return
     }
-    axiosClient.delete(`/marcacoes/${marcacao.id}`)
+    axiosClient.delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
         setNotification('Marcação was successfully canceled')
         getMarcacoes()

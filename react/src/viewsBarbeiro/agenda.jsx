@@ -3,8 +3,8 @@ import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-export default function Users() {
-  const [users, setUsers] = useState([]);
+export default function Agenda() {
+  const [marcacaos, setMarcacao] = useState([]);
   const [loading, setLoading] = useState(false);
   const [clientes, setClientes] = useState({});
   const { setNotification } = useStateContext();
@@ -28,10 +28,10 @@ export default function Users() {
 
   const getMarcacoes = () => {
     setLoading(true);
-    axiosClient.get('/marcacoes')
+    axiosClient.get('/marcacaos')
       .then(({ data }) => {
         setLoading(false);
-        setUsers(data.data);
+        setMarcacao(data.data);
         getCliente(data.data);
       })
       .catch(() => {
@@ -50,7 +50,7 @@ export default function Users() {
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return
     }
-    axiosClient.delete(`/marcacoes/${marcacao.id}`)
+    axiosClient.delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
         setNotification('Marcação was successfully canceled')
         getMarcacoes()
@@ -88,7 +88,7 @@ export default function Users() {
           }
           {!loading &&
             <tbody>
-              {users
+              {marcacaos
                 .filter(marcacao => marcacao.idBarbeiro === Number(id))
                 .map(marcacao => (
                   <tr key={marcacao.id}>
@@ -112,7 +112,6 @@ export default function Users() {
             </tbody>
           }
         </table>
-
       </div>
     </div>
   )

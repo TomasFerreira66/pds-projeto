@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('/users', UserController::class);
-    Route::apiResource('/marcacoes', MarcacaoController::class);
+    Route::apiResource('/marcacaos', MarcacaoController::class);
     Route::apiResource('/produtos', ProdutoController::class);
 });
 

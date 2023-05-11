@@ -82,7 +82,7 @@ export default function NovaMarcacao() {
        
     }));
 
-    axiosClient.post('/marcacoes', marcacao)
+    axiosClient.post('/marcacaos', marcacao)
       .then(() => {
         setNotification('Marcação criada com sucesso')
         navigate('/paginainicial')
