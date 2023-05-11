@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 
-export default function adicionarProduto() {
+export default function AdicionarProduto() {
   const navigate = useNavigate();
   const [produto, setProduto] = useState({
     id: null,

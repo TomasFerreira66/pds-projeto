@@ -13,7 +13,7 @@ import AdicionarProduto from "./viewsAdmin/AdicionarProduto.jsx";
 import ListaProdutos from "./viewsAdmin/ListaProdutos.jsx";
 
 //Cliente
-import Contactos from "./viewsClientes/contactos.jsx";
+import Contactos from "./viewsClientes/Contactos.jsx";
 import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import PaginaInicialOriginal from "./viewsClientes/PaginaInicialoriginal.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
@@ -22,9 +22,9 @@ import PerfilMain from "./viewsClientes/perfilMain.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 import Carrinho from "./viewsClientes/carrinho.jsx";
-import Contactosguest from "./viewsClientes/contactosguest.jsx";
+import Contactosguest from "./viewsClientes/ContactosGuest.jsx";
 //barbeiro
-import Agenda from "./viewsBarbeiro/agenda.jsx";
+import Agenda from "./viewsBarbeiro/Agenda.jsx";
 
 
 const router = createBrowserRouter([

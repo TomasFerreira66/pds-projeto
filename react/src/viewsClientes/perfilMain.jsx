@@ -3,7 +3,7 @@ import axiosClient from "../axios-client.js";
 import {Link} from "react-router-dom";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 
-export default function Users() {
+export default function PerfilMain() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const {user, setNotification} = useStateContext()
