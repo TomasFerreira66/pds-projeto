@@ -47,29 +47,26 @@ export default function ProdutosCliente() {
             <div>{produto.descricao}</div>
             <div>{`${produto.preco} €`}</div>
             <div>Quantidade em stock: {produto.quantidade}</div>
-            <div>
-              <div style={{ display: "flex" }}>
-                <input
-                  style={{ width: 70, height: 50, marginRight: "10px"}}
-                  type="number"
-                  min="1"
-                  max={produto.quantidade}
-                  onChange={e => {
-                    const quantidade = parseInt(e.target.value);
-                    if (quantidade > produto.quantidade) {
-                      setNotification(`Quantidade insuficiente (${produto.quantidade} disponíveis)`);
-                    } else {
-                      handleAddToCart(produto, quantidade);
-                    }
-                  }}
-                />
-                <button style={{width: 120, height: 50}} className="btn-login" onClick={() => handleAddToCart(produto, 1)}>Adicionar</button>
-              </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                style={{ width: 70, height: 50, marginRight: "10px"}}
+                type="number"
+                min="1"
+                max={produto.quantidade}
+                onChange={e => {
+                  const quantidade = parseInt(e.target.value);
+                  if (quantidade > produto.quantidade) {
+                    setNotification(`Quantidade insuficiente (${produto.quantidade} disponíveis)`);
+                  } else {
+                    handleAddToCart(produto, quantidade);
+                  }
+                }}
+              />
+              <button style={{width: 120, height: 50}} className="btn-login" onClick={() => handleAddToCart(produto, 1)}>Adicionar</button>
             </div>
           </div>
         ))}
       </div>
     </div>
-  );
-   
+  );  
 }
