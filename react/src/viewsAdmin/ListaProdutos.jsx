@@ -8,7 +8,7 @@ export default function Produtos() {
   const [loading, setLoading] = useState(false);
   const {setNotification} = useStateContext();
   const [filter, setFilter] = useState('Todos');
-  const [sortOrder, setSortOrder] = useState("desc");
+  
 
   useEffect(() => {
     getProdutos();
