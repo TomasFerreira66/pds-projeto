@@ -48,9 +48,11 @@ export default function ProdutosCliente() {
         {!loading && (
           <>
             {produtos.map(produto => (
-              <div key={produto.id} style={{ display: "grid", gridTemplateRows: "1fr auto auto", border: "1px solid gray", padding: "10px", borderRadius: "5px" }}>
+              <div key={produto.id} style={{ display: "grid", gridTemplateRows: "1fr auto auto", border: "1px solid black", padding: "10px", borderRadius: "10px" }}>
                 <div>{produto.nome}</div>
                 <div>{`${produto.preco} €`}</div>
+                <div>{produto.descricao}</div>
+                <div>Disponíveis: {produto.quantidade}</div>
                 <div>
                   <div style={{ display: "flex" }}>
                     <input
@@ -65,9 +67,9 @@ export default function ProdutosCliente() {
                           handleAddToCart(produto, quantidade);
                         }
                       }}
-                      style={{ width: "50px", marginRight: "10px" }}
+                      style={{ width: "62px", marginRight: "10px" }}
                     />
-                    <button onClick={() => handleAddToCart(produto, 1)}>Adicionar ao carrinho</button>
+                    <button onClick={() => handleAddToCart(produto, 1)}>Adicionar</button>
                   </div>
                 </div>
               </div>
