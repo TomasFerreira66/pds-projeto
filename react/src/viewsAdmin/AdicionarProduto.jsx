@@ -24,7 +24,7 @@ export default function adicionarProduto() {
     
       axiosClient.post('/produtos', produto)
         .then(() => {
-          setNotification('Utilizador criado com sucesso')
+          setNotification('Produto adicionado com sucesso')
           navigate('/listaProdutos')
         })
         .catch(err => {
