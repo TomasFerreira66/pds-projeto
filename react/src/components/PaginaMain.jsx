@@ -86,7 +86,7 @@ export default function PaginaMain() {
           <Link to="/perfilMain" className="no-underline">{user.name}</Link> &nbsp; &nbsp;
           {user.tipo === 'Cliente' && (
         <Link to="/carrinho" style={{marginRight:"10px"}}>
-          <img src="../src/img/carrinho.png" alt="Carrinho" width="´35" height="23" />
+          <img src="../src/img/carrinho.png" alt="Carrinho" width="35" height="23" />
         </Link>
       )}
             <a onClick={onLogout} className="btn-logout" href="#">
