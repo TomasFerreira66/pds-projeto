@@ -1,42 +1,80 @@
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import axiosClient from "../axios-client.js";
+import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-export default function Produtos(){
-    const [carrinho, setCarrinho] = useState([]);
-    const [quantidade, setQuantidade] = useState(1);
-    const produtos = [
-        { id: 1, nome: "Pomada modeladora", descricao: "Para cabelos masculinos", preco: 20.00 },
-        { id: 2, nome: "Óleo para barba", descricao: "Hidrata e amacia a barba", preco: 30.00 },
-        { id: 3, nome: "Shampoo para barba", descricao: "Limpa e refresca a barba", preco: 15.00 },
-    ];
 
-    const adicionarAoCarrinho = (produto, quantidade) => {
-        const itemCarrinho = {
-            produto,
-            quantidade,
-            precoTotal: produto.preco * quantidade
-        };
-        setCarrinho([...carrinho, itemCarrinho]);
-    };
+export default function ProdutosCliente() {
+  const [produtos, setProdutos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { carrinho, setCarrinho, setNotification } = useStateContext();
 
-    return (
-        <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
-            <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-                <h2>Produtos</h2>
-            </div>
-            <div style={{display: 'flex', flexWrap: "wrap", justifyContent: "center"}}>
-                {produtos.map(produto => (
-                    <div key={produto.id} style={{padding: "20px", display: "flex", flexDirection: "column"}}>
-                        <h3>{produto.nome}</h3>
-                        <p>{produto.descricao}</p>
-                        <p><strong>Preço:</strong> € {produto.preco.toFixed(2)}</p>
-                        <label>
-                            Quantidade: {' '}
-                            <input name="quanti" type="number" min="1" defaultValue="1" onChange={(e) => setQuantidade(Number(e.target.value))} />
-                        </label>
-                        <button style={{marginTop: "10px"}} onClick={() => adicionarAoCarrinho(produto, quantidade)}>Adicionar ao Carrinho</button>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+  useEffect(() => {
+    getProdutos();
+  }, []);
+
+  const handleAddToCart = (produto, quantidade) => {
+    const index = carrinho.findIndex(item => item.id === produto.id);
+    if (index === -1) {
+      setCarrinho([...carrinho, { ...produto, quantidade }]);
+    } else {
+      const updatedCart = [...carrinho];
+      updatedCart[index].quantidade += quantidade;
+      setCarrinho(updatedCart);
+    }
+    setNotification(`${produto.nome} adicionado ao carrinho!`);
+  };
+
+  const getProdutos = () => {
+    setLoading(true);
+    axiosClient.get("/produtos")
+      .then(({ data }) => {
+        setLoading(false);
+        setProdutos(data.data);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  return (
+    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
+      <h2>Produtos</h2>
+      <div className="card animated fadeInDown" style={{ display: "grid", gridTemplateColumns: "50% 50%", gap: "10px" }}>
+        {loading && (
+          <div className="text-center">
+            Loading...
+          </div>
+        )}
+        {!loading && (
+          <>
+            {produtos.map(produto => (
+              <div key={produto.id} style={{ display: "grid", gridTemplateRows: "1fr auto auto", border: "1px solid gray", padding: "10px", borderRadius: "5px" }}>
+                <div>{produto.nome}</div>
+                <div>{`${produto.preco} €`}</div>
+                <div>
+                  <div style={{ display: "flex" }}>
+                    <input
+                      type="number"
+                      min="1"
+                      max={produto.quantidade}
+                      onChange={e => {
+                        const quantidade = parseInt(e.target.value);
+                        if (quantidade > produto.quantidade) {
+                          setNotification(`Quantidade de stoque insuficiente (${produto.quantidade} disponíveis)`);
+                        } else {
+                          handleAddToCart(produto, quantidade);
+                        }
+                      }}
+                      style={{ width: "50px", marginRight: "10px" }}
+                    />
+                    <button onClick={() => handleAddToCart(produto, 1)}>Adicionar ao carrinho</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
 }

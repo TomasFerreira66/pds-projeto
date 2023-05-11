@@ -17,7 +17,7 @@ export default function UserForm() {
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [filtro, setFiltro] = useState("Todos") // novo estado para armazenar o tipo de filtro selecionado
+  const [filtro, setFiltro] = useState("Todos") 
   const {setNotification} = useStateContext()
 
   if (id) {

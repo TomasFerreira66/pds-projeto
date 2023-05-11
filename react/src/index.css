@@ -590,3 +590,13 @@ table > tbody > tr > td {
     background-color: #0ACF83;
   }
   
+  .produtos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .produto {
+    width: 33.3%;
+    padding: 20px;
+  }
