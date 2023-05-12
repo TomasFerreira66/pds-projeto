@@ -64,7 +64,7 @@ input {
 
 
 input:focus {
-    border-color: #0ACF83;
+    border-color: #08aa6c;
 }
 
 .btn,
@@ -74,7 +74,7 @@ input:focus {
     border-radius: 15px;
     font-family: "Roboto", sans-serif;
     outline: 0;
-    background: #0ACF83;
+    background: #08aa6c;
     border: 0;
     text-decoration: none;
     padding: 15px;
@@ -89,9 +89,9 @@ input:focus {
     border-radius: 15px;
     font-family: "Roboto", sans-serif;
     outline: 0;
-    background: #0ACF83;
+    background: #08aa6c;
     border: 0;
-    padding: 15px;
+    padding: 10px;
     color: #FFFFFF;
     font-size: 16px;
     transition: all 0.3 ease;
@@ -106,7 +106,7 @@ input:focus {
     border-radius: 15px;
     font-family: "Roboto", sans-serif;
     outline: 0;
-    background: #0ACF83;
+    background: #08aa6c;
     border: 0;
     text-decoration: none;
     padding: 15px;
@@ -121,7 +121,7 @@ input:focus {
     border-radius: 15px;
     font-family: "Roboto", sans-serif;
     outline: 0;
-    background: #0ACF83;
+    background: #08aa6c;
     border: 0;
     text-decoration: none;
     padding: 15px;
@@ -144,7 +144,7 @@ input:focus {
     border-radius: 4px;
 }
 .btn-add {
-    background-color: #00a762;
+    background-color: #08aa6c;
     font-weight: bold;
     
 }
@@ -154,7 +154,7 @@ input:focus {
 }
 .btn-edit {
     margin-right: 3px;
-    background-color: #00a762;
+    background-color: #08aa6c;
 }
 
 .btn-logout {
@@ -172,7 +172,7 @@ input:focus {
   border-radius: 15px;
   font-family: "Roboto", sans-serif;
   outline: 0;
-  background: #0ACF83;
+  background: #08aa6c;
   border: 0;
   padding: 15px;
   color: #FFFFFF;
@@ -188,7 +188,7 @@ input:focus {
 
 .btn:active,
 .btn:focus {
-    background: #43b485;
+    background: #08aa6c;
 }
 
 .text-center {
@@ -248,7 +248,7 @@ table > tbody > tr > td {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:#00a762; 
+    background-color:#08aa6c; 
 }
 
 .login-signup-form .form {
@@ -276,7 +276,7 @@ table > tbody > tr > td {
 }
 
 .login-signup-form .form .message a {
-    color: #0ACF83;
+    color: #08aa6c;
     text-decoration: none;
 }
 
@@ -289,7 +289,7 @@ table > tbody > tr > td {
 
 #defaultLayout aside {
     width: 240px;
-    background-color: #0ACF83;
+    background-color: #08aa6c;
     padding: 1rem
 }
 
@@ -387,7 +387,7 @@ table > tbody > tr > td {
     padding: 3px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    background-color: #00a762;
+    background-color: #08aa6c;
     font-size: 16px;
     font-weight:bolder;
     line-height: 1.5;
@@ -457,7 +457,7 @@ table > tbody > tr > td {
     padding: 3px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    background-color: #00a762;
+    background-color: #08aa6c;
     font-size: 16px;
     font-weight: bold;
     line-height: 1.5;
@@ -497,15 +497,15 @@ table > tbody > tr > td {
   }
 
   [name="especialidade"]:focus {
-    border: 2px solid #0ACF83;
+    border: 2px solid #08aa6c;
   }
 
   [name="especialidade"] option:checked:focus {
-    border: 2px solid #0ACF83;
+    border: 2px solid #08aa6c;
   }
   
   [name="especialidade"] option:checked {
-    border: px solid #0ACF83;
+    border: px solid #08aa6c;
   }
 
   
@@ -521,15 +521,15 @@ table > tbody > tr > td {
   }
 
   .dropdown-servico:focus {
-    border: 2px solid #0ACF83;
+    border: 2px solid #08aa6c;
   }
 
   .dropdown-servico option:checked:focus {
-    border: 2px solid #0ACF83;
+    border: 2px solid #08aa6c;
   }
   
   .dropdown-servico option:checked {
-    border: px solid #0ACF83;
+    border: px solid #08aa6c;
   }
 
 
@@ -546,15 +546,15 @@ table > tbody > tr > td {
   }
 
   .dropdown-barbeiro:focus {
-    border: 2px solid #0ACF83;
+    border: 2px solid #08aa6c;
   }
 
   .dropdown-barbeiro option:checked:focus {
-    border: 2px solid #0ACF83;
+    border: 2px solid #08aa6c;
   }
   
   .dropdown-barbeiro option:checked {
-    border: px solid #0ACF83;
+    border: px solid #08aa6c;
   }
   [name="quanti"]{
   padding: 4px;
@@ -581,13 +581,13 @@ table > tbody > tr > td {
     font-size: 20px;
     text-decoration: none;
     color: #fff;
-    background-color: #0ACF83;
+    background-color: #08aa6c;
     border-radius: 5px;
     box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
   }
   
   .menu a:hover {
-    background-color: #0ACF83;
+    background-color: #08aa6c;
   }
   
   .produtos-container {
