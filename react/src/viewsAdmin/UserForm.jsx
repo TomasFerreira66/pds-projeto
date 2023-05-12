@@ -94,7 +94,7 @@ export default function UserForm() {
             <option value="Corte + Barba">Corte + Barba</option>
           </select>
           <br></br><br></br>
-          <button className="btn">Adicionar barbeiro</button>
+          <button className="btn">Guardar</button>
         </form>
         
         )}

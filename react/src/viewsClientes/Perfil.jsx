@@ -65,8 +65,8 @@ export default function Perfil() {
 
   return (
     <>
-      {user.id && <h1>Editar utilizador: {user.name}</h1>}
-      
+    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
+      <h2>Informações da conta</h2>
       <div className="card animated fadeInDown">
         {loading && (
           <div className="text-center">
@@ -87,12 +87,11 @@ export default function Perfil() {
           <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
           <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirmar palavra-passe"/>
           <br></br><br></br>
-          <button className="btn">Guardar</button>
+          <button className="btn">Guardar alterações</button>
         </form>
-        
         )}
       </div>
-      
+      </div>
     </>
     
   )
