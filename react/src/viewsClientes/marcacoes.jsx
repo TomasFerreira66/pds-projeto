@@ -9,6 +9,7 @@ export default function Marcacoes() {
   const { setNotification } = useStateContext();
   const [barbeiros, setBarbeiros] = useState({});
   const { id } = useParams();
+  const { user } = useStateContext();
 
   const getBarbeiro = (marcacoes) => {
     const barbeiroIds = [...new Set(marcacoes.map((marcacao) => marcacao.idBarbeiro))];
@@ -59,6 +60,7 @@ export default function Marcacoes() {
     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
       <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
         <h2>As suas marcações</h2>
+        <Link className="btn-add" to={`/novaMarcacao/${user.id}`}>Nova marcação</Link>
       </div>
       <div className="card animated fadeInDown">
         <table>

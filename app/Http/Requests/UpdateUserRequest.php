@@ -32,9 +32,9 @@ class UpdateUserRequest extends FormRequest
                 Password::min(5)
                     ->letters(),
                     
-            ], // Add a closing square bracket here
-            'tipo' => ['required', 'string'],
-            
+            ], 
+            'tipo' => ['required', 'string']
+           
         ];
     }
 }    
