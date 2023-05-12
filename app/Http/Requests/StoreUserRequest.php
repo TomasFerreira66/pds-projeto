@@ -35,6 +35,7 @@ class StoreUserRequest extends FormRequest
         ],
         'tipo' => ['required', 'string'],
         'especialidade' => ['required', 'string'],
+      
     ];
 }
 }
