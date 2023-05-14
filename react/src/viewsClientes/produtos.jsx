@@ -89,8 +89,8 @@ export default function Produtos() {
       <div style={{ display: 'flex', alignItems: 'center' }}>
       <input type="text" placeholder="Pesquisar" value={searchTerm} onChange={handleSearch} style={{ marginRight: '10px',  marginBottom: '-15px' }} />
         <select name="ordenar1" value={sortOrder} onChange={handleSortChange}>
-          <option value="desc">Barato para Caro</option>
-          <option value="asc">Caro para Barato</option>
+          <option value="desc">Preço: Mais baixo para mais alto</option>
+          <option value="asc">Preço: Mais alto para mais baixo</option>
         </select>
 </div>
 
