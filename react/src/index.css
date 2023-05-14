@@ -478,6 +478,36 @@ table > tbody > tr > td {
     transition: all 0.3s ease;
   }
 
+  [name="ordenar1"] {
+    padding: 3px;
+    border-radius: 4px;
+    border: 2px solid #08aa6c;
+    background-color: rgba(255, 255, 255, 0.856);
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+    color: black;
+    width: 100px;
+    margin-left: 10px;
+  }
+
+  [name="ordenar1"] option {
+    color: #495057;
+    background-color: #fff;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    
+  }
+  select[name="ordenar1"] {
+    height: 30px;
+    width: 170px;
+    
+  }
   [name="especialidade"] {
    
     border: 2px solid #ccc;

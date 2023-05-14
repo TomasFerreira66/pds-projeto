@@ -8,6 +8,7 @@ export default function Produtos() {
   const { carrinho, setCarrinho, setNotification } = useStateContext();
   const [filter, setFilter] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
     getProdutos();
@@ -22,7 +23,12 @@ export default function Produtos() {
       setProdutos(data);
     });
   }
+  const handleSortChange = (event) => {
+    setSortOrder(event.target.value);
+    sortProdutos(event.target.value);
+  };
   
+
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);
     let url = '/produtos';
@@ -38,6 +44,19 @@ export default function Produtos() {
         setLoading(false);
       });
   };
+  
+  const sortProdutos = (order) => {
+    let sortedProdutos = [...produtos];
+    sortedProdutos.sort((a, b) => {
+      if (order === "desc") {
+        return a.preco - b.preco;
+      } else {
+        return b.preco - a.preco;
+      }
+    });
+    setProdutos(sortedProdutos);
+  };
+  
   
   const handleAddToCart = (produto, quantidade) => {
     const index = carrinho.findIndex(item => item.id === produto.id);
@@ -63,11 +82,18 @@ export default function Produtos() {
   );
 
   return (
-    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
+    <div style={{ marginLeft: "100px", marginRight: "100px"}}>
       <h2>Produtos</h2>
       <br />
       <div>
-        <input type="text" placeholder="Pesquisar" value={searchTerm} onChange={handleSearch} />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <input type="text" placeholder="Pesquisar" value={searchTerm} onChange={handleSearch} style={{ marginRight: '10px',  marginBottom: '-15px' }} />
+        <select name="ordenar1" value={sortOrder} onChange={handleSortChange}>
+          <option value="desc">Barato para Caro</option>
+          <option value="asc">Caro para Barato</option>
+        </select>
+</div>
+
       </div>
       <br />
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
