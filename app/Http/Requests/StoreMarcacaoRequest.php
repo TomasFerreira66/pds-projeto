@@ -25,7 +25,8 @@ class StoreMarcacaoRequest extends FormRequest
             'servico' => 'required|string|max:55',
             //'data' => 'required|unique:marcacoes,data',
             'idBarbeiro' => 'required',
-            'idCliente' => 'required'
+            'idCliente' => 'required',
+            'estado' => 'required'
         ];
     }
 }

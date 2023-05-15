@@ -20,6 +20,7 @@ class MarcacaoResource extends JsonResource
             'data' => $this->data,
             'idBarbeiro' => $this->idBarbeiro,
             'idCliente' => $this->idCliente,
+            'estado' => $this->estado,
         ];
     }
 }

@@ -25,7 +25,8 @@ class UpdateMarcacaoRequest extends FormRequest
             'servico' => 'required',
             'data' => 'required|unique:marcacoes,data'.$this->id,
             'idBarbeiro' => 'required',
-            'idCliente' => 'required'
+            'idCliente' => 'required',
+            'estado' => 'required'
         ];
     }
 }
