@@ -12,6 +12,7 @@ import EstatisticasBarbeiros from "./viewsAdmin/EstatisticasBarbeiros.jsx";
 import EstatisticasProdutos from "./viewsAdmin/EstatisticasProdutos.jsx";
 import AdicionarProduto from "./viewsAdmin/AdicionarProduto.jsx";
 import ListaProdutos from "./viewsAdmin/ListaProdutos.jsx";
+import VerMarcacoes from "./viewsAdmin/VerMarcacoes.jsx";
 
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
@@ -25,7 +26,7 @@ import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 import Carrinho from "./viewsClientes/carrinho.jsx";
 import Contactosguest from "./viewsClientes/ContactosGuest.jsx";
 //barbeiro
-import Agenda from "./viewsBarbeiro/Agenda.jsx";
+import Agenda from "./viewsBarbeiro/agenda.jsx";
 
 
 const router = createBrowserRouter([
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
         {
           path: '/estatisticasProdutos',
           element: <EstatisticasProdutos/>
+        },
+        {
+          path: '/verMarcacoes',
+          element: <VerMarcacoes/>
         },
         {
           path: '/adicionarProduto',

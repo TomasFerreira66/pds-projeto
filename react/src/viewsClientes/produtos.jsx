@@ -48,7 +48,7 @@ export default function Produtos() {
   const sortProdutos = (order) => {
     let sortedProdutos = [...produtos];
     sortedProdutos.sort((a, b) => {
-      if (order === "desc") {
+      if (order === "asc") {
         return a.preco - b.preco;
       } else {
         return b.preco - a.preco;
@@ -89,8 +89,8 @@ export default function Produtos() {
       <div style={{ display: 'flex', alignItems: 'center' }}>
       <input type="text" placeholder="Pesquisar" value={searchTerm} onChange={handleSearch} style={{ marginRight: '10px',  marginBottom: '-15px' }} />
         <select name="ordenar1" value={sortOrder} onChange={handleSortChange}>
-          <option value="desc">Preço: Mais baixo para mais alto</option>
-          <option value="asc">Preço: Mais alto para mais baixo</option>
+          <option value="asc">Preço: Mais baixo para mais alto</option>
+          <option value="desc">Preço: Mais alto para mais baixo</option>
         </select>
 </div>
 
