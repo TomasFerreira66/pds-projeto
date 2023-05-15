@@ -14,6 +14,7 @@ export default function Marcacaos() {
 
   useEffect(() => {
     getMarcacaos();
+    getUsers();
   }, [])
   
   const handleFilterChange = (event) => {
@@ -37,22 +38,56 @@ export default function Marcacaos() {
         getMarcacaos(filter)
       })
   }
+  const getUsers = () => {
+    axiosClient.get("/users")
+      .then(({ data }) => {
+        const usersMap = {};
+        data.forEach(user => {
+          usersMap[user.id] = user.name; // Assuming `name` is the property that holds the user's name
+        });
+        setClientes(usersMap);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   const getMarcacaos = (filter = 'Todos') => {
-    setLoading(true)
+    setLoading(true);
     let url = '/marcacaos';
     if (filter !== 'Todos') {
       url += `?servico=${filter}`;
     }
     axiosClient.get(url)
       .then(({ data }) => {
-        setLoading(false)
-        setMarcacaos(data.data)
+        setLoading(false);
+        setMarcacaos(data.data);
+  
+        const uniqueUserIds = [...new Set(data.data.map(marcacao => [marcacao.idBarbeiro, marcacao.idCliente]).flat())];
+        const userPromises = uniqueUserIds.map(userId => {
+          return axiosClient.get(`/users/${userId}`);
+        });
+  
+        Promise.all(userPromises)
+          .then(responses => {
+            const userMap = {};
+            responses.forEach(response => {
+              const user = response.data;
+              userMap[user.id] = user.name;
+            });
+            setClientes(userMap);
+          })
+          .catch(() => {
+            setClientes({});
+          });
       })
       .catch(() => {
-        setLoading(false)
-      })
-  }
+        setLoading(false);
+        setMarcacaos([]);
+        setClientes({});
+      });
+  };
+  
   
   const sortMarcacaos = (order) => {
     let sortedMarcacaos = [...marcacaos];
@@ -112,9 +147,15 @@ export default function Marcacaos() {
               <tr key={marcacao.id}>
                 <td>{marcacao.id}</td>
                 <td>{marcacao.servico}</td>
-                <td>{marcacao.data}</td>
-                <td>{clientes[marcacao.idBarbeiro] || "-"}</td>
-                <td>{clientes[marcacao.idCliente] || "-"}</td>               
+                <td>{new Date (marcacao.data).toLocaleString("pt-PT", {
+                          day: "numeric",
+                          month: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "numeric"
+                        })}</td>
+                <td>{clientes[marcacao.idBarbeiro]}</td>
+                <td>{clientes[marcacao.idCliente]}</td>            
                 <td>        
                   <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
                 </td>
