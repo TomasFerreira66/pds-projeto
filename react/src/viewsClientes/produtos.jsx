@@ -6,7 +6,6 @@ export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const { carrinho, setCarrinho, setNotification } = useStateContext();
-  const [filter, setFilter] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState("desc");
 
@@ -14,15 +13,7 @@ export default function Produtos() {
     getProdutos();
   }, [])
   
-  const handleFilterChange = (event) => {
-    const newFilter = event.target.value;
-    setLoading(true);
-    setFilter(newFilter);
-    getProdutos(newFilter, (data) => {
-      setLoading(false);
-      setProdutos(data);
-    });
-  }
+ 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
     sortProdutos(event.target.value);
