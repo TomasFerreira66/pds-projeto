@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MarcacaoController;
 use App\Http\Controllers\Api\ProdutoController;
+use App\Http\Controllers\Api\CarrinhoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/users', UserController::class);
     Route::apiResource('/marcacaos', MarcacaoController::class);
     Route::apiResource('/produtos', ProdutoController::class);
+    Route::apiResource('/carrinho', CarrinhoController::class);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
