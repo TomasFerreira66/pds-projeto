@@ -100,7 +100,6 @@ export default function ListaProdutos() {
                 <td>{produto.quantidade}</td>  
                 <td>{produto.tipo}</td>        
                 <td>
-                  <Link to={`/produtos/${produto.id}`} className="btn-edit">Editar</Link>
                   <button onClick={() => onDeleteClick(produto)} className="btn-delete">Apagar</button>
                 </td>
               </tr>
