@@ -7,9 +7,11 @@ export default function UserDropdown() {
   const [selectedUser, setSelectedUser] = useState('Todos'); // Updated default option value
   const [userNames, setUserNames] = useState([]);
   const [barbeiroUsers, setBarbeiroUsers] = useState([]);
+  const [marcacaos, setMarcacaos] = useState([]);
 
   useEffect(() => {
     getUsers();
+    getMarcacaos();
   }, []);
 
   const getUsers = () => {
@@ -23,8 +25,19 @@ export default function UserDropdown() {
         setUsersList(names);
         setUserNames(names);
         setBarbeiroUsers(barbeiroUsers);
-        console.log('Filtered users:', barbeiroUsers);
-        console.log('User names:', names);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const getMarcacaos = () => {
+    setLoading(true);
+    axiosClient
+      .get('/marcacaos')
+      .then(({ data }) => {
+        setLoading(false);
+        setMarcacaos(data.data);
       })
       .catch(() => {
         setLoading(false);
@@ -36,7 +49,7 @@ export default function UserDropdown() {
   return (
     <div>
       <select
-        name="ordenar1"
+        className="btn-marcacao"
         style={{ textAlign: 'center' }}
         value={selectedUser}
         onChange={e => setSelectedUser(e.target.value)}
@@ -49,20 +62,19 @@ export default function UserDropdown() {
         ))}
       </select>
 
-
-
       <div className="card animated fadeInDown">
         <table>
           <thead>
             <tr>
               <th>ID</th>
               <th>Barbeiro</th>
+              <th>Numero de marcações</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="2" className="text-center">
+                <td colSpan="3" className="text-center">
                   Loading...
                 </td>
               </tr>
@@ -71,6 +83,7 @@ export default function UserDropdown() {
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
+                  <td>{marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id).length}</td>
                 </tr>
               ))
             )}
