@@ -482,11 +482,11 @@ table > tbody > tr > td {
     padding: 3px;
     border-radius: 4px;
     border: 2px solid #08aa6c;
-    background-color: rgba(255, 255, 255, 0.856);
+    background-color: #08aa6c;
     font-size: 16px;
     font-weight: bold;
     line-height: 1.5;
-    color: black;
+    color: white;
     width: 100px;
     margin-left: 10px;
   }
@@ -504,6 +504,39 @@ table > tbody > tr > td {
     
   }
   select[name="ordenar1"] {
+    height: 30px;
+    width: 275px;
+    
+  }
+
+
+
+  [name="ordenar2"] {
+    padding: 3px;
+    border-radius: 4px;
+    border: 2px solid #08aa6c;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+    color: black;
+    width: 100px;
+    margin-left: 10px;
+  }
+
+  [name="ordenar2"] option {
+    color: #495057;
+    background-color: #fff;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    
+  }
+  select[name="ordenar2"] {
     height: 30px;
     width: 275px;
     

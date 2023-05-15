@@ -36,7 +36,7 @@ export default function UserDropdown() {
   return (
     <div>
       <select
-        className="btn-marcacao"
+        name="ordenar1"
         style={{ textAlign: 'center' }}
         value={selectedUser}
         onChange={e => setSelectedUser(e.target.value)}
