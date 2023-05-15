@@ -9,6 +9,8 @@ export default function Marcacaos() {
   const {setNotification} = useStateContext();
   const [filter, setFilter] = useState('Todos');
   const [sortOrder, setSortOrder] = useState("desc");
+  const [clientes, setClientes] = useState({});
+  
 
   useEffect(() => {
     getMarcacaos();
@@ -103,7 +105,7 @@ export default function Marcacaos() {
               </td>
             </tr>
             </tbody>
-          }
+          }     
           {!loading &&
             <tbody>
             {marcacaos.filter(marcacao => filter === 'Todos' || marcacao.servico === filter).map(marcacao => (
@@ -111,8 +113,8 @@ export default function Marcacaos() {
                 <td>{marcacao.id}</td>
                 <td>{marcacao.servico}</td>
                 <td>{marcacao.data}</td>
-                <td>{marcacao.idBarbeiro}</td>
-                <td>{marcacao.idCliente}</td>               
+                <td>{clientes[marcacao.idBarbeiro] || "-"}</td>
+                <td>{clientes[marcacao.idCliente] || "-"}</td>               
                 <td>        
                   <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
                 </td>
