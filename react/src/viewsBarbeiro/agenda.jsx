@@ -105,7 +105,7 @@ export default function Agenda() {
                         })}
                       </td>
                     <td>
-                    <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
+                    <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar marcação</button>
                     </td>
                   </tr>
                 ))}

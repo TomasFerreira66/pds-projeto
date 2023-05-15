@@ -22,6 +22,7 @@ export default function NovaMarcacao() {
     data: new Date(), 
     idBarbeiro: '',
     idCliente: id,
+    estado: 'Ativo',
   })
   
   useEffect(() => {
