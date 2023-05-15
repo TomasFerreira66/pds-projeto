@@ -106,7 +106,7 @@ export default function Marcacaos() {
   return (
     <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h2>Marcaçoes</h2>
+        <h2>Marcações</h2>
         <div>
           <select name="filtro" value={filter} onChange={handleFilterChange}>
             <option value="Todos">Todos</option>
@@ -129,7 +129,6 @@ export default function Marcacaos() {
             <th>Data</th>
             <th>Barbeiro</th>
             <th>Cliente</th>           
-            <th>Ações</th>
           </tr>
           </thead>
           {loading &&
@@ -156,9 +155,6 @@ export default function Marcacaos() {
                         })}</td>
                 <td>{clientes[marcacao.idBarbeiro]}</td>
                 <td>{clientes[marcacao.idCliente]}</td>            
-                <td>        
-                  <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
-                </td>
               </tr>
             ))}
             </tbody>

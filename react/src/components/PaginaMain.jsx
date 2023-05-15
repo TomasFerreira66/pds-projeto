@@ -52,9 +52,9 @@ export default function PaginaMain() {
           <Link to="/stock">Stock</Link>
           <Link to="/pedidos">Pedidos</Link>
           <Link to="/listaProdutos">Produtos</Link>
+          <Link to="/verMarcacoes">Marcações</Link>
           <Link to="/estatisticasBarbeiros">Estatísticas Barbeiro</Link>
           <Link to="/estatisticasProdutos">Estatísticas Produtos</Link>
-          <Link to="/verMarcacoes">Marcaçoes</Link>
         </aside>
       )}
       {user.tipo === "Barbeiro" && (
