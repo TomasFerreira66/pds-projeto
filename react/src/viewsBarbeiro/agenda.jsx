@@ -44,7 +44,7 @@ export default function Agenda() {
   }, []);
 
 
-  //esta merda nao ta a dar
+  
   const onDeleteClick = marcacao => {
     console.log(marcacao); // add this line to check the `marcacao` object
     if (!window.confirm("Are you sure you want to delete this user?")) {
