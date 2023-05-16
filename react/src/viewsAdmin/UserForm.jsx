@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
 
+import Axios from "axios";
+
 export default function UserForm() {
   const navigate = useNavigate();
   let {id} = useParams();
@@ -19,6 +21,13 @@ export default function UserForm() {
   const [loading, setLoading] = useState(false)
   const [filtro, setFiltro] = useState("Todos") 
   const {setNotification} = useStateContext()
+  const [imageData, setImagedata] = useState('')
+
+  const handleChange = file => {
+
+    setImagedata(file[0]);
+    
+      }
 
   if (id) {
     useEffect(() => {
@@ -34,34 +43,53 @@ export default function UserForm() {
     }, [])
   }
 
-  const onSubmit = ev => {
-    ev.preventDefault()
-    if (user.id) {
-      axiosClient.put(`/users/${user.id}`, user)
-        .then(() => {
-          setNotification('Utilizador editado com sucesso')
-          navigate('/users')
-        })
-        .catch(err => {
-          const response = err.response;
-          if (response && response.status === 422) {
-            setErrors(response.data.errors)
-          }
-        })
-    } else {
-      axiosClient.post('/users', user)
-        .then(() => {
-          setNotification('Utilizador criado com sucesso')
-          navigate('/users')
-        })
-        .catch(err => {
-          const response = err.response;
-          if (response && response.status === 422) {
-            setErrors(response.data.errors)
-          }
-        })
-    }
+ const onSubmit = ev => {
+  ev.preventDefault();
+  if (user.id) {
+    axiosClient
+      .put(`/users/${user.id}`, user)
+      .then(() => {
+        setNotification('Utilizador editado com sucesso');
+        navigate('/users');
+      })
+      .catch(err => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          setErrors(response.data.errors);
+        }
+      });
+  } else {
+    axiosClient
+      .post('/users', user)
+      .then(() => {
+        setNotification('Utilizador criado com sucesso');
+        navigate('/users');
+      })
+      .catch(err => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          setErrors(response.data.errors);
+        }
+      });
   }
+
+  const fData = new FormData();
+  fData.append('name', user.name); // Append the user name to FormData
+  fData.append('image', imageData);
+
+  Axios.post('http://127.0.0.1:8000/api/upload-image', fData)
+    .then(res => {
+      console.log('response', res);
+    })
+    .catch(e => {
+      console.error('Failure', ev);
+    });
+};
+
+  
+  
+
+  
 
   return (
     <>
@@ -92,7 +120,9 @@ export default function UserForm() {
             <option value="Corte">Corte</option>
             <option value="Barba">Barba</option>
             <option value="Corte + Barba">Corte + Barba</option>
-          </select>
+          </select>  
+          <input name="image" id="image" type="file" onChange={e => handleChange(e.target.files)}/>
+    
           <br></br><br></br>
           <button className="btn">Guardar</button>
         </form>

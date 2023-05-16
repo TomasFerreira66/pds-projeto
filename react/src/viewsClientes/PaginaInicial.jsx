@@ -19,13 +19,13 @@ export default function PaginaInicial() {
         .then(({ data }) => {
           const barbeirosList = data.data.filter(user => user.tipo === 'Barbeiro').map(barbeiro => ({
             ...barbeiro,
-            imgUrl: `../src/img/${barbeiro.id}.png`
+            imgUrl: 'C:/Users/tomas/OneDrive/Documents/GitHub/pds-projeto/public/storage/images/' + barbeiro.name + '.jpg'
           }));
           setBarbeiros(barbeirosList);
         })
         .catch(() => {
         })
-    }    
+    }
   
     return (
       <div className='card animated fadeInDown' style={{ marginLeft: '100px' , marginRight: '100px'}}>
