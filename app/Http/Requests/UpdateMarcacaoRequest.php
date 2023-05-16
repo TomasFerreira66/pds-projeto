@@ -22,11 +22,11 @@ class UpdateMarcacaoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'servico' => 'required',
-            'data' => 'required|unique:marcacoes,data'.$this->id,
-            'idBarbeiro' => 'required',
-            'idCliente' => 'required',
-            'estado' => 'required'
+            'servico',
+            'data',
+            'idBarbeiro',
+            'idCliente',
+            'estado' => 'required',
         ];
     }
 }

@@ -14,16 +14,16 @@ export default function Agenda() {
     const clienteIds = [...new Set(marcacoes.map((marcacao) => marcacao.idCliente))];
     const promises = clienteIds.map((id) => axiosClient.get(`/users/${id}`));
     Promise.all(promises)
-    .then((responses) => {
-      const newClientes = {};
-      responses.forEach((response) => {
-        newClientes[response.data.id] = response.data.name;
+      .then((responses) => {
+        const newClientes = {};
+        responses.forEach((response) => {
+          newClientes[response.data.id] = response.data.name;
+        });
+        setClientes(newClientes);
+      })
+      .catch(() => {
+        setClientes({});
       });
-      setClientes(newClientes);
-    })
-    .catch(() => {
-      setClientes({});
-    });
   };
 
   const getMarcacoes = () => {
@@ -43,10 +43,19 @@ export default function Agenda() {
     getMarcacoes();
   }, []);
 
-
+  const concluirMarcacao = (marcacao) => {
+    axiosClient.put(`/marcacaos/${marcacao.id}`, { estado: 'Concluído' })
+      .then(() => {
+        setNotification('Marcação concluída com sucesso');
+        getMarcacoes();
+      })
+      .catch(() => {
+        setNotification('Ocorreu um erro ao concluir a marcação');
+      });
+  };
   
   const onDeleteClick = marcacao => {
-    console.log(marcacao); // add this line to check the `marcacao` object
+    console.log(marcacao);
     if (!window.confirm("Are you sure you want to delete this user?")) {
       return
     }
@@ -59,7 +68,6 @@ export default function Agenda() {
         setNotification('There was an error while canceling the marcação')
       });
   }
-  
 
   return (
     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
@@ -74,6 +82,7 @@ export default function Agenda() {
               <th>Serviço</th>
               <th>Cliente</th>
               <th>Data</th>
+              <th>Estado</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -82,7 +91,7 @@ export default function Agenda() {
               <tr>
                 <td colSpan="6" className="text-center">
                   Loading...
-              </td>
+                </td>
               </tr>
             </tbody>
           }
@@ -96,16 +105,19 @@ export default function Agenda() {
                     <td>{marcacao.servico}</td>
                     <td>{clientes[marcacao.idCliente] || "-"}</td>
                     <td>
-                        {new Date (marcacao.data).toLocaleString("pt-PT", {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "numeric"
-                        })}
-                      </td>
+                      {new Date(marcacao.data).toLocaleString("pt-PT", {
+                        day: "numeric",
+                        month: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "numeric"
+                      })}
+                    </td>
+                    <td>{marcacao.estado}</td>
                     <td>
-                    <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar marcação</button>
+                      <button onClick={() => concluirMarcacao(marcacao)} className="btn-add">Concluir</button>
+                      &nbsp;
+                      <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
                     </td>
                   </tr>
                 ))}
@@ -114,5 +126,5 @@ export default function Agenda() {
         </table>
       </div>
     </div>
-  )
-}
+  );
+        }  
