@@ -85,7 +85,7 @@ export default function Marcacoes() {
           {!loading &&
             <tbody>
               {users
-                .filter(marcacao => marcacao.idCliente === Number(id))
+                .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Ativo")
                 .map(marcacao => {
                   return (
                     <tr key={marcacao.id}>

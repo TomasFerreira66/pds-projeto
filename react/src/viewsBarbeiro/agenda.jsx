@@ -98,7 +98,8 @@ export default function Agenda() {
           {!loading &&
             <tbody>
               {marcacaos
-                .filter(marcacao => marcacao.idBarbeiro === Number(id))
+             .filter(marcacao => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
+
                 .map(marcacao => (
                   <tr key={marcacao.id}>
                     <td>{marcacao.id}</td>
