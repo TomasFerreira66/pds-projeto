@@ -25,7 +25,7 @@ export default function Login() {
   
           setUser(data.user);
           setToken(data.token);
-          
+          localStorage.setItem('userId', data.user.id); // Armazena o ID do usuário na localStorage
       })
       .catch((err) => {
         const response = err.response;
