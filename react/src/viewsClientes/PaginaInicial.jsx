@@ -19,7 +19,7 @@ export default function PaginaInicial() {
         .then(({ data }) => {
           const barbeirosList = data.data.filter(user => user.tipo === 'Barbeiro').map(barbeiro => ({
             ...barbeiro,
-            imgUrl: 'C:/Users/tomas/OneDrive/Documents/GitHub/pds-projeto/public/storage/images/' + barbeiro.name + '.jpg'
+            imgUrl: 'src/img/' + barbeiro.name + '.png'
           }));
           setBarbeiros(barbeirosList);
         })

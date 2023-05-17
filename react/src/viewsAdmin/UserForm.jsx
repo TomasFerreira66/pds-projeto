@@ -74,7 +74,7 @@ export default function UserForm() {
   }
 
   const fData = new FormData();
-  fData.append('name', user.name); // Append the user name to FormData
+  fData.append('name', user.name);
   fData.append('image', imageData);
 
   Axios.post('http://127.0.0.1:8000/api/upload-image', fData)
@@ -121,7 +121,7 @@ export default function UserForm() {
             <option value="Barba">Barba</option>
             <option value="Corte + Barba">Corte + Barba</option>
           </select>  
-          <input name="image" id="image" type="file" onChange={e => handleChange(e.target.files)}/>
+          <input name="image" id="image" type="file" onChange={e => handleChange(e.target.files)} required />
     
           <br></br><br></br>
           <button className="btn">Guardar</button>
