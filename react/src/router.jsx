@@ -100,8 +100,8 @@ const router = createBrowserRouter([
           element: <Produtos/>
         },
         {
-          path: '/carrinho',
-          element: <Carrinho/>
+          path: '/carrinho/:id',
+          element: <Carrinho key="userUpdate"/>
         },
         {
           path: '/perfilMain',

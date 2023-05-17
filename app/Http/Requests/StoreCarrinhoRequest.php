@@ -22,9 +22,9 @@ class StoreCarrinhoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idProduto',
-            'idCliente',
-            'quantidadePedida'
+            'idProduto' => 'required',
+            'idCliente' => 'required',
+            'quantidadePedida' => 'required'
         ];
     }
 }

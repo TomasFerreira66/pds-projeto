@@ -19,9 +19,9 @@ export default function Produtos() {
     
   const [produtoEscolhido, setProdutoEscolhido] = useState({
     id:null,
-    idProduto:"1",
+    idProduto:'',
     idCliente: localStorage.getItem('userId'),
-    quantidadePedida: "1", 
+    quantidadePedida: '', 
     
   })
 
@@ -46,30 +46,25 @@ export default function Produtos() {
   
   const onSubmit = (ev, produtoId) => {
     ev.preventDefault();
-    setProdutoEscolhido(produtoEscolhido => ({
+    const updatedProdutoEscolhido = {
       ...produtoEscolhido,
       idProduto: produtoId.toString(),
-
-
-       
-    }));
-
-
-    console.log(produtoEscolhido);
-    
-
-    axiosClient.post('/carrinho', produtoEscolhido)
+    };
+  
+    console.log(updatedProdutoEscolhido);
+  
+    axiosClient.post('/carrinhos', updatedProdutoEscolhido)
       .then(() => {
-        setNotification('Marcação criada com sucesso')
-        navigate('/produto')
+        setNotification('Marcação criada com sucesso');
+        navigate('/produtos');
       })
       .catch(err => {
         const response = err.response;
         if (response && response.status === 422) {
-          setErrors(response.data.errors)
+          setErrors(response.data.errors);
         }
-      })
-  }
+      });
+  };
 
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);
@@ -143,7 +138,13 @@ export default function Produtos() {
               max={produto.quantidade}
               onChange={(ev) => setProdutoEscolhido({ ...produtoEscolhido, quantidadePedida:ev.target.value })}
             />
-            <button style={{width: 200, height: 50}} className="btn-login">Adicionar ao carrinho</button>
+            <button
+              style={{ width: 200, height: 50 }}
+              className="btn-login"
+              onClick={(event) => onSubmit(event, produto.id)}
+            >
+              Adicionar ao carrinho
+            </button>
         </div>
         </div>
            </form>
