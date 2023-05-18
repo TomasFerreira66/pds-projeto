@@ -92,7 +92,7 @@ input:focus {
     background: #08aa6c;
     border: 0;
     padding: 10px;
-    color: white;
+    color: #FFFFFF;
     font-size: 16px;
     transition: all 0.3 ease;
     cursor: pointer;
@@ -100,28 +100,7 @@ input:focus {
     margin-top: 20px;
     justify-content: center;
     align-items: center;
-   
-  } 
-
-  .btn-marcacao1 {
-    border-radius: 15px;
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #eceeed;
-    border: 0;
-    padding: 10px;
-    color: black;
-    font-size: 16px;
-    transition: all 0.3 ease;
-    cursor: pointer;
-    width: 300px;
-    margin-top: 20px;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
   }  
- 
-
 
 .btn-comprar{
     border-radius: 15px;
@@ -138,7 +117,20 @@ input:focus {
     width: 150px;
 }
 
-
+.btn-marcacao{
+    border-radius: 15px;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #08aa6c;
+    border: 0;
+    text-decoration: none;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 16px;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    width: 220px;
+}
 
 .btn-block {
     width: 100%;
@@ -248,7 +240,6 @@ table > tbody > tr > td {
     color: white;
     border-radius: 0.5rem;
 }
-
 
 /* Login/Signup forms*/
 
