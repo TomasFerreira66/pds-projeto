@@ -58,12 +58,12 @@ export default function Carrinho() {
   }, []);
 
   const onDeleteClick = carrinho => {
-    if (!window.confirm("De certeza que queres cancelar a tua marcação?")) {
+    if (!window.confirm("De certeza que queres retirar este produto do teu carrinho?")) {
       return;
     }
     axiosClient.delete(`/carrinhos/${carrinho.id}`)
       .then(() => {
-        setNotification('Marcação cancelada com sucesso');
+        setNotification('Produto removido com sucesso');
       });
       getCarrinho();
   };

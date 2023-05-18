@@ -8,7 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { carrinho, setCarrinho, setNotification } = useStateContext();
   const [filter, setFilter] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState("desc");
@@ -29,8 +28,8 @@ export default function Produtos() {
 
   useEffect(() => {
     getProdutos();
-  }, [])
-  
+  }, []);
+
   const handleFilterChange = (event) => {
     const newFilter = event.target.value;
     setLoading(true);
@@ -39,11 +38,14 @@ export default function Produtos() {
       setLoading(false);
       setProdutos(data);
     });
-  }
+  };
+
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
     sortProdutos(event.target.value);
   };
+
+
 
   const onSubmit = (ev, produtoId) => {
     ev.preventDefault();
@@ -51,14 +53,15 @@ export default function Produtos() {
       ...produtoEscolhido,
       idProduto: produtoId.toString(),
     };
-
+  
     // Verificar se a quantidade selecionada é maior do que a quantidade em stock
     if (parseInt(updatedProdutoEscolhido.quantidadePedida) > produtoEscolhido.quantidade) {
       const quantidadeDisponivel = produtoEscolhido.quantidade;
-      setNotification(`Quantidade indisponível, quantidade em stock : ${quantidadeDisponivel}`);
+      setNotification(`Quantidade indisponível, quantidade em stock: ${quantidadeDisponivel}`);
       return;
     }
-
+  
+    
     axiosClient
       .post('/carrinhos', updatedProdutoEscolhido)
       .then(() => {
@@ -72,7 +75,7 @@ export default function Produtos() {
         }
       });
   };
-
+  
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);
     let url = '/produtos';
