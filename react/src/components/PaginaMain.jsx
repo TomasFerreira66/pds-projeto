@@ -87,7 +87,7 @@ export default function PaginaMain() {
           <div>
           <Link to="/perfilMain" className="no-underline">{user.name}</Link> &nbsp; &nbsp;
           {user.tipo === 'Cliente' && (
-        <Link to="/carrinho" style={{marginRight:"10px"}}>
+        <Link to={`/carrinho/${user.id}`} style={{marginRight:"10px"}}>
           <img src="../src/img/carrinho.png" alt="Carrinho" width="30" height="23" />
         </Link>
       )}

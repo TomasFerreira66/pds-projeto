@@ -6,6 +6,7 @@ use App\Models\Carrinho;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCarrinhoRequest;
 use App\Http\Requests\UpdateCarrinhoRequest;
+use App\Http\Resources\CarrinhoResource;
 
 class CarrinhoController extends Controller
 {

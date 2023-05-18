@@ -83,6 +83,8 @@ export default function NovaMarcacao() {
        
     }));
 
+    console.log(marcacao);
+
     axiosClient.post('/marcacaos', marcacao)
       .then(() => {
         setNotification('Marcação criada com sucesso')
