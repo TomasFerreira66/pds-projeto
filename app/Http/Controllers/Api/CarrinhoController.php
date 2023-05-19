@@ -15,7 +15,7 @@ class CarrinhoController extends Controller
      */
     public function index()
     {
-        return CarrinhoResource::collection(Carrinho::query()->orderBy('id', 'desc')->paginate(10));
+        return CarrinhoResource::collection(Carrinho::query()->orderBy('id', 'desc')->paginate(100));
     }
 
     /**

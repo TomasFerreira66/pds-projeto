@@ -27,14 +27,33 @@ export default function Users() {
 
   const onDeleteClick = user => {
     if (!window.confirm("De certeza que queres eliminar este utilizador?")) {
-      return
+      return;
     }
+  
     axiosClient.delete(`/users/${user.id}`)
       .then(() => {
-        setNotification('Utilizador eliminado com sucesso')
-        getUsers(filter)
+        if (user.type === "Barbeiro") {
+          // Delete associated records in `/marcacaos` table
+          axiosClient.delete(`/marcacaos?idBarbeiro=${user.id}`)
+            .then(() => {
+              setNotification('Utilizador e registos associados eliminados com sucesso');
+              getUsers(filter);
+            })
+            .catch(error => {
+              console.error("Error deleting associated records:", error);
+              setNotification('Erro ao eliminar os registos associados');
+            });
+        } else {
+          setNotification('Utilizador eliminado com sucesso');
+          getUsers(filter);
+        }
       })
+      .catch(error => {
+        console.error("Error deleting user:", error);
+        setNotification('Erro ao eliminar o utilizador');
+      });
   }
+  
 
   const getUsers = (filter = 'Todos') => {
     setLoading(true)

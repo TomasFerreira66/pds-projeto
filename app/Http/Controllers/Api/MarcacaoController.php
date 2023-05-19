@@ -15,7 +15,7 @@ class MarcacaoController extends Controller
      */
     public function index()
     {
-        return MarcacaoResource::collection(Marcacao::query()->orderBy('id', 'desc')->paginate(10));
+        return MarcacaoResource::collection(Marcacao::query()->orderBy('id', 'desc')->paginate(100));
     }
 
     /**
