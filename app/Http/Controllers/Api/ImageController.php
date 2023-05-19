@@ -19,7 +19,8 @@ class ImageController extends Controller
             $file->storeAs('public/storage/images', $filename);
             
             // Copy the image to the react/src/img folder
-            $file->move('C:/Users/tomas/OneDrive/Documents/GitHub/pds-projeto/react/src/img', $filename);
+            $destinationPath = base_path('..') . '/pds-projeto/react/src/img';
+            $file->move($destinationPath, $filename);
             
             return response()->json(["message" => "Successfully uploaded an image"]);
         } else {
