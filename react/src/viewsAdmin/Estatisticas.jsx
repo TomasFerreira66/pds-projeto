@@ -73,7 +73,7 @@ export default function Estatisticas() {
             <tr>
               <th>ID</th>
               <th>Barbeiro</th>
-              <th>Numero de marcações</th>
+              <th>Marcações concluídas</th>
             </tr>
           </thead>
           <tbody>
@@ -88,7 +88,7 @@ export default function Estatisticas() {
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
-                  <td>{marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id).length}</td>
+                  <td>{marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === "Concluído").length}</td>
                 </tr>
               ))
             )}
