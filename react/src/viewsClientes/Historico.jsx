@@ -3,7 +3,7 @@ import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-export default function Marcacoes() {
+export default function Historico() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
@@ -44,26 +44,10 @@ export default function Marcacoes() {
     getMarcacoes();
   }, []);
 
-  const onDeleteClick = marcacao => {
-    if (!window.confirm("De certeza que queres cancelar a tua marcaçao?")) {
-      return
-    }
-    axiosClient.delete(`/marcacaos/${marcacao.id}`)
-      .then(() => {
-        setNotification('Marcação cancelada com sucesso')
-        getMarcacoes()
-      })
-  }
-  
-
   return (
     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
       <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-        <h2>As suas marcações</h2>
-        <div>
-          <Link className="btn-add" to={`/novaMarcacao/${user.id}`}>Nova marcação</Link>&nbsp;
-          <Link className="btn-add" to={`/historico/${user.id}`}>Histórico</Link>
-        </div>
+        <h2>Histórico de marcações</h2>
       </div>
       <div className="card animated fadeInDown">
         <table>
@@ -73,7 +57,6 @@ export default function Marcacoes() {
               <th>Serviço</th>
               <th>Barbeiro</th>
               <th>Data</th>
-              <th>Ações</th>
             </tr>
           </thead>
           {loading &&
@@ -88,7 +71,7 @@ export default function Marcacoes() {
           {!loading &&
             <tbody>
               {users
-                .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Ativo")
+                .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído")
                 .map(marcacao => {
                   return (
                     <tr key={marcacao.id}>
@@ -103,9 +86,6 @@ export default function Marcacoes() {
                           hour: "numeric",
                           minute: "numeric"
                         })}
-                      </td>
-                      <td>
-                        <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
                       </td>
                     </tr>
                   );

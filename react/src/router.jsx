@@ -13,12 +13,12 @@ import EstatisticasProdutos from "./viewsAdmin/EstatisticasProdutos.jsx";
 import AdicionarProduto from "./viewsAdmin/AdicionarProduto.jsx";
 import ListaProdutos from "./viewsAdmin/ListaProdutos.jsx";
 import VerMarcacoes from "./viewsAdmin/VerMarcacoes.jsx";
-
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
 import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import PaginaInicialOriginal from "./viewsClientes/PaginaInicialoriginal.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
+import Historico from "./viewsClientes/Historico.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
@@ -81,10 +81,13 @@ const router = createBrowserRouter([
           path: '/paginainicial',
           element: <PaginaInicial/>
         },
-        
         {
           path: '/marcacoes/:id',
           element: <Marcacoes key="userUpdate"/>
+        },
+        {
+          path: '/historico/:id',
+          element: <Historico key="userUpdate"/>
         },
         {
           path: '/novaMarcacao/:id',
