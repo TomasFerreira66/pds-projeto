@@ -47,7 +47,10 @@ export default function UserDropdown() {
   const filteredUsers = selectedUser === 'Todos' ? barbeiroUsers : barbeiroUsers.filter(user => user.name === selectedUser);
 
   return (
-    <div>
+    <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
+      <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
+            <h2>Estatísticas de barbeiros</h2>
+          </div>
       <select
         className="btn-marcacao1"
         style={{ textAlign: 'center' }}
