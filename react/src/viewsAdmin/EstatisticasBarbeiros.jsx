@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client.js';
 
-export default function UserDropdown() {
+export default function EstatisticasBarbeiros() {
   const [loading, setLoading] = useState(false);
   const [usersList, setUsersList] = useState([]);
   const [selectedUser, setSelectedUser] = useState('Todos'); // Updated default option value
