@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axiosClient from '../axios-client';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStateContext } from '../contexts/ContextProvider';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Produtos() {
@@ -145,7 +144,7 @@ export default function Produtos() {
               <div>{`${produto.preco} €`}</div>
               <div>Quantidade em stock: {produto.quantidade}</div>
               <div style={{ display: "flex", alignItems: "center" }}>
-    
+          
                 <button
                   style={{ width: 200, height: 50 }}
                   className="btn-login"
