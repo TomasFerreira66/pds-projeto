@@ -8,17 +8,16 @@ import PaginaMain from "./components/PaginaMain.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
 import Stock from "./viewsAdmin/Stock.jsx";
 import Pedidos from "./viewsAdmin/Pedidos.jsx";
-import EstatisticasBarbeiros from "./viewsAdmin/EstatisticasBarbeiros.jsx";
-import EstatisticasProdutos from "./viewsAdmin/EstatisticasProdutos.jsx";
 import AdicionarProduto from "./viewsAdmin/AdicionarProduto.jsx";
 import ListaProdutos from "./viewsAdmin/ListaProdutos.jsx";
 import VerMarcacoes from "./viewsAdmin/VerMarcacoes.jsx";
-
+import Estatisticas from "./viewsAdmin/Estatisticas.jsx";
 //Cliente
 import Contactos from "./viewsClientes/contactos.jsx";
 import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import PaginaInicialOriginal from "./viewsClientes/PaginaInicialoriginal.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
+import Historico from "./viewsClientes/Historico.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
@@ -58,14 +57,6 @@ const router = createBrowserRouter([
           element: <ListaProdutos/>
         },
         {
-          path: '/estatisticasBarbeiros',
-          element: <EstatisticasBarbeiros/>
-        },
-        {
-          path: '/estatisticasProdutos',
-          element: <EstatisticasProdutos/>
-        },
-        {
           path: '/verMarcacoes',
           element: <VerMarcacoes/>
         },
@@ -78,13 +69,20 @@ const router = createBrowserRouter([
           element: <Contactos/>
         },
         {
+          path: '/estatisticas',
+          element: <Estatisticas/>
+        },
+        {
           path: '/paginainicial',
           element: <PaginaInicial/>
         },
-        
         {
           path: '/marcacoes/:id',
           element: <Marcacoes key="userUpdate"/>
+        },
+        {
+          path: '/historico/:id',
+          element: <Historico key="userUpdate"/>
         },
         {
           path: '/novaMarcacao/:id',

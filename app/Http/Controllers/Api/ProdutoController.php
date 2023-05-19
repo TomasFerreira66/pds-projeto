@@ -16,7 +16,7 @@ class ProdutoController extends Controller
     public function index()
     {
         return ProdutoResource::collection(
-            Produto::query()->orderBy('id','desc')->paginate(10)
+            Produto::query()->orderBy('id','desc')->paginate(100)
         );
     }
 

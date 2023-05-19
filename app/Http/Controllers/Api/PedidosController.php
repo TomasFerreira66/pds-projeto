@@ -14,7 +14,7 @@ class PedidosController extends Controller
      */
     public function index()
     {
-        return PedidosResource::collection(Pedidos::query()->orderBy('id', 'desc')->paginate(10));
+        return PedidosResource::collection(Pedidos::query()->orderBy('id', 'desc')->paginate(100));
     }
 
     /**

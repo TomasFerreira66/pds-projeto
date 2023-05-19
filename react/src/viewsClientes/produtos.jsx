@@ -22,8 +22,7 @@ export default function Produtos() {
     id: null,
     idProduto: '',
     idCliente: localStorage.getItem('userId'),
-    quantidadePedida: '',
-    quantidade: 0,
+    quantidadePedida: 1,
   });
 
   useEffect(() => {
@@ -146,20 +145,7 @@ export default function Produtos() {
               <div>{`${produto.preco} €`}</div>
               <div>Quantidade em stock: {produto.quantidade}</div>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <input
-                  className="quantidadeproduto"
-                  style={{ width: 70, height: 53, marginRight: "10px", marginTop: 9 }}
-                  type="number"
-                  min="1"
-                  max={produto.quantidade}
-                  onChange={(ev) =>
-                    setProdutoEscolhido({
-                      ...produtoEscolhido,
-                      quantidadePedida: ev.target.value,
-                      quantidade: produto.quantidade,
-                    })
-                  }
-                />
+    
                 <button
                   style={{ width: 200, height: 50 }}
                   className="btn-login"
