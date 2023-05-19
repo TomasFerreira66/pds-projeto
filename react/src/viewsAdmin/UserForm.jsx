@@ -19,6 +19,7 @@ export default function UserForm() {
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [filtro, setFiltro] = useState("Todos") 
   const {setNotification} = useStateContext()
   const [imageData, setImagedata] = useState('')
 
