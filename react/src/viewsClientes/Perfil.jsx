@@ -39,7 +39,7 @@ export default function Perfil() {
       axiosClient.put(`/users/${user.id}`, user)
         .then(() => {
           setNotification('User was successfully updated')
-          navigate('/perfilMain')
+          navigate('/paginainicial')
           window.location.reload();
         })
         .catch(err => {
@@ -52,7 +52,7 @@ export default function Perfil() {
       axiosClient.post('/users', user)
         .then(() => {
           setNotification('User was successfully created')
-          navigate('/perfilMain')
+          navigate('/paginainicial')
         })
         .catch(err => {
           const response = err.response;

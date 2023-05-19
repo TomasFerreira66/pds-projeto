@@ -20,7 +20,6 @@ import PaginaInicial from "./viewsClientes/PaginaInicial.jsx";
 import PaginaInicialOriginal from "./viewsClientes/PaginaInicialoriginal.jsx";
 import Marcacoes from "./viewsClientes/marcacoes.jsx";
 import Produtos from "./viewsClientes/produtos.jsx";
-import PerfilMain from "./viewsClientes/perfilMain.jsx";
 import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 import Carrinho from "./viewsClientes/carrinho.jsx";
@@ -104,20 +103,12 @@ const router = createBrowserRouter([
           element: <Carrinho key="userUpdate"/>
         },
         {
-          path: '/perfilMain',
-          element: <PerfilMain/>
-        },
-        {
           path: '/perfil/:id',
           element: <Perfil key="userUpdate" />
         },
       ]
     },
     
-
-
-
-   
     {
       path: '/',
       element: <GuestLayout/>,
