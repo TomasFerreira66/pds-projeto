@@ -121,13 +121,13 @@ export default function Marcacaos() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>Marcações</h2>
         <div>
-          <select name="filtro" value={filter} onChange={handleFilterChange}>
+          <select name="filtro1" value={filter} onChange={handleFilterChange}>
             <option value="Todos">Serviço</option>
             <option value="Corte + Barba">Corte + Barba</option>
             <option value="Barba">Barba</option>
             <option value="Corte">Corte</option>
           </select>
-          <select name="filtro" value={estadoFilter} onChange={handleEstadoFilterChange}>
+          <select name="filtro1" value={estadoFilter} onChange={handleEstadoFilterChange}>
             <option value="Todos">Estado</option>
             <option value="Ativo">Ativo</option>
             <option value="Concluído">Concluído</option>
