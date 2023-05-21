@@ -3,8 +3,9 @@ import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
-export default function Carrinho() {
-  const [users, setUsers] = useState([]);
+export default function Processar() {
+
+    const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
   const { id } = useParams();
@@ -20,6 +21,7 @@ export default function Carrinho() {
         setLoading(false);
         setUsers(data.data);
         getNomeProdutos(data.data);
+        getPrecoProdutos(data.data);
       })
       .catch(() => {
         setLoading(false);
@@ -35,18 +37,29 @@ export default function Carrinho() {
         if (nestedData && nestedData.nome) {
           setProdutos((prevState) => ({
             ...prevState,
-            [idProduto]: nestedData.nome,
+            [idProduto]: {
+              nome: nestedData.nome,
+              preco: nestedData.preco,
+            },
           }));
         } else {
-          console.log(`Product nome not found for idProduto ${idProduto}`);
+          console.log(`Product data not found for idProduto ${idProduto}`);
         }
       })
       .catch((error) => {
         console.log(`Error fetching product data for idProduto ${idProduto}:`, error);
       });
   };
-
   const getNomeProdutos = (carrinhos) => {
+    carrinhos.forEach((carrinho) => {
+      const idProduto = carrinho.idProduto;
+      if (!produtos[idProduto]) {
+        getProduto(idProduto);
+      }
+    });
+  };
+
+  const getPrecoProdutos = (carrinhos) => {
     carrinhos.forEach((carrinho) => {
       const idProduto = carrinho.idProduto;
       if (!produtos[idProduto]) {
@@ -59,30 +72,42 @@ export default function Carrinho() {
     getCarrinho();
   }, []);
 
-  const onDeleteClick = (carrinho) => {
-    if (!window.confirm("De certeza que queres retirar este produto do teu carrinho?")) {
-      return;
-    }
-    axiosClient
-      .delete(`/carrinhos/${carrinho.id}`)
-      .then(() => {
-        setNotification('Produto removido com sucesso');
-      });
-    getCarrinho();
-  };
 
-  return (
+return (
     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>Carrinho</h2>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <h2>Checkout</h2>
+    </div>
+    <div className="card animated fadeInDown" style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div>
+        <div>
+          <h3>Envio</h3>
+          <input type="radio" name="deliverMethod" value="method1" /> Domiciliário
+          <br />
+          <input type="radio" name="deliverMethod" value="method2" /> Na Loja
+        </div>
+        </div>
+        <div>
+        <div>
+          <h3>Pagamento</h3>
+          <input type="radio" name="paymentMethod" value="method1" /> Visa
+          <img src="../src/img/visa.png" alt="Carrinho" width="30" height="23" className="image-with-border"/>
+          <br />
+          <input type="radio" name="paymentMethod" value="method2" /> MasterCard
+          <img src="../src/img/mastercard.png" alt="Carrinho" width="30" height="23" className="image-with-border"/>
+          <br />
+          <input type="radio" name="paymentMethod" value="method3" /> Multibanco
+          <img src="../src/img/multibanco.png" alt="Carrinho" width="30" height="23" className="image-with-border"/>
+        </div>
       </div>
-      <div className="card animated fadeInDown">
+  
+      <div>
         <table>
           <thead>
             <tr>
               <th>Produto</th>
               <th>Quantidade</th>
-              <th>Ações</th>
+              <th>Preço</th>
             </tr>
           </thead>
           {loading && (
@@ -99,7 +124,9 @@ export default function Carrinho() {
               {users
                 .filter((carrinho) => carrinho.idCliente === Number(id))
                 .map((carrinho) => {
-                  const produtoNome = produtos[carrinho.idProduto] || "";
+                    const produto = produtos[carrinho.idProduto];
+                    const produtoNome = produto && produto.nome;
+                    const produtoPreco = produto && produto.preco;
                   return (
                     <tr key={carrinho.id}>
                       <td>{produtoNome}</td>
@@ -152,23 +179,19 @@ export default function Carrinho() {
                           </button>
                         </div>
                       </td>
-                      <td>
-                        <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
-                          Eliminar
-                        </button>
-                      </td>
+                      <td>{produtoPreco}</td>
                     </tr>
                   );
                 })}
             </tbody>
           )}
         </table>
-
-
       </div>
-      <Link to={`/processar/${user.id}`}>
-            <button  className="btn-processar">Processar Encomenda</button>
-          </Link>
     </div>
+  
+    <button onClick={() => processOrder()} className="btn-finalizar">
+      Finalizar Encomenda
+    </button>
+  </div>
   );
 }

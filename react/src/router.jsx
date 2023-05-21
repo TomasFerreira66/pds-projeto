@@ -23,6 +23,7 @@ import Perfil from "./viewsClientes/Perfil.jsx"
 import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 import Carrinho from "./viewsClientes/carrinho.jsx";
 import Contactosguest from "./viewsClientes/ContactosGuest.jsx";
+import Processar from "./viewsClientes/processar.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
         {
           path: '/perfil/:id',
           element: <Perfil key="userUpdate" />
+        },
+        {
+          path: '/processar/:id',
+          element: <Processar key="userUpdate" />
         },
       ]
     },
