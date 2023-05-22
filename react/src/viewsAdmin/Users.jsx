@@ -64,24 +64,26 @@ export default function Users() {
   const getUsers = (filter = "Todos", specialtyFilter = "Todos") => {
     setLoading(true);
     let url = "/users";
-    if (filter !== "Todos") {
-      url += `?tipo=${filter}`;
-    }
     axiosClient
       .get(url)
       .then(({ data }) => {
         setLoading(false);
         let filteredUsers = data.data;
+        if (filter !== "Todos") {
+          filteredUsers = filteredUsers.filter((user) => user.tipo === filter);
+        }
         if (specialtyFilter !== "Todos") {
           filteredUsers = filteredUsers.filter((user) => user.especialidade === specialtyFilter);
         }
+        // Ordenar os usuários por tipo
+        filteredUsers.sort((a, b) => (a.tipo > b.tipo) ? 1 : -1);
         setUsers(filteredUsers);
       })
       .catch(() => {
         setLoading(false);
       });
   };
-
+  
   const sortUsers = (order) => {
     let sortedUsers = [...users];
     sortedUsers.sort((a, b) => {

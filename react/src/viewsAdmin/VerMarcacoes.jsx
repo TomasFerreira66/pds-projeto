@@ -32,17 +32,6 @@ export default function Marcacaos() {
     sortMarcacaos(event.target.value);
   };
 
-  const onDeleteClick = (marcacao) => {
-    if (!window.confirm("De certeza que queres eliminar este utilizador?")) {
-      return;
-    }
-    axiosClient
-      .delete(`/marcacaos/${marcacao.id}`)
-      .then(() => {
-        setNotification("Marcacao eliminada com sucesso");
-        getMarcacaos(filter, estadoFilter);
-      });
-  };
 
   const getUsers = () => {
     axiosClient
