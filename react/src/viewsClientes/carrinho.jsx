@@ -167,7 +167,7 @@ export default function Carrinho() {
 
       </div>
       <Link to={`/processar/${user.id}`}>
-            <button  className="btn-processar">Processar Encomenda</button>
+            <button  className="btn-processar">Processar encomenda</button>
           </Link>
     </div>
   );
