@@ -35,7 +35,10 @@ export default function Carrinho() {
         if (nestedData && nestedData.nome) {
           setProdutos((prevState) => ({
             ...prevState,
-            [idProduto]: nestedData.nome,
+            [idProduto]: {
+              nome: nestedData.nome,
+              quantidade: nestedData.quantidade // Store the quantity value
+            },
           }));
         } else {
           console.log(`Product nome not found for idProduto ${idProduto}`);
@@ -51,6 +54,12 @@ export default function Carrinho() {
       const idProduto = carrinho.idProduto;
       if (!produtos[idProduto]) {
         getProduto(idProduto);
+        setProdutos((prevState) => ({
+          ...prevState,
+          [idProduto]: {
+            quantidadePedida: carrinho.quantidadePedida, // Store the quantidadePedida value
+          },
+        }));
       }
     });
   };
@@ -99,7 +108,9 @@ export default function Carrinho() {
               {users
                 .filter((carrinho) => carrinho.idCliente === Number(id))
                 .map((carrinho) => {
-                  const produtoNome = produtos[carrinho.idProduto] || "";
+                  const produtoNome = produtos[carrinho.idProduto]?.nome || "";
+                  const quantidade = quantidadePedida[carrinho.id];
+
                   return (
                     <tr key={carrinho.id}>
                       <td>{produtoNome}</td>
@@ -127,7 +138,7 @@ export default function Carrinho() {
                           >
                             -
                           </button>
-                          <span style={{ margin: '0 8px' }}>{quantidadePedida[carrinho.id] || 1}</span>
+                          <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
                           <button
                             style={{
                               display: 'flex',
@@ -141,12 +152,13 @@ export default function Carrinho() {
                               fontSize: '14px',
                               cursor: 'pointer',
                             }}
-                            onClick={() =>
+                            onClick={() => {
+                              const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
                               setQuantidadePedida((prevState) => ({
                                 ...prevState,
-                                [carrinho.id]: (prevState[carrinho.id] || 0) + 1,
-                              }))
-                            }
+                                [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
+                              }));
+                            }}
                           >
                             +
                           </button>
@@ -163,12 +175,10 @@ export default function Carrinho() {
             </tbody>
           )}
         </table>
-
-
       </div>
       <Link to={`/processar/${user.id}`}>
-            <button  className="btn-processar">Processar encomenda</button>
-          </Link>
+        <button className="btn-processar">Processar encomenda</button>
+      </Link>
     </div>
   );
 }
