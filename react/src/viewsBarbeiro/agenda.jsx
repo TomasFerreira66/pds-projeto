@@ -82,9 +82,9 @@ export default function Agenda() {
           .filter((marcacao) => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
           .map((marcacao) => (
             <div key={marcacao.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height:'150px' }}>
-              <div>{`${marcacao.id} - ${clientes[marcacao.idCliente] || "-"}`}</div>
-              <div style={{ fontSize: "18px" }}>{marcacao.servico}</div>
-              <div style={{ fontSize: "18px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
+              <div style={{ marginBottom: "10px" }}>{`${marcacao.id} - ${clientes[marcacao.idCliente] || "-"}`}</div>
+              <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.servico}</div>
+              <div style={{ fontSize: "18px", marginTop: "10px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
                 day: "numeric",
                 month: "numeric",
                 year: "numeric",

@@ -4,14 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 export default function Marcacoes() {
-  const [users, setUsers] = useState([]);
+  const [marcacoes, setMarcacoes] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
   const [barbeiros, setBarbeiros] = useState({});
   const { id } = useParams();
   const { user } = useStateContext();
 
-  const getBarbeiro = (marcacoes) => {
+  const getBarbeiros = (marcacoes) => {
     const barbeiroIds = [...new Set(marcacoes.map((marcacao) => marcacao.idBarbeiro))];
     const promises = barbeiroIds.map((id) => axiosClient.get(`/users/${id}`));
     Promise.all(promises)
@@ -32,8 +32,8 @@ export default function Marcacoes() {
     axiosClient.get('/marcacaos')
       .then(({ data }) => {
         setLoading(false);
-        setUsers(data.data);
-        getBarbeiro(data.data);
+        setMarcacoes(data.data);
+        getBarbeiros(data.data);
       })
       .catch(() => {
         setLoading(false);
@@ -44,17 +44,16 @@ export default function Marcacoes() {
     getMarcacoes();
   }, []);
 
-  const onDeleteClick = marcacao => {
-    if (!window.confirm("De certeza que queres cancelar a tua marcaçao?")) {
-      return
+  const onDeleteClick = (marcacao) => {
+    if (!window.confirm("De certeza que queres cancelar a tua marcação?")) {
+      return;
     }
     axiosClient.delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
-        setNotification('Marcação cancelada com sucesso')
-        getMarcacoes()
-      })
-  }
-  
+        setNotification('Marcação cancelada com sucesso');
+        getMarcacoes();
+      });
+  };
 
   return (
     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
@@ -65,55 +64,32 @@ export default function Marcacoes() {
           <Link className="btn-add" to={`/historico/${user.id}`}>Histórico</Link>
         </div>
       </div>
-      <div className="card animated fadeInDown">
-        <table>
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th>Serviço</th>
-              <th>Barbeiro</th>
-              <th>Data</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          {loading &&
-            <tbody>
-              <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-              </td>
-              </tr>
-            </tbody>
-          }
-          {!loading &&
-            <tbody>
-              {users
-                .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Ativo")
-                .map(marcacao => {
-                  return (
-                    <tr key={marcacao.id}>
-                      <td>{marcacao.id}</td>
-                      <td>{marcacao.servico}</td>
-                      <td>{barbeiros[marcacao.idBarbeiro] || "-"}</td>
-                      <td>
-                        {new Date (marcacao.data).toLocaleString("pt-PT", {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "numeric"
-                        })}
-                      </td>
-                      <td>
-                        <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          }
-        </table>
+      <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          marcacoes
+            .filter((marcacao) => marcacao.idCliente === Number(id) && marcacao.estado === "Ativo")
+            .map((marcacao) => (
+              <div key={marcacao.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height:'150px' }}>
+                <div style={{ marginBottom: "10px" }}>{`${marcacao.id} - ${barbeiros[marcacao.idBarbeiro] || "-"}`}</div>
+                <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.servico}</div>
+                <div style={{ fontSize: "18px", marginTop: "10px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}</div>
+                <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+                  <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            ))
+        )}
       </div>
     </div>
-  )
+  );
 }
