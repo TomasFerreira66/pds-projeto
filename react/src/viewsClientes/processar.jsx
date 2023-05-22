@@ -253,7 +253,7 @@ export default function Processar() {
                           </button>
                         </div>
                       </td>
-                        <td>{produtoPreco}</td>
+                        <td>{produtoPreco} €</td>
                       </tr>
                     );
                   })}
