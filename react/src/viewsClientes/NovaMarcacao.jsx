@@ -4,7 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useStateContext } from '../contexts/ContextProvider';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import emailjs from 'emailjs-com';
+import { format } from 'date-fns';
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
@@ -72,24 +73,40 @@ export default function NovaMarcacao() {
       .catch(() => {
       })
   }
+  
+const onSubmit = ev => {
+  ev.preventDefault();
 
-  const onSubmit = ev => {
-    ev.preventDefault();
-    setMarcacao({ ...marcacao, data: new Date( document.querySelector('.dropdown-horario').value) });
-    setMarcacao(prevMarcacao => ({
-      ...prevMarcacao,
-      servico: document.querySelector('.dropdown-servico').value,
-      data:new Date( document.querySelector('.dropdown-horario').value),
-       
-    }));
+  axiosClient.post('/marcacaos', marcacao)
+    .then(() => {
+      setNotification('Marcação criada com sucesso')
+      navigate('/paginainicial')
 
-    console.log(marcacao);
+      axiosClient.get(`/users/${marcacao.idCliente}`)
+        .then(response => {
+          const clientEmail = response.data.email;
 
-    axiosClient.post('/marcacaos', marcacao)
-      .then(() => {
-        setNotification('Marcação criada com sucesso')
-        navigate('/paginainicial')
-      })
+          axiosClient.get(`/users/${marcacao.idBarbeiro}`)
+            .then(response => {
+              const nomeBarbeiro = response.data.name;
+
+              const templateParams = {
+                to_email: clientEmail, 
+                subject: "Confirmação de marcação",
+                message: `A sua marcação para o serviço ${marcacao.servico} com o barbeiro ${nomeBarbeiro} foi marcada para o dia ${format(marcacao.data, 'dd/MM/yyyy \'às\' HH:mm')}.`,
+              };
+
+              emailjs.send('service_hgpw1ul', 'template_849x1az', templateParams, '19c0R-gO8pAzmZ2sf')
+                .then((result) => {
+                    console.log(result.text);
+                }, (error) => {
+                    console.log(error.text);
+                });
+
+            }).catch(err => console.log(err)); // handle error here
+
+        }).catch(err => console.log(err)); // handle error here
+    })
       .catch(err => {
         const response = err.response;
         if (response && response.status === 422) {
