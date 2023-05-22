@@ -40,6 +40,7 @@ export default function Processar() {
             [idProduto]: {
               nome: nestedData.nome,
               preco: nestedData.preco,
+              quantidade: nestedData.quantidade,
             },
           }));
         } else {
@@ -196,59 +197,62 @@ export default function Processar() {
                   .map((carrinho) => {
                     const produto = produtos[carrinho.idProduto];
                     const produtoNome = produto && produto.nome;
+                    
+                    const quantidade = quantidadePedida[carrinho.id];
                     const produtoPreco = produto && produto.preco;
                     return (
                       <tr key={carrinho.id}>
                         <td>{produtoNome}</td>
                         <td>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <button
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: '24px',
-                                height: '24px',
-                                borderRadius: '50%',
-                                border: '1px solid #ccc',
-                                backgroundColor: '#fff',
-                                fontSize: '14px',
-                                cursor: 'pointer',
-                              }}
-                              onClick={() =>
-                                setQuantidadePedida((prevState) => ({
-                                  ...prevState,
-                                  [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1),
-                                }))
-                              }
-                            >
-                              -
-                            </button>
-                            <span style={{ margin: '0 8px' }}>{quantidadePedida[carrinho.id] || 1}</span>
-                            <button
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: '24px',
-                                height: '24px',
-                                borderRadius: '50%',
-                                border: '1px solid #ccc',
-                                backgroundColor: '#fff',
-                                fontSize: '14px',
-                                cursor: 'pointer',
-                              }}
-                              onClick={() =>
-                                setQuantidadePedida((prevState) => ({
-                                  ...prevState,
-                                  [carrinho.id]: (prevState[carrinho.id] || 0) + 1,
-                                }))
-                              }
-                            >
-                              +
-                            </button>
-                          </div>
-                        </td>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              border: '1px solid #ccc',
+                              backgroundColor: '#fff',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() =>
+                              setQuantidadePedida((prevState) => ({
+                                ...prevState,
+                                [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
+                              }))
+                            }
+                          >
+                            -
+                          </button>
+                          <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              border: '1px solid #ccc',
+                              backgroundColor: '#fff',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => {
+                              const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
+                              setQuantidadePedida((prevState) => ({
+                                ...prevState,
+                                [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
+                              }));
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
                         <td>{produtoPreco}</td>
                       </tr>
                     );

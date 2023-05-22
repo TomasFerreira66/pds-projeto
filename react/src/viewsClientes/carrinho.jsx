@@ -10,7 +10,6 @@ export default function Carrinho() {
   const { id } = useParams();
   const { user } = useStateContext();
   const [produtos, setProdutos] = useState({});
-  const [quantidadePedida, setQuantidadePedida] = useState({});
 
   const getCarrinho = () => {
     setLoading(true);
@@ -32,12 +31,12 @@ export default function Carrinho() {
       .then((response) => {
         const { data } = response;
         const nestedData = data.data;
-        if (nestedData && nestedData.nome) {
+        if (nestedData && nestedData.nome && nestedData.descricao) {
           setProdutos((prevState) => ({
             ...prevState,
             [idProduto]: {
               nome: nestedData.nome,
-              quantidade: nestedData.quantidade // Store the quantity value
+              descricao:nestedData.descricao,
             },
           }));
         } else {
@@ -56,9 +55,6 @@ export default function Carrinho() {
         getProduto(idProduto);
         setProdutos((prevState) => ({
           ...prevState,
-          [idProduto]: {
-            quantidadePedida: carrinho.quantidadePedida, // Store the quantidadePedida value
-          },
         }));
       }
     });
@@ -90,7 +86,7 @@ export default function Carrinho() {
           <thead>
             <tr>
               <th>Produto</th>
-              <th>Quantidade</th>
+              <th>Descrição</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -109,61 +105,12 @@ export default function Carrinho() {
                 .filter((carrinho) => carrinho.idCliente === Number(id))
                 .map((carrinho) => {
                   const produtoNome = produtos[carrinho.idProduto]?.nome || "";
-                  const quantidade = quantidadePedida[carrinho.id];
-
+                  const produtoDescricao = produtos[carrinho.idProduto]?.descricao || "";
+                  console.log(produtoDescricao);
                   return (
                     <tr key={carrinho.id}>
                       <td>{produtoNome}</td>
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <button
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                            }}
-                            onClick={() =>
-                              setQuantidadePedida((prevState) => ({
-                                ...prevState,
-                                [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
-                              }))
-                            }
-                          >
-                            -
-                          </button>
-                          <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
-                          <button
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                            }}
-                            onClick={() => {
-                              const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
-                              setQuantidadePedida((prevState) => ({
-                                ...prevState,
-                                [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
-                              }));
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
+                      <td>{produtoDescricao}</td>
                       <td>
                         <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
                           Eliminar
