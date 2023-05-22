@@ -76,22 +76,19 @@ export default function Processar() {
       (carrinho) => carrinho.idCliente === Number(id)
     );
 
-    // Criar um array de objetos com os dados dos produtos selecionados
-    const pedidoCliente = produtosSelecionados.map((carrinho) => ({
-      idProduto: carrinho.idProduto,
-      quantidadePedida: quantidadePedida[carrinho.id] || 1,
-    }));
-
+    
     const encomenda = {
       idCliente: id,
-      pedidoCliente: pedidoCliente.map((carrinho) => ({
-        idProduto: carrinho.idProduto,
-        quantidadePedida: quantidadePedida[carrinho.id] || 1,
-      })),
+      pedidoCliente: 1,
+      quantidadePedida: 1,
       morada: 'endereco_de_entrega',
       nif: 'nif_cliente',
     };
     
+    
+
+    
+
 
     // Enviar a encomenda para a base de dados de produtos
     axiosClient
@@ -110,67 +107,105 @@ export default function Processar() {
   };
 
   return (
-    <div style={{ marginLeft: '100px', marginRight: '100px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>Checkout</h2>
+    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <h2>Checkout</h2>
+    </div>
+    <div
+      className="card animated fadeInDown"
+      style={{ display: "flex", justifyContent: "space-between" }}
+    >
+      <div>
+        <div>
+          <h3>Envio</h3>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>
+              <input
+                type="radio"
+                name="deliverMethod"
+                value="method1"
+                checked={metodoEnvio === "method1"}
+                onChange={() => setMetodoEnvio("method1")}
+              />{" "}
+              Domiciliário
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="deliverMethod"
+                value="method2"
+                checked={metodoEnvio === "method2"}
+                onChange={() => setMetodoEnvio("method2")}
+              />{" "}
+              Na Loja
+            </label>
+          </div>
+        </div>
       </div>
-      <div className="card animated fadeInDown" style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div>
         <div>
-          <div>
-            <h3>Envio</h3>
-            <input
-              type="radio"
-              name="deliverMethod"
-              value="method1"
-              checked={metodoEnvio === "method1"}
-              onChange={() => setMetodoEnvio("method1")}
-            />{" "}
-            Domiciliário
-            <br />
-            <input
-              type="radio"
-              name="deliverMethod"
-              value="method2"
-              checked={metodoEnvio === "method2"}
-              onChange={() => setMetodoEnvio("method2")}
-            />{" "}
-            Na Loja
+          <h3>Pagamento</h3>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="method1"
+                checked={metodoPagamento === "method1"}
+                onChange={() => setMetodoPagamento("method1")}
+              />{" "}
+              Visa
+              <img
+                src="../src/img/visa.png"
+                alt="Carrinho"
+                width="30"
+                height="23"
+                className="image-with-border"
+              />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="method2"
+                checked={metodoPagamento === "method2"}
+                onChange={() => setMetodoPagamento("method2")}
+              />{" "}
+              MasterCard
+              <img
+                src="../src/img/mastercard.png"
+                alt="Carrinho"
+                width="30"
+                height="23"
+                className="image-with-border"
+              />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="method3"
+                checked={metodoPagamento === "method3"}
+                onChange={() => setMetodoPagamento("method3")}
+              />{" "}
+              Multibanco
+              <img
+                src="../src/img/multibanco.png"
+                alt="Carrinho"
+                width="30"
+                height="23"
+                className="image-with-border"
+              />
+            </label>
           </div>
         </div>
-        <div>
-          <div>
-            <h3>Pagamento</h3>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="method1"
-              checked={metodoPagamento === "method1"}
-              onChange={() => setMetodoPagamento("method1")}
-            />{" "}
-            Visa
-            <img src="../src/img/visa.png" alt="Carrinho" width="30" height="23" className="image-with-border" />
-            <br />
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="method2"
-              checked={metodoPagamento === "method2"}
-              onChange={() => setMetodoPagamento("method2")}
-            />{" "}
-            MasterCard
-            <img src="../src/img/mastercard.png" alt="Carrinho" width="30" height="23" className="image-with-border" />
-            <br />
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="method3"
-              checked={metodoPagamento === "method3"}
-              onChange={() => setMetodoPagamento("method3")}
-            />{" "}
-            Multibanco
-            <img src="../src/img/multibanco.png" alt="Carrinho" width="30" height="23" className="image-with-border" />
-          </div>
-        </div>
+      </div>
 
         <div>
           <table>
@@ -197,63 +232,63 @@ export default function Processar() {
                   .map((carrinho) => {
                     const produto = produtos[carrinho.idProduto];
                     const produtoNome = produto && produto.nome;
-                    
+
                     const quantidade = quantidadePedida[carrinho.id];
                     const produtoPreco = produto && produto.preco;
                     return (
                       <tr key={carrinho.id}>
                         <td>{produtoNome}</td>
                         <td>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <button
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                            }}
-                            onClick={() =>
-                              setQuantidadePedida((prevState) => ({
-                                ...prevState,
-                                [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
-                              }))
-                            }
-                          >
-                            -
-                          </button>
-                          <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
-                          <button
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                            }}
-                            onClick={() => {
-                              const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
-                              setQuantidadePedida((prevState) => ({
-                                ...prevState,
-                                [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
-                              }));
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
-                        <td>{produtoPreco}</td>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <button
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                border: '1px solid #ccc',
+                                backgroundColor: '#fff',
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() =>
+                                setQuantidadePedida((prevState) => ({
+                                  ...prevState,
+                                  [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
+                                }))
+                              }
+                            >
+                              -
+                            </button>
+                            <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
+                            <button
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '24px',
+                                height: '24px',
+                                borderRadius: '50%',
+                                border: '1px solid #ccc',
+                                backgroundColor: '#fff',
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
+                                setQuantidadePedida((prevState) => ({
+                                  ...prevState,
+                                  [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
+                                }));
+                              }}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </td>
+                        <td>{produtoPreco * (quantidade || 1)}€</td>
                       </tr>
                     );
                   })}
