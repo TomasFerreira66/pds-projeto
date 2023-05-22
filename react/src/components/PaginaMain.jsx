@@ -1,15 +1,17 @@
 import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
-import { useEffect } from "react";
-import React from "react";
+import { useEffect, useState } from "react";
 
 export default function PaginaMain() {
   const { user, token, setUser, setToken, notification } = useStateContext();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const navigate = useNavigate();
 
-  if (!token) {
-    return <Navigate to="/PaginaInicialoriginal" />;
-  }
+  const toggleDropdown = (ev) => {
+    ev.preventDefault();
+    setDropdownVisible(!dropdownVisible);
+  };
 
   const onLogout = (ev) => {
     ev.preventDefault();
@@ -26,8 +28,6 @@ export default function PaginaMain() {
     });
   }, []);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     switch (user.tipo) {
       case "admin":
@@ -43,6 +43,10 @@ export default function PaginaMain() {
         break;
     }
   }, [user]);
+
+  if (!token) {
+    return <Navigate to="/PaginaInicialoriginal" />;
+  }
 
   return (
     <div id="defaultLayout">
@@ -68,10 +72,7 @@ export default function PaginaMain() {
           <Link to="/produtos">Produtos</Link>
           <Link to="/contactos">Contactos</Link>
         </aside>
-        
       )}
-
-
       <div className="content">
         <header>
           <div>
@@ -82,17 +83,33 @@ export default function PaginaMain() {
               style={{ width: "170px", height: "90px" }}
             />
           </div>
-          
           <div>
-          <Link to={'/Perfil/' + user.id} className="no-underline">{user.name}</Link> &nbsp; &nbsp;
-          {user.tipo === 'Cliente' && (
-        <Link to={`/carrinho/${user.id}`} style={{marginRight:"10px"}}>
-          <img src="../src/img/carrinho.png" alt="Carrinho" width="25" height="23" />
-        </Link>
-      )}
-            <a onClick={onLogout} className="btn-logout" href="#">
-              Terminar sessão
-            </a>
+            <button className="no-underline" onClick={toggleDropdown}>
+              {user.name}
+            </button>
+            {dropdownVisible && (
+              <div className="dropdown">
+                <ul>
+                  {user.tipo === "Cliente" && (
+                    <li>
+                      <Link onClick={() => setDropdownVisible(false)} to={`/carrinho/${user.id}`}>
+                        Carrinho
+                      </Link>
+                    </li>
+                  )}
+                  <li>
+                    <Link onClick={() => setDropdownVisible(false)} to={`/Perfil/${user.id}`}>
+                      Definições
+                    </Link>
+                  </li>
+                  <li>
+                    <a onClick={(e) => { onLogout(e); setDropdownVisible(false); }} href="#">
+                      Terminar sessão
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </header>
         <main>

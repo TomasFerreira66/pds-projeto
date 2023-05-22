@@ -113,7 +113,7 @@ export default function Carrinho() {
                       <td>{produtoDescricao}</td>
                       <td>
                         <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
-                          Eliminar
+                          Remover
                         </button>
                       </td>
                     </tr>

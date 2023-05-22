@@ -5,17 +5,17 @@ import { useStateContext } from '../contexts/ContextProvider';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Produtos() {
+  const { user, setNotification, setAlert } = useStateContext();
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState("desc");
-  const navigate = useNavigate();
-  const { setNotification } = useStateContext();
   const [errors, setErrors] = useState(null);
-  const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState('');
-  const { setAlert } = useStateContext();
 
   const [produtoEscolhido, setProdutoEscolhido] = useState({
     id: null,
@@ -32,10 +32,7 @@ export default function Produtos() {
     const newFilter = event.target.value;
     setLoading(true);
     setFilter(newFilter);
-    getProdutos(newFilter, (data) => {
-      setLoading(false);
-      setProdutos(data);
-    });
+    getProdutos(newFilter);
   };
 
   const handleSortChange = (event) => {
@@ -43,28 +40,24 @@ export default function Produtos() {
     sortProdutos(event.target.value);
   };
 
-
-
   const onSubmit = (ev, produtoId) => {
     ev.preventDefault();
     const updatedProdutoEscolhido = {
       ...produtoEscolhido,
       idProduto: produtoId.toString(),
     };
-  
-    // Verificar se a quantidade selecionada é maior do que a quantidade em stock
+
     if (parseInt(updatedProdutoEscolhido.quantidadePedida) > produtoEscolhido.quantidade) {
       const quantidadeDisponivel = produtoEscolhido.quantidade;
       setNotification(`Quantidade indisponível, quantidade em stock: ${quantidadeDisponivel}`);
       return;
     }
-  
-    
+
     axiosClient
       .post('/carrinhos', updatedProdutoEscolhido)
       .then(() => {
         setNotification('Produto adicionado ao carrinho com sucesso');
-        navigate('/produtos');
+        navigate(`/carrinho/${user.id}`);
       })
       .catch((err) => {
         const response = err.response;
@@ -73,7 +66,7 @@ export default function Produtos() {
         }
       });
   };
-  
+
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);
     let url = '/produtos';
@@ -144,7 +137,6 @@ export default function Produtos() {
               <div>{`${produto.preco} €`}</div>
               <div>Quantidade em stock: {produto.quantidade}</div>
               <div style={{ display: "flex", alignItems: "center" }}>
-          
                 <button
                   style={{ width: 200, height: 50 }}
                   className="btn-login"
