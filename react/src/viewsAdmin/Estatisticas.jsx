@@ -53,8 +53,8 @@ export default function Estatisticas() {
       const ctx = chartRef.current.getContext('2d');
       const labels = filteredUsers.map(user => user.name);
       const data = filteredUsers.map(user =>
-        marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length
-      );
+        (marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length / marcacaos.filter(marcacao => marcacao.estado === 'Concluído').length) * 100
+      );      
 
       // Registrar o tipo de gráfico "doughnut" manualmente
       Chart.register(...registerables);
@@ -79,7 +79,20 @@ export default function Estatisticas() {
             },
           ],
         },
-      });
+        options: {
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  const label = labels[context.dataIndex];
+                  const percentage = data[context.dataIndex];
+                  return `${label}: ${percentage.toFixed(2)}%`;
+                },
+              },
+            },
+          },
+        },
+      });;
     }
   }, [filteredUsers, marcacaos]);
 
