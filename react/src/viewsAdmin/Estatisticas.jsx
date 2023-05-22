@@ -53,7 +53,7 @@ export default function Estatisticas() {
       const ctx = chartRef.current.getContext('2d');
       const labels = filteredUsers.map(user => user.name);
       const data = filteredUsers.map(user =>
-        marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length
+        (marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length / marcacaos.filter(marcacao => marcacao.estado === 'Concluído').length) * 100
       );
 
       // Registrar o tipo de gráfico "doughnut" manualmente
@@ -79,18 +79,30 @@ export default function Estatisticas() {
             },
           ],
         },
+        options: {
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  const label = labels[context.dataIndex];
+                  const percentage = data[context.dataIndex];
+                  return `${label}: ${percentage.toFixed(2)}%`;
+                },
+              },
+            },
+          },
+        },
       });
     }
   }, [filteredUsers, marcacaos]);
 
   return (
-    <div style={{ marginLeft: '100px', marginRight: '100px' }}>
+    <div style={{ margin: '0 100px' }}>
       <h2>Estatísticas</h2>
-      <br />
-      <div className="card-container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
         <div className="card">
           <h4>Barbeiros</h4>
-          <select className="btn-marcacao1" style={{ textAlign: 'center' }} value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
+          <select className="btn-marcacao1" value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
             <option value="Todos">Todos</option>
             {userNames.map((name, index) => (
               <option key={index} value={name}>
@@ -98,7 +110,6 @@ export default function Estatisticas() {
               </option>
             ))}
           </select>
-
           <div className="card animated fadeInDown">
             <table>
               <thead>
@@ -127,10 +138,10 @@ export default function Estatisticas() {
               </tbody>
             </table>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px', marginTop:'100px', marginBottom:'100px' }}>
-          <div style={{ width: '400px', height: '400px' }}>
-            <canvas ref={chartRef}></canvas>
-          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px', margin: '100px 0' }}>
+            <div style={{ width: '400px', height: '400px' }}>
+              <canvas ref={chartRef}></canvas>
+            </div>
           </div>
         </div>
         <div className="card">
