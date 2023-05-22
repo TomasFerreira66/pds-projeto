@@ -68,53 +68,23 @@ export default function Stock() {
         <div>
         </div>
       </div>
-      <div className="card animated fadeInDown">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Descrição</th>
-              <th>Preço</th>
-              <th>Quantidade</th>
-              <th>Tipo</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          {loading &&
-            <tbody>
-              <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
-          }
-          {!loading &&
-            <tbody>
-              {produtos.map(produto => (
-                <tr key={produto.id}>
-                <td>{produto.id}</td>
-                <td>{produto.nome}</td>
-                <td>{produto.descricao}</td>
-                <td>{`${produto.preco} €`}</td>
-                <td>{produto.quantidade}</td>
-                <td>{produto.tipo}</td>
-                <td style={{ display: 'flex', alignItems: 'center' }}>
-                  <input stl
-                    style={{ width: 70, height: 20, marginRight: 10, marginTop: 14 }}
-                    type="number"
-                    min="0"
-                    value={quantidades[produto.id] || ''}
-                    onChange={(event) => handleQuantidadeChange(event, produto.id)}
-                  />
-                  <button onClick={() => handleAtualizarQuantidade(produto.id)} className="btn-edit">Adicionar</button>
-                </td>
-              </tr>              
-              ))}
-            </tbody>
-          }
-        </table>
+      <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+        {produtos.map(produto => (
+          <div key={produto.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px" }}>
+            <div style={{ fontWeight: "bold", marginBottom: "10px" }}>{produto.nome}</div>
+            <div>Quantidade em stock: {produto.quantidade}</div>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+              <input
+                style={{ width: 70, height: 40, marginRight: 10 }}
+                type="number"
+                min="0"
+                value={quantidades[produto.id] || ''}
+                onChange={(event) => handleQuantidadeChange(event, produto.id)}
+              />
+              <button style={{ height: 40 }} onClick={() => handleAtualizarQuantidade(produto.id)} className="btn-edit">Adicionar</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
