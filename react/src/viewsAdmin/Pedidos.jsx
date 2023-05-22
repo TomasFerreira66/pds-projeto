@@ -5,6 +5,7 @@ export default function Pedidos(){
           <br />
           <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
           </div>
+          &nbsp;
         </div>
       );  
 }

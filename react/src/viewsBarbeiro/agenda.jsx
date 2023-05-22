@@ -77,6 +77,7 @@ export default function Agenda() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>As suas marcações</h2>
       </div>
+      &nbsp;
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
         {marcacaos
           .filter((marcacao) => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")

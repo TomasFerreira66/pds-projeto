@@ -64,6 +64,7 @@ export default function Marcacoes() {
           <Link className="btn-add" to={`/historico/${user.id}`}>Histórico</Link>
         </div>
       </div>
+      &nbsp;
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
         {loading ? (
           <div>Loading...</div>

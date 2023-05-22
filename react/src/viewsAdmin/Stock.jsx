@@ -68,6 +68,7 @@ export default function Stock() {
         <div>
         </div>
       </div>
+      &nbsp;
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
         {produtos.map(produto => (
           <div key={produto.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px" }}>
