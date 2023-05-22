@@ -82,9 +82,9 @@ return (
       <div>
         <div>
           <h3>Envio</h3>
-          <input type="radio" name="deliverMethod" value="method1" /> Domiciliário
+          <input type="radio" name="deliverMethod" value="method1" /> Ao domicílio 
           <br />
-          <input type="radio" name="deliverMethod" value="method2" /> Na Loja
+          <input type="radio" name="deliverMethod" value="method2" /> Recolha na loja
         </div>
         </div>
         <div>
@@ -190,7 +190,7 @@ return (
     </div>
   
     <button onClick={() => processOrder()} className="btn-finalizar">
-      Finalizar Encomenda
+      Finalizar encomenda
     </button>
   </div>
   );
