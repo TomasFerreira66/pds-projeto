@@ -28,7 +28,8 @@ export default function Agenda() {
 
   const getMarcacoes = () => {
     setLoading(true);
-    axiosClient.get('/marcacaos')
+    axiosClient
+      .get("/marcacaos")
       .then(({ data }) => {
         setLoading(false);
         setMarcacao(data.data);
@@ -44,88 +45,63 @@ export default function Agenda() {
   }, []);
 
   const concluirMarcacao = (marcacao) => {
-    axiosClient.put(`/marcacaos/${marcacao.id}`, { estado: 'Concluído' })
+    axiosClient
+      .put(`/marcacaos/${marcacao.id}`, { estado: "Concluído" })
       .then(() => {
-        setNotification('Marcação concluída com sucesso');
+        setNotification("Marcação concluída com sucesso");
         getMarcacoes();
       })
       .catch(() => {
-        setNotification('Ocorreu um erro ao concluir a marcação');
+        setNotification("Ocorreu um erro ao concluir a marcação");
       });
   };
-  
-  const onDeleteClick = marcacao => {
+
+  const onDeleteClick = (marcacao) => {
     console.log(marcacao);
     if (!window.confirm("Are you sure you want to delete this user?")) {
-      return
+      return;
     }
-    axiosClient.delete(`/marcacaos/${marcacao.id}`)
+    axiosClient
+      .delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
-        setNotification('Marcação was successfully canceled')
-        getMarcacoes()
+        setNotification("Marcação was successfully canceled");
+        getMarcacoes();
       })
       .catch(() => {
-        setNotification('There was an error while canceling the marcação')
+        setNotification("There was an error while canceling the marcação");
       });
-  }
+  };
 
   return (
-    <div style={{ marginLeft: '100px', marginRight: '100px' }}>
-      <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>As suas marcações</h2>
       </div>
-      <div className="card animated fadeInDown">
-        <table>
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th>Serviço</th>
-              <th>Cliente</th>
-              <th>Data</th>
-              <th>Estado</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          {loading &&
-            <tbody>
-              <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
-          }
-          {!loading &&
-            <tbody>
-              {marcacaos
-             .filter(marcacao => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
-
-                .map(marcacao => (
-                  <tr key={marcacao.id}>
-                    <td>{marcacao.id}</td>
-                    <td>{marcacao.servico}</td>
-                    <td>{clientes[marcacao.idCliente] || "-"}</td>
-                    <td>
-                      {new Date(marcacao.data).toLocaleString("pt-PT", {
-                        day: "numeric",
-                        month: "numeric",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "numeric"
-                      })}
-                    </td>
-                    <td>{marcacao.estado}</td>
-                    <td>
-                      <button onClick={() => concluirMarcacao(marcacao)} className="btn-add">Concluir</button>
-                      &nbsp;
-                      <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">Cancelar</button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          }
-        </table>
+      <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+        {marcacaos
+          .filter((marcacao) => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
+          .map((marcacao) => (
+            <div key={marcacao.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative" }}>
+              <div>{`${marcacao.id} - ${clientes[marcacao.idCliente] || "-"}`}</div>
+              <div style={{ fontSize: "18px" }}>{marcacao.servico}</div>
+              <div style={{ fontSize: "18px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              })}</div>
+              <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+                <button onClick={() => concluirMarcacao(marcacao)} className="btn-add" style={{ marginRight: "10px" }}>
+                  Concluir
+                </button>
+                <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
-        }  
+}
