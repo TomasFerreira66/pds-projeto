@@ -179,7 +179,7 @@ return (
                           </button>
                         </div>
                       </td>
-                      <td>{produtoPreco}</td>
+                      <td>{produtoPreco} €</td>
                     </tr>
                   );
                 })}
