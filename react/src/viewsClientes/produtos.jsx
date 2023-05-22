@@ -57,7 +57,6 @@ export default function Produtos() {
       .post('/carrinhos', updatedProdutoEscolhido)
       .then(() => {
         setNotification('Produto adicionado ao carrinho com sucesso');
-        navigate(`/carrinho/${user.id}`);
       })
       .catch((err) => {
         const response = err.response;
