@@ -53,7 +53,9 @@ export default function Estatisticas() {
       const ctx = chartRef.current.getContext('2d');
       const labels = filteredUsers.map(user => user.name);
       const data = filteredUsers.map(user =>
-        (marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length / marcacaos.filter(marcacao => marcacao.estado === 'Concluído').length) * 100
+        marcacaos
+          .filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído')
+          .reduce((total, marcacao) => total + marcacao.custo, 0)
       );
 
       // Registrar o tipo de gráfico "doughnut" manualmente
@@ -85,8 +87,8 @@ export default function Estatisticas() {
               callbacks: {
                 label: (context) => {
                   const label = labels[context.dataIndex];
-                  const percentage = data[context.dataIndex];
-                  return `${label}: ${percentage.toFixed(2)}%`;
+                  const totalEarnings = data[context.dataIndex];
+                  return `${label}: ${totalEarnings.toFixed(2)}€`;
                 },
               },
             },
