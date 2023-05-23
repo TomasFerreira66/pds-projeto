@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
+import emailjs from 'emailjs-com';
+import { parseISO, format } from 'date-fns';
 
 export default function Agenda() {
   const [marcacaos, setMarcacao] = useState([]);
@@ -57,20 +59,48 @@ export default function Agenda() {
   };
 
   const onDeleteClick = (marcacao) => {
-    console.log(marcacao);
-    if (!window.confirm("Are you sure you want to delete this user?")) {
+    if (!window.confirm("Tem a certeza de que deseja cancelar esta marcação?")) {
       return;
     }
+  
     axiosClient
       .delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
-        setNotification("Marcação was successfully canceled");
+        setNotification("Marcação cancelada com sucesso");
         getMarcacoes();
+  
+        axiosClient.get(`/users/${marcacao.idCliente}`)
+          .then(response => {
+            const clientEmail = response.data.email;
+  
+            axiosClient.get(`/users/${marcacao.idBarbeiro}`)
+              .then(response => {
+                const nomeBarbeiro = response.data.name;
+  
+                const templateParams = {
+                  to_email: clientEmail,
+                  subject: "Marcação cancelada",
+                  message: `A sua marcação para o serviço ${marcacao.servico} com o barbeiro ${nomeBarbeiro} para o dia ${format(parseISO(marcacao.data), 'dd/MM/yyyy \'às\' HH:mm')} foi cancelada.`,
+                };
+  
+                emailjs.send('service_hgpw1ul', 'template_hjgwdwc', templateParams, '19c0R-gO8pAzmZ2sf')
+                  .then((result) => {
+                    console.log(result.text);
+                  })
+                  .catch((error) => {
+                    console.log(error.text);
+                  });
+              })
+              .catch(err => console.log(err));
+  
+          })
+          .catch(err => console.log(err));
       })
       .catch(() => {
-        setNotification("There was an error while canceling the marcação");
+        setNotification("Ocorreu um erro ao cancelar a marcação");
       });
   };
+  
 
   return (
     <div style={{ marginLeft: "100px", marginRight: "100px" }}>
