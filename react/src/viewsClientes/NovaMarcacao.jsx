@@ -4,8 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useStateContext } from '../contexts/ContextProvider';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import emailjs from 'emailjs-com';
-import { format } from 'date-fns';
+
 
 export default function NovaMarcacao() {
   const navigate = useNavigate();
@@ -24,12 +23,14 @@ export default function NovaMarcacao() {
     idBarbeiro: '',
     idCliente: id,
     estado: 'Ativo',
-    custo: 0,
   })
-  
+
+  const [datasIndisponiveis, setDatasIndisponiveis] = useState([]);
+
   useEffect(() => {
     getBarbeiros();
     getEspecialidades();
+    getDatasIndisponiveis();
   }, [])
 
   const mudarData = (ev) => {
@@ -74,40 +75,25 @@ export default function NovaMarcacao() {
       .catch(() => {
       })
   }
-  
-const onSubmit = ev => {
-  ev.preventDefault();
 
-  axiosClient.post('/marcacaos', marcacao)
-    .then(() => {
-      setNotification('Marcação criada com sucesso')
-      navigate('/paginainicial')
+  const onSubmit = ev => {
+    ev.preventDefault();
+    setMarcacao({ ...marcacao, data: new Date( document.querySelector('.dropdown-horario').value) });
+    setMarcacao(prevMarcacao => ({
+      ...prevMarcacao,
+      servico: document.querySelector('.dropdown-servico').value,
+      data:new Date( document.querySelector('.dropdown-horario').value),
+      estado: 'Indisponível',
+       
+    }));
 
-      axiosClient.get(`/users/${marcacao.idCliente}`)
-        .then(response => {
-          const clientEmail = response.data.email;
+    console.log(marcacao);
 
-          axiosClient.get(`/users/${marcacao.idBarbeiro}`)
-            .then(response => {
-              const nomeBarbeiro = response.data.name;
-
-              const templateParams = {
-                to_email: clientEmail, 
-                subject: "Confirmação de marcação",
-                message: `A sua marcação para o serviço ${marcacao.servico} com o barbeiro ${nomeBarbeiro} foi marcada para o dia ${format(marcacao.data, 'dd/MM/yyyy \'às\' HH:mm')}.`,
-              };
-
-              emailjs.send('service_hgpw1ul', 'template_849x1az', templateParams, '19c0R-gO8pAzmZ2sf')
-                .then((result) => {
-                    console.log(result.text);
-                }, (error) => {
-                    console.log(error.text);
-                });
-
-            }).catch(err => console.log(err)); // handle error here
-
-        }).catch(err => console.log(err)); // handle error here
-    })
+    axiosClient.post('/marcacaos', marcacao)
+      .then(() => {
+        setNotification('Marcação criada com sucesso')
+        navigate('/paginainicial')
+      })
       .catch(err => {
         const response = err.response;
         if (response && response.status === 422) {
@@ -115,6 +101,18 @@ const onSubmit = ev => {
         }
       })
   }
+  const getDatasIndisponiveis = () => {
+    axiosClient
+      .get('/marcacaos')
+      .then(({ data }) => {
+        const horasIndisponiveis = data.data.map((marcacao) => {
+          const dataHora = new Date(marcacao.data);
+          return dataHora.getHours() * 60 + dataHora.getMinutes();
+        });
+        setDatasIndisponiveis(horasIndisponiveis);
+      })
+      .catch(() => {});
+  };
 
   return (
     <>
@@ -139,20 +137,7 @@ const onSubmit = ev => {
               <br /><br />
               <h4 style={{ marginBottom: '10px' }}>Selecionar serviço:</h4>
               <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(ev) => {
-                let custo = 0;
-                switch(ev.target.value){
-                  case 'Corte':
-                    custo = 10;
-                    break;
-                  case 'Barba':
-                    custo = 8;
-                    break;
-                  case 'Corte + Barba':
-                    custo = 12;
-                    break;
-                }
-
-                setMarcacao({ ...marcacao, servico: ev.target.value, custo });
+                setMarcacao({ ...marcacao, servico: ev.target.value });
                 getBarbeirosEspecialidade(ev.target.value);
               }}>
                 <option value="">Escolha uma opção</option>
@@ -176,24 +161,29 @@ const onSubmit = ev => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '20px', textAlign: 'center' }}>
               <h4 style={{ marginBottom: '10px' }}>Selecionar data e hora:</h4>
-              <DatePicker 
-              style={{ width:'300px' }}
-              className='dropdown-horario'
-              selected={dataHoraSelecionada}
-              onChange={(date) => mudarData(date)}
-              showTimeSelect
-              timeIntervals={30}
-              timeFormat="HH:mm"
-              dateFormat="dd/MM/yyyy HH:mm"
-              minDate={new Date()}
-              maxDate={new Date('2030-12-31')}
-              minTime={new Date().setHours(9, 0)}
-              maxTime={new Date().setHours(17, 30)}
-              filterDate={(date) => {
-                const day = date.getDay();
-                return day !== 6 && day !== 0;
-              }}
-            />
+              <DatePicker
+  style={{ width: '300px' }}
+  className='dropdown-horario'
+  selected={dataHoraSelecionada}
+  onChange={(date) => mudarData(date)}
+  showTimeSelect
+  timeIntervals={30}
+  timeFormat='HH:mm'
+  dateFormat='dd/MM/yyyy HH:mm'
+  minDate={new Date()}
+  maxDate={new Date('2030-12-31')}
+  minTime={new Date().setHours(9, 0)}
+  maxTime={new Date().setHours(17, 30)}
+  filterDate={(date) => {
+    const day = date.getDay();
+    return day !== 6 && day !== 0;
+  }}
+  excludeTimes={datasIndisponiveis.map((hora) => {
+    const dataHoraBloqueada = new Date(dataHoraSelecionada.getFullYear(), dataHoraSelecionada.getMonth(), dataHoraSelecionada.getDate(), Math.floor(hora / 60), hora % 60);
+    return dataHoraBloqueada;
+  })}
+
+/>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
               <button className='btn-marcacao'>Confirmar marcação</button>
