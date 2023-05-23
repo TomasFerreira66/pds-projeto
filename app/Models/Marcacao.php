@@ -22,7 +22,8 @@ class Marcacao extends Authenticatable
         'data',
         'idBarbeiro',
         'idCliente',
-        'estado'
+        'estado',
+        'custo'
     ];
 
 

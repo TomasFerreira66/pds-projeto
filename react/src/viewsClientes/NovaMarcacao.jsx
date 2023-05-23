@@ -24,6 +24,7 @@ export default function NovaMarcacao() {
     idBarbeiro: '',
     idCliente: id,
     estado: 'Ativo',
+    custo: 0,
   })
   
   useEffect(() => {
@@ -138,7 +139,20 @@ const onSubmit = ev => {
               <br /><br />
               <h4 style={{ marginBottom: '10px' }}>Selecionar serviço:</h4>
               <select className='dropdown-servico' style={{ marginTop: '20px' }} onChange={(ev) => {
-                setMarcacao({ ...marcacao, servico: ev.target.value });
+                let custo = 0;
+                switch(ev.target.value){
+                  case 'Corte':
+                    custo = 10;
+                    break;
+                  case 'Barba':
+                    custo = 8;
+                    break;
+                  case 'Corte + Barba':
+                    custo = 12;
+                    break;
+                }
+
+                setMarcacao({ ...marcacao, servico: ev.target.value, custo });
                 getBarbeirosEspecialidade(ev.target.value);
               }}>
                 <option value="">Escolha uma opção</option>
