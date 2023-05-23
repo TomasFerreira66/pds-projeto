@@ -11,8 +11,11 @@ export default function Processar() {
   const { user } = useStateContext();
   const [produtos, setProdutos] = useState({});
   const [quantidadePedida, setQuantidadePedida] = useState({});
+  const [currentStep, setCurrentStep] = useState(1);
   const [metodoEnvio, setMetodoEnvio] = useState("");
   const [metodoPagamento, setMetodoPagamento] = useState("");
+  const totalSteps = 3;
+
 
   const getCarrinho = () => {
     setLoading(true);
@@ -65,6 +68,22 @@ export default function Processar() {
     getCarrinho();
   }, []);
 
+  const handleNextStep = () => {
+    setCurrentStep((prevStep) => prevStep + 1);
+  };
+  
+  const handlePreviousStep = () => {
+    setCurrentStep((prevStep) => prevStep - 1);
+  };
+
+  const handleMetodoEnvioChange = (event) => {
+    setMetodoEnvio(event.target.value);
+  };
+
+  const handleMetodoPagamentoChange = (event) => {
+    setMetodoPagamento(event.target.value);
+  };
+
   const processOrder = () => {
     if (!metodoEnvio || !metodoPagamento) {
       setNotification('Selecione o método de envio e pagamento.');
@@ -76,7 +95,6 @@ export default function Processar() {
       (carrinho) => carrinho.idCliente === Number(id)
     );
 
-    
     const encomenda = {
       idCliente: id,
       pedidoCliente: 1,
@@ -84,11 +102,6 @@ export default function Processar() {
       morada: 'endereco_de_entrega',
       nif: 'nif_cliente',
     };
-    
-    
-
-    
-
 
     // Enviar a encomenda para a base de dados de produtos
     axiosClient
@@ -106,201 +119,262 @@ export default function Processar() {
       });
   };
 
+  const renderStep1 = () => {
+    return (
+      <div>
+        <h3>Envio</h3>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+         <label>
+            <input
+              type="radio"
+              name="deliverMethod"
+              value="method1"
+              checked={metodoEnvio === "method1"}
+              onChange={handleMetodoEnvioChange}
+            />{" "}
+            Domiciliário
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="deliverMethod"
+              value="method2"
+              checked={metodoEnvio === "method2"}
+              onChange={handleMetodoEnvioChange}
+            />{" "}
+            Na Loja
+          </label>
+        </div>
+      </div>
+    );
+  };
+
+  const renderStep2 = () => {
+    return (
+      <div>
+        <h3>Pagamento</h3>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <label>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="method1"
+              checked={metodoPagamento === "method1"}
+              onChange={handleMetodoPagamentoChange}
+            />{" "}
+            Visa
+            <img
+              src="../src/img/visa.png"
+              alt="Carrinho"
+              width="30"
+              height="23"
+              className="image-with-border"
+            />
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="method2"
+              checked={metodoPagamento === "method2"}
+              onChange={handleMetodoPagamentoChange}
+            />{" "}
+            MasterCard
+            <img
+              src="../src/img/mastercard.png"
+              alt="Carrinho"
+              width="30"
+              height="23"
+              className="image-with-border"
+            />
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="method3"
+              checked={metodoPagamento === "method3"}
+              onChange={handleMetodoPagamentoChange}
+            />{" "}
+            Multibanco
+            <img
+              src="../src/img/multibanco.png"
+              alt="Carrinho"
+              width="30"
+              height="23"
+              className="image-with-border"
+            />
+          </label>
+        </div>
+      </div>
+    );
+  };
+
+  const renderStep3 = () => {
+    return (
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Preço</th>
+            </tr>
+          </thead>
+          {loading && (
+            <tbody>
+              <tr>
+                <td colSpan="6" className="text-center">
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          )}
+          {!loading && (
+            <tbody>
+              {users
+                .filter((carrinho) => carrinho.idCliente === Number(id))
+                .map((carrinho) => {
+                  const produto = produtos[carrinho.idProduto];
+                  const produtoNome = produto && produto.nome;
+
+                  const quantidade = quantidadePedida[carrinho.id];
+                  const produtoPreco = produto && produto.preco;
+                  return (
+                    <tr key={carrinho.id}>
+                      <td>{produtoNome}</td>
+                      <td>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              border: '1px solid #ccc',
+                              backgroundColor: '#fff',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() =>
+                              setQuantidadePedida((prevState) => ({
+                                ...prevState,
+                                [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
+                              }))
+                            }
+                          >
+                            -
+                          </button>
+                          <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '50%',
+                              border: '1px solid #ccc',
+                              backgroundColor: '#fff',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => {
+                              const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
+                              setQuantidadePedida((prevState) => ({
+                                ...prevState,
+                                [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
+                              }));
+                            }}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td>{produtoPreco * (quantidade || 1)}€</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          )}
+        </table>
+      </div>
+    );
+  };
+
+  const renderSteps = () => {
+    switch (currentStep) {
+      case 1:
+        return renderStep1();
+      case 2:
+        return renderStep2();
+      case 3:
+        return renderStep3();
+      default:
+        return null;
+    }
+  };
+
+  const renderNextButton = () => {
+    if (currentStep < totalSteps) {
+      return (
+        <button onClick={handleNextStep} className="btn-finalizar">
+          Próximo
+        </button>
+      );
+    }
+    return null;
+  };
+
+  const renderPreviousButton = () => {
+    if (currentStep > 1) {
+      return (
+        <button onClick={handlePreviousStep} className="btn-finalizar" style={{marginRight: "10px"}}>
+          Anterior
+        </button>
+      );
+    }
+    return null;
+  };
+
+  const renderFinishButton = () => {
+    if (currentStep === totalSteps) {
+      return (
+        <button onClick={processOrder} className="btn-finalizar">
+          Finalizar Encomenda
+        </button>
+      );
+    }
+    return null;
+  };
+
   return (
     <div style={{ marginLeft: "100px", marginRight: "100px" }}>
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <h2>Checkout</h2>
-    </div>
-    <div
-      className="card animated fadeInDown"
-      style={{ display: "flex", justifyContent: "space-between" }}
-    >
-      <div>
-        <div>
-          <h3>Envio</h3>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label>
-              <input
-                type="radio"
-                name="deliverMethod"
-                value="method1"
-                checked={metodoEnvio === "method1"}
-                onChange={() => setMetodoEnvio("method1")}
-              />{" "}
-              Domiciliário
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="deliverMethod"
-                value="method2"
-                checked={metodoEnvio === "method2"}
-                onChange={() => setMetodoEnvio("method2")}
-              />{" "}
-              Na Loja
-            </label>
-          </div>
-        </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "30px",
+          
+        }}
+      >
+        <h2>Processar Encomenda</h2>
+        <Link to={`/carrinho/${id}`} className="btn-finalizar">
+          Voltar
+        </Link>
       </div>
-      <div>
-        <div>
-          <h3>Pagamento</h3>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label>
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="method1"
-                checked={metodoPagamento === "method1"}
-                onChange={() => setMetodoPagamento("method1")}
-              />{" "}
-              Visa
-              <img
-                src="../src/img/visa.png"
-                alt="Carrinho"
-                width="30"
-                height="23"
-                className="image-with-border"
-              />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="method2"
-                checked={metodoPagamento === "method2"}
-                onChange={() => setMetodoPagamento("method2")}
-              />{" "}
-              MasterCard
-              <img
-                src="../src/img/mastercard.png"
-                alt="Carrinho"
-                width="30"
-                height="23"
-                className="image-with-border"
-              />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="paymentMethod"
-                value="method3"
-                checked={metodoPagamento === "method3"}
-                onChange={() => setMetodoPagamento("method3")}
-              />{" "}
-              Multibanco
-              <img
-                src="../src/img/multibanco.png"
-                alt="Carrinho"
-                width="30"
-                height="23"
-                className="image-with-border"
-              />
-            </label>
-          </div>
-        </div>
+      <div style={{ marginBottom: "30px" }}>
+        <span>Nome: {user.name}</span>
       </div>
-
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Preço</th>
-              </tr>
-            </thead>
-            {loading && (
-              <tbody>
-                <tr>
-                  <td colSpan="6" className="text-center">
-                    Loading...
-                  </td>
-                </tr>
-              </tbody>
-            )}
-            {!loading && (
-              <tbody>
-                {users
-                  .filter((carrinho) => carrinho.idCliente === Number(id))
-                  .map((carrinho) => {
-                    const produto = produtos[carrinho.idProduto];
-                    const produtoNome = produto && produto.nome;
-
-                    const quantidade = quantidadePedida[carrinho.id];
-                    const produtoPreco = produto && produto.preco;
-                    return (
-                      <tr key={carrinho.id}>
-                        <td>{produtoNome}</td>
-                        <td>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <button
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: '24px',
-                                height: '24px',
-                                borderRadius: '50%',
-                                border: '1px solid #ccc',
-                                backgroundColor: '#fff',
-                                fontSize: '14px',
-                                cursor: 'pointer',
-                              }}
-                              onClick={() =>
-                                setQuantidadePedida((prevState) => ({
-                                  ...prevState,
-                                  [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
-                                }))
-                              }
-                            >
-                              -
-                            </button>
-                            <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
-                            <button
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: '24px',
-                                height: '24px',
-                                borderRadius: '50%',
-                                border: '1px solid #ccc',
-                                backgroundColor: '#fff',
-                                fontSize: '14px',
-                                cursor: 'pointer',
-                              }}
-                              onClick={() => {
-                                const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
-                                setQuantidadePedida((prevState) => ({
-                                  ...prevState,
-                                  [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
-                                }));
-                              }}
-                            >
-                              +
-                            </button>
-                          </div>
-                        </td>
-                        <td>{produtoPreco * (quantidade || 1)}€</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            )}
-          </table>
-        </div>
+      {renderSteps()}
+      <div style={{ marginTop: "30px" }}>
+        {renderPreviousButton()}
+        {renderNextButton()}
+        {renderFinishButton()}
       </div>
-
-      <button onClick={processOrder} className="btn-finalizar">
-        Finalizar Encomenda
-      </button>
     </div>
   );
 }
