@@ -189,6 +189,10 @@ const onSubmit = ev => {
               maxDate={new Date('2030-12-31')}
               minTime={new Date().setHours(9, 0)}
               maxTime={new Date().setHours(17, 30)}
+              filterDate={(date) => {
+                const day = date.getDay();
+                return day !== 6 && day !== 0;
+              }}
             />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
