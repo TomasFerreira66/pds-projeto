@@ -2,11 +2,13 @@ import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client.js";
 import { useEffect, useState } from "react";
+import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 export default function PaginaMain() {
   const { user, token, setUser, setToken, notification } = useStateContext();
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const navigate = useNavigate();
 
   const toggleDropdown = (ev) => {
     ev.preventDefault();
@@ -27,6 +29,8 @@ export default function PaginaMain() {
       setUser(data);
     });
   }, []);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     switch (user.tipo) {
@@ -84,29 +88,20 @@ export default function PaginaMain() {
             />
           </div>
           <div>
+            {user.tipo === 'Cliente' && (
+              <Link to={`/carrinho/${user.id}`}>
+                <FontAwesomeIcon icon={faShoppingCart} style={{ color: 'black' }} />
+              </Link>
+            )}
+            &nbsp;&nbsp;&nbsp;
             <button className="no-underline" onClick={toggleDropdown}>
               {user.name}
             </button>
             {dropdownVisible && (
               <div className="dropdown">
                 <ul>
-                  {user.tipo === "Cliente" && (
-                    <li>
-                      <Link onClick={() => setDropdownVisible(false)} to={`/carrinho/${user.id}`}>
-                        Carrinho
-                      </Link>
-                    </li>
-                  )}
-                  <li>
-                    <Link onClick={() => setDropdownVisible(false)} to={`/Perfil/${user.id}`}>
-                      Definições
-                    </Link>
-                  </li>
-                  <li>
-                    <a onClick={(e) => { onLogout(e); setDropdownVisible(false); }} href="#">
-                      Terminar sessão
-                    </a>
-                  </li>
+                  <li><Link onClick={() => setDropdownVisible(false)} to={'/Perfil/' + user.id}>Definições</Link></li>
+                  <li><a onClick={(e) => { onLogout(e); setDropdownVisible(false); }} href="#">Terminar sessão</a></li>
                 </ul>
               </div>
             )}
