@@ -74,7 +74,7 @@ export default function Marcacoes() {
             .map((marcacao) => (
               <div key={marcacao.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height:'150px' }}>
                 <div style={{ marginBottom: "10px" }}>{`${marcacao.id} - ${barbeiros[marcacao.idBarbeiro] || "-"}`}</div>
-                <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.servico}</div>
+                <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.servico} ({marcacao.custo} €)</div>
                 <div style={{ fontSize: "18px", marginTop: "10px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
                   day: "numeric",
                   month: "numeric",

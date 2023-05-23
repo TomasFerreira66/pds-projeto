@@ -27,6 +27,7 @@ class UpdateMarcacaoRequest extends FormRequest
             'idBarbeiro',
             'idCliente',
             'estado' => 'required',
+            'custo',
         ];
     }
 }
