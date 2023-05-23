@@ -55,6 +55,7 @@ export default function Historico() {
             <tr>
               <th>Nº</th>
               <th>Serviço</th>
+              <th>Custo</th>
               <th>Barbeiro</th>
               <th>Data</th>
             </tr>
@@ -76,7 +77,8 @@ export default function Historico() {
                   return (
                     <tr key={marcacao.id}>
                       <td>{marcacao.id}</td>
-                      <td>{marcacao.servico} ({marcacao.custo} €)</td>
+                      <td>{marcacao.servico}</td>
+                      <td>{marcacao.custo} €</td>
                       <td>{barbeiros[marcacao.idBarbeiro] || "-"}</td>
                       <td>
                         {new Date (marcacao.data).toLocaleString("pt-PT", {
