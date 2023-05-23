@@ -97,6 +97,7 @@ export default function Processar() {
 
     const encomenda = {
       idCliente: id,
+      idPedido: 1,
       pedidoCliente: 1,
       quantidadePedida: 1,
       morada: 'endereco_de_entrega',
@@ -237,8 +238,8 @@ export default function Processar() {
                 .map((carrinho) => {
                   const produto = produtos[carrinho.idProduto];
                   const produtoNome = produto && produto.nome;
-
                   const quantidade = quantidadePedida[carrinho.id];
+                  console.log(quantidade);
                   const produtoPreco = produto && produto.preco;
                   return (
                     <tr key={carrinho.id}>
@@ -268,6 +269,7 @@ export default function Processar() {
                             -
                           </button>
                           <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
+                        
                           <button
                             style={{
                               display: 'flex',
@@ -342,9 +344,9 @@ export default function Processar() {
   const renderFinishButton = () => {
     if (currentStep === totalSteps) {
       return (
-        <button onClick={processOrder} className="btn-finalizar">
+        <Link to={`/carrinho/${id}`} onClick={processOrder} className="btn-finalizar">
           Finalizar Encomenda
-        </button>
+        </Link>
       );
     }
     return null;

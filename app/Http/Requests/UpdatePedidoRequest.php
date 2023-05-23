@@ -23,6 +23,7 @@ class UpdatePedidoRequest extends FormRequest
     {
         return [
             'idCliente' => 'required',
+            'idPedido' => 'required',
             'pedidoCliente' => 'required',
             'quantidadePedida' => 'required',
             'morada' => 'required',

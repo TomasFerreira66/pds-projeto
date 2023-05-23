@@ -17,6 +17,7 @@ class PedidoResource extends JsonResource
         return [
             'id' => $this->id,
             'idCliente' => $this->idCliente,
+            'idPedido' => $this->idPedido,
             'pedidoCliente' => $this->pedidoCliente,
             'quantidadePedida' => $this->quantidadePedida,
             'morada' => $this->morada,

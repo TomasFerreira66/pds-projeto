@@ -18,6 +18,7 @@ class Pedido extends Authenticatable
      */
     protected $fillable = [
         'idCliente',
+        'idPedido',
         'pedidoCliente',
         'quantidadePedida',
         'morada',
