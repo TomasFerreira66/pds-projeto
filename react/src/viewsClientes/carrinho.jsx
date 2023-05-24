@@ -86,6 +86,7 @@ export default function Carrinho() {
           <thead>
             <tr>
               <th>Produto</th>
+              <th>Quantidade</th>
               <th>Descrição</th>
               <th>Ações</th>
             </tr>
@@ -101,25 +102,27 @@ export default function Carrinho() {
           )}
           {!loading && (
             <tbody>
-              {users
-                .filter((carrinho) => carrinho.idCliente === Number(id))
-                .map((carrinho) => {
-                  const produtoNome = produtos[carrinho.idProduto]?.nome || "";
-                  const produtoDescricao = produtos[carrinho.idProduto]?.descricao || "";
-                  console.log(produtoDescricao);
-                  return (
-                    <tr key={carrinho.id}>
-                      <td>{produtoNome}</td>
-                      <td>{produtoDescricao}</td>
-                      <td>
-                        <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
-                          Remover
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
+            {users
+              .filter((carrinho) => carrinho.idCliente === Number(id) && carrinho.estado === "carrinho")
+              .map((carrinho) => {
+                const produtoNome = produtos[carrinho.idProduto]?.nome || "";
+                const produtoDescricao = produtos[carrinho.idProduto]?.descricao || "";
+                const quantidade = carrinho.quantidadePedida;
+                console.log(produtoDescricao);
+                return (
+                  <tr key={carrinho.id}>
+                    <td>{produtoNome}</td>
+                    <td>{quantidade}</td>
+                    <td>{produtoDescricao}</td>
+                    <td>
+                      <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
+                        Remover
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
           )}
         </table>
       </div>

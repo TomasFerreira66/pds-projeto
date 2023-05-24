@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Processar() {
-  const [users, setUsers] = useState([]);
+  const [carrinho, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
   const { id } = useParams();
-  const { user } = useStateContext();
-  const [produtos, setProdutos] = useState({});
-  const [quantidadePedida, setQuantidadePedida] = useState({});
   const [currentStep, setCurrentStep] = useState(1);
   const [metodoEnvio, setMetodoEnvio] = useState("");
   const [metodoPagamento, setMetodoPagamento] = useState("");
   const totalSteps = 3;
-
+  const [morada, setMorada] = useState("");
+  const [nif, setNif] = useState("");
 
   const getCarrinho = () => {
     setLoading(true);
@@ -24,45 +24,14 @@ export default function Processar() {
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
-        getNomeProdutos(data.data);
       })
       .catch(() => {
         setLoading(false);
       });
   };
 
-  const getProduto = (idProduto) => {
-    axiosClient
-      .get(`/produtos/${idProduto}`)
-      .then((response) => {
-        const { data } = response;
-        const nestedData = data.data;
-        if (nestedData && nestedData.nome) {
-          setProdutos((prevState) => ({
-            ...prevState,
-            [idProduto]: {
-              nome: nestedData.nome,
-              preco: nestedData.preco,
-              quantidade: nestedData.quantidade,
-            },
-          }));
-        } else {
-          console.log(`Product data not found for idProduto ${idProduto}`);
-        }
-      })
-      .catch((error) => {
-        console.log(`Error fetching product data for idProduto ${idProduto}:`, error);
-      });
-  };
 
-  const getNomeProdutos = (carrinhos) => {
-    carrinhos.forEach((carrinho) => {
-      const idProduto = carrinho.idProduto;
-      if (!produtos[idProduto]) {
-        getProduto(idProduto);
-      }
-    });
-  };
+  const [showAdditionalStep, setShowAdditionalStep] = useState(false);
 
   useEffect(() => {
     getCarrinho();
@@ -78,54 +47,49 @@ export default function Processar() {
 
   const handleMetodoEnvioChange = (event) => {
     setMetodoEnvio(event.target.value);
+    setShowAdditionalStep(event.target.value === "method1"); // "method1" represents Domiciliario
   };
 
   const handleMetodoPagamentoChange = (event) => {
     setMetodoPagamento(event.target.value);
   };
 
-  const processOrder = () => {
-    if (!metodoEnvio || !metodoPagamento) {
-      setNotification('Selecione o método de envio e pagamento.');
-      return;
-    }
+  
 
-    // Obter os produtos selecionados pelo usuário
-    const produtosSelecionados = users.filter(
-      (carrinho) => carrinho.idCliente === Number(id)
-    );
-
-    const encomenda = {
-      idCliente: id,
-      idPedido: 1,
-      pedidoCliente: 1,
-      quantidadePedida: 1,
-      morada: 'endereco_de_entrega',
-      nif: 'nif_cliente',
-    };
-
-    // Enviar a encomenda para a base de dados de produtos
-    axiosClient
-      .post('/pedidos', encomenda)
-      .then((response) => {
-        // Encomenda enviada com sucesso
-        setNotification('Encomenda processada e enviada com sucesso!');
-        // Redirecionar para a página de confirmação de encomenda, por exemplo:
-        // history.push('/confirmacao-encomenda');
-      })
-      .catch((error) => {
-        // Ocorreu um erro ao enviar a encomenda, tratar o erro adequadamente
-        console.error('Erro ao enviar a encomenda:', error);
-        setNotification('Erro ao enviar a encomenda. Por favor, tente novamente.');
-      });
-  };
+  
 
   const renderStep1 = () => {
+    const onUpdateSubmit = (event) => {
+      event.preventDefault();
+  
+      // Filter the carrinhos based on the condition (estado = "carrinho" and idCliente matches the current user)
+      const filteredCarrinhos = carrinho.filter(
+        (carrinho) => carrinho.estado === "carrinho" && carrinho.idCliente === Number(id)
+      );
+  
+      // Update the morada and nif for each filtered carrinho
+      filteredCarrinhos.forEach((carrinho) => {
+        // Update the morada and nif values for the current carrinho
+        carrinho.morada = morada;
+        carrinho.nif = nif;
+  
+        // Send the updated carrinho data to the server for storage or further processing
+        axiosClient.put(`/carrinhos/${carrinho.id}`, carrinho)
+          .then(() => {
+            setNotification('Carrinho atualizado com sucesso');
+          })
+          .catch((error) => {
+            console.log('Error updating carrinho:', error);
+          });
+      });
+      
+
+    }
     return (
       <div>
         <h3>Envio</h3>
         <div style={{ display: "flex", flexDirection: "column" }}>
-         <label>
+          <label>
             <input
               type="radio"
               name="deliverMethod"
@@ -146,6 +110,32 @@ export default function Processar() {
             Na Loja
           </label>
         </div>
+  
+        {showAdditionalStep && (
+          <form onSubmit={onUpdateSubmit}>
+          <div>
+            <label htmlFor="morada">Morada:</label>
+            <input
+              type="text"
+              id="morada"
+              name="morada"
+              value={morada}
+              onChange={(e) => setMorada(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="nif">NIF:</label>
+            <input
+              type="text"
+              id="nif"
+              name="nif"
+              value={nif}
+              onChange={(e) => setNif(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="btn-finalizar">Guardar dados</button>
+        </form>
+        )}
       </div>
     );
   };
@@ -212,96 +202,13 @@ export default function Processar() {
   };
 
   const renderStep3 = () => {
+    const filteredCarrinho = carrinho.filter((carrinho) => carrinho.idCliente === Number(id));
+  
     return (
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Quantidade</th>
-              <th>Preço</th>
-            </tr>
-          </thead>
-          {loading && (
-            <tbody>
-              <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
-          )}
-          {!loading && (
-            <tbody>
-              {users
-                .filter((carrinho) => carrinho.idCliente === Number(id))
-                .map((carrinho) => {
-                  const produto = produtos[carrinho.idProduto];
-                  const produtoNome = produto && produto.nome;
-                  const quantidade = quantidadePedida[carrinho.id];
-                  console.log(quantidade);
-                  const produtoPreco = produto && produto.preco;
-                  return (
-                    <tr key={carrinho.id}>
-                      <td>{produtoNome}</td>
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <button
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                            }}
-                            onClick={() =>
-                              setQuantidadePedida((prevState) => ({
-                                ...prevState,
-                                [carrinho.id]: Math.max(prevState[carrinho.id] - 1, 1), // Prevent quantity from going below 1
-                              }))
-                            }
-                          >
-                            -
-                          </button>
-                          <span style={{ margin: '0 8px' }}>{quantidade || 1}</span>
-                        
-                          <button
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              width: '24px',
-                              height: '24px',
-                              borderRadius: '50%',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                            }}
-                            onClick={() => {
-                              const maxQuantity = produtos[carrinho.idProduto]?.quantidade || 1; // Get the maximum quantity from produtos state
-                              setQuantidadePedida((prevState) => ({
-                                ...prevState,
-                                [carrinho.id]: Math.min((prevState[carrinho.id] || 0) + 1, maxQuantity), // Prevent quantity from exceeding maxQuantity
-                              }));
-                            }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
-                      <td>{produtoPreco * (quantidade || 1)}€</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          )}
-        </table>
+        <h3>Pagina de rever o pedido</h3>
+        <h3>O botao de finalizar compra simula como se ele tivesse pago e muda o estado na db de "carrinho" para "encomenda"</h3>
+       
       </div>
     );
   };
@@ -341,38 +248,60 @@ export default function Processar() {
     return null;
   };
 
+  const navigate = useNavigate();
+
+  const handleFinalizarEncomenda = (event) => {
+    event.preventDefault();
+
+    // Filter the carrinhos based on the condition (estado = "carrinho" and idCliente matches the current user)
+    const filteredCarrinhos = carrinho.filter(
+      (carrinho) => carrinho.estado === "carrinho" && carrinho.idCliente === Number(id)
+    );
+
+    // Update the morada and nif for each filtered carrinho
+    filteredCarrinhos.forEach((carrinho) => {
+      // Update the morada and nif values for the current carrinho
+      carrinho.estado = "Pago";
+      
+      // Send the updated carrinho data to the server for storage or further processing
+      axiosClient.put(`/carrinhos/${carrinho.id}`, carrinho)
+        .then(() => {
+          setNotification('Carrinho atualizado com sucesso');
+          navigate(`/carrinho/${id}`);
+        })
+        .catch((error) => {
+          console.log('Error updating carrinho:', error);
+        });
+    });
+    
+
+  }
+  
   const renderFinishButton = () => {
     if (currentStep === totalSteps) {
       return (
-        <Link to={`/carrinho/${id}`} onClick={processOrder} className="btn-finalizar">
+        <button className="btn-finalizar" onClick={handleFinalizarEncomenda}>
           Finalizar Encomenda
-        </Link>
+        </button>
       );
     }
     return null;
   };
 
   return (
-    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "30px",
-          
-        }}
-      >
-        <h2>Processar Encomenda</h2>
-        <Link to={`/carrinho/${id}`} className="btn-finalizar">
-          Voltar
-        </Link>
+    
+    <div>
+      
+      <h1>Processar Encomenda</h1>
+      <div className="progress-bar">
+        <div className="steps">
+          <div className={`step ${currentStep === 1 ? "active" : ""}`}></div>
+          <div className={`step ${currentStep === 2 ? "active" : ""}`}></div>
+          <div className={`step ${currentStep === 3 ? "active" : ""}`}></div>
+        </div>
       </div>
-      <div style={{ marginBottom: "30px" }}>
-        <span>Nome: {user.name}</span>
-      </div>
-      {renderSteps()}
-      <div style={{ marginTop: "30px" }}>
+      <div className="form-container">{renderSteps()}</div>
+      <div className="button-container">
         {renderPreviousButton()}
         {renderNextButton()}
         {renderFinishButton()}
@@ -380,3 +309,4 @@ export default function Processar() {
     </div>
   );
 }
+

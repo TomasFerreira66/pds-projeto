@@ -22,6 +22,9 @@ export default function Produtos() {
     idProduto: '',
     idCliente: localStorage.getItem('userId'),
     quantidadePedida: 1,
+    nif: 1,
+    morada: 'naloja',
+    estado: 'carrinho'
   });
 
   useEffect(() => {
@@ -44,27 +47,76 @@ export default function Produtos() {
     ev.preventDefault();
     const updatedProdutoEscolhido = {
       ...produtoEscolhido,
-      idProduto: produtoId.toString(),
+      idProduto: parseInt(produtoId),
+      idCliente: parseInt(localStorage.getItem('userId')),
     };
-
+  
     if (parseInt(updatedProdutoEscolhido.quantidadePedida) > produtoEscolhido.quantidade) {
       const quantidadeDisponivel = produtoEscolhido.quantidade;
       setNotification(`Quantidade indisponível, quantidade em stock: ${quantidadeDisponivel}`);
       return;
     }
-
+  
+    // Retrieve the carrinhos data from the backend
     axiosClient
-      .post('/carrinhos', updatedProdutoEscolhido)
-      .then(() => {
-        setNotification('Produto adicionado ao carrinho com sucesso');
-      })
-      .catch((err) => {
-        const response = err.response;
-        if (response && response.status === 422) {
-          setErrors(response.data.errors);
+      .get('/carrinhos')
+      .then(({ data }) => {
+        const carrinhos = data.data;
+  
+        // Check if the same idProduto and idCliente already exist in the carrinhos table
+        const existingRow = carrinhos.find(
+          (row) =>
+          row.idProduto === updatedProdutoEscolhido.idProduto &&
+          row.idCliente === updatedProdutoEscolhido.idCliente &&
+          row.estado === 'carrinho'
+
+        );
+  
+        console.log('Updated Produto Escolhido:', updatedProdutoEscolhido);
+        console.log('Existing Row:', existingRow);
+  
+        if (existingRow) {
+          // If the row exists, update the quantidadePedida value
+          const updatedRow = {
+            ...existingRow,
+            quantidadePedida: existingRow.quantidadePedida + 1,
+          };
+  
+          axiosClient
+            .put(`/carrinhos/${existingRow.id}`, updatedRow)
+            .then(() => {
+              setNotification('Quantidade atualizada com sucesso');
+            })
+            .catch((err) => {
+              const response = err.response;
+              if (response && response.status === 422) {
+                setErrors(response.data.errors);
+              }
+            });
+        } else {
+          // If the row doesn't exist, add a new row
+          axiosClient
+            .post('/carrinhos', updatedProdutoEscolhido)
+            .then(() => {
+              setNotification('Produto adicionado ao carrinho com sucesso');
+            })
+            .catch((err) => {
+              const response = err.response;
+              if (response && response.status === 422) {
+                setErrors(response.data.errors);
+              }
+            });
         }
+      })
+      .catch(() => {
+        // Handle error while retrieving carrinhos data
+        setLoading(false);
       });
   };
+  
+  
+  
+  
 
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);

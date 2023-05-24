@@ -20,6 +20,9 @@ class Carrinho extends Authenticatable
         'idProduto',
         'idCliente',
         'quantidadePedida',
+        'nif',
+        'morada', 
+        'estado',
     ]; 
     
     /**
