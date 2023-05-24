@@ -405,9 +405,9 @@ table > tbody > tr > td {
 .imagem-barba{
     display: block;
     margin: 0 auto;
-    width: 270px;
-    height: 180px;
-    border-radius: 15px;
+    width: 300px;
+    height: 200px;
+    border-radius: 5px;
 }
 
 .no-underline {

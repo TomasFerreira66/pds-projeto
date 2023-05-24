@@ -252,30 +252,54 @@ export default function Processar() {
 
   const handleFinalizarEncomenda = (event) => {
     event.preventDefault();
-
+  
     // Filter the carrinhos based on the condition (estado = "carrinho" and idCliente matches the current user)
     const filteredCarrinhos = carrinho.filter(
-      (carrinho) => carrinho.estado === "carrinho" && carrinho.idCliente === Number(id)
+      (carrinho) =>
+        carrinho.estado === 'carrinho' && carrinho.idCliente === Number(id)
     );
-
+  
     // Update the morada and nif for each filtered carrinho
     filteredCarrinhos.forEach((carrinho) => {
-      // Update the morada and nif values for the current carrinho
-      carrinho.estado = "Pago";
-      
-      // Send the updated carrinho data to the server for storage or further processing
-      axiosClient.put(`/carrinhos/${carrinho.id}`, carrinho)
-        .then(() => {
-          setNotification('Carrinho atualizado com sucesso');
-          navigate(`/carrinho/${id}`);
+      // Retrieve the produto with the same id as carrinho.idProduto
+      axiosClient
+        .get(`/produtos/${carrinho.idProduto}`)
+        .then(({ data }) => {
+          const produto = data.data;
+  
+          // Calculate the updated quantidade in the produtos table
+          const updatedQuantidade = produto.quantidade - carrinho.quantidadePedida;
+  
+          // Update the quantidade value in the produtos table
+          axiosClient
+            .put(`/produtos/${carrinho.idProduto}`, {
+              quantidade: updatedQuantidade,
+            })
+            .then(() => {
+              // Update the estado value for the current carrinho
+              carrinho.estado = 'Pago';
+  
+              // Send the updated carrinho data to the server for storage or further processing
+              axiosClient
+                .put(`/carrinhos/${carrinho.id}`, carrinho)
+                .then(() => {
+                  setNotification('Carrinho atualizado com sucesso');
+                  navigate(`/carrinho/${id}`);
+                })
+                .catch((error) => {
+                  console.log('Error updating carrinho:', error);
+                });
+            })
+            .catch((error) => {
+              console.log('Error updating quantidade in produtos:', error);
+            });
         })
         .catch((error) => {
-          console.log('Error updating carrinho:', error);
+          console.log('Error retrieving produto:', error);
         });
     });
-    
-
-  }
+  };
+  
   
   const renderFinishButton = () => {
     if (currentStep === totalSteps) {

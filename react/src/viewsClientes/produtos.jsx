@@ -51,12 +51,6 @@ export default function Produtos() {
       idCliente: parseInt(localStorage.getItem('userId')),
     };
   
-    if (parseInt(updatedProdutoEscolhido.quantidadePedida) > produtoEscolhido.quantidade) {
-      const quantidadeDisponivel = produtoEscolhido.quantidade;
-      setNotification(`Quantidade indisponível, quantidade em stock: ${quantidadeDisponivel}`);
-      return;
-    }
-  
     // Retrieve the carrinhos data from the backend
     axiosClient
       .get('/carrinhos')
@@ -66,47 +60,69 @@ export default function Produtos() {
         // Check if the same idProduto and idCliente already exist in the carrinhos table
         const existingRow = carrinhos.find(
           (row) =>
-          row.idProduto === updatedProdutoEscolhido.idProduto &&
-          row.idCliente === updatedProdutoEscolhido.idCliente &&
-          row.estado === 'carrinho'
-
+            row.idProduto === updatedProdutoEscolhido.idProduto &&
+            row.idCliente === updatedProdutoEscolhido.idCliente &&
+            row.estado === 'carrinho'
         );
   
         console.log('Updated Produto Escolhido:', updatedProdutoEscolhido);
         console.log('Existing Row:', existingRow);
   
-        if (existingRow) {
-          // If the row exists, update the quantidadePedida value
-          const updatedRow = {
-            ...existingRow,
-            quantidadePedida: existingRow.quantidadePedida + 1,
-          };
+        // Retrieve the produto with the same id as idProduto
+        axiosClient
+          .get(`/produtos/${updatedProdutoEscolhido.idProduto}`)
+          .then(({ data }) => {
+            const produto = data.data;
   
-          axiosClient
-            .put(`/carrinhos/${existingRow.id}`, updatedRow)
-            .then(() => {
-              setNotification('Quantidade atualizada com sucesso');
-            })
-            .catch((err) => {
-              const response = err.response;
-              if (response && response.status === 422) {
-                setErrors(response.data.errors);
+            if (existingRow) {
+              // If the row exists, update the quantidadePedida value
+              const updatedRow = {
+                ...existingRow,
+                quantidadePedida: existingRow.quantidadePedida + 1,
+              };
+  
+              // Check if the updated quantidadePedida surpasses the quantidade value
+              if (updatedRow.quantidadePedida > produto.quantidade) {
+                setErrors({
+                  quantidadePedida:
+                    'A quantidade pedida excede a quantidade disponível.',
+                });
+                setNotification('Quantidade limitada ao stock.');
+              } else {
+                axiosClient
+                  .put(`/carrinhos/${existingRow.id}`, updatedRow)
+                  .then(() => {
+                    setNotification('Quantidade atualizada com sucesso');
+                  })
+                  .catch((err) => {
+                    const response = err.response;
+                    if (response && response.status === 422) {
+                      setErrors(response.data.errors);
+                    }
+                  });
               }
-            });
-        } else {
-          // If the row doesn't exist, add a new row
-          axiosClient
-            .post('/carrinhos', updatedProdutoEscolhido)
-            .then(() => {
-              setNotification('Produto adicionado ao carrinho com sucesso');
-            })
-            .catch((err) => {
-              const response = err.response;
-              if (response && response.status === 422) {
-                setErrors(response.data.errors);
-              }
-            });
-        }
+            } else {
+              // If the row doesn't exist, add a new row
+              axiosClient
+                .post('/carrinhos', updatedProdutoEscolhido)
+                .then(() => {
+                  setNotification('Produto adicionado ao carrinho com sucesso');
+                })
+                .catch((err) => {
+                  const response = err.response;
+                  if (response && response.status === 422) {
+                    setErrors(response.data.errors);
+                  }
+                });
+            }
+          })
+          .catch((err) => {
+            const response = err.response;
+            if (response && response.status === 404) {
+              // Handle error when the produto with the given idProduto is not found
+              setErrors({ produto: 'Produto não encontrado.' });
+            }
+          });
       })
       .catch(() => {
         // Handle error while retrieving carrinhos data
@@ -114,10 +130,6 @@ export default function Produtos() {
       });
   };
   
-  
-  
-  
-
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);
     let url = '/produtos';
@@ -180,25 +192,50 @@ export default function Produtos() {
       </div>
       <br />
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-        {filteredProdutos.map((produto) => (
-          <form key={produto.id} onSubmit={(event) => onSubmit(event, produto.id)}>
-            <div id={produto.id} className="card animated fadeInDown key" style={{ display: "grid", gridTemplateRows: "1fr auto auto", padding: "10px", borderRadius: "10px" }}>
-              <div>{produto.nome}</div>
-              <div>{produto.descricao}</div>
-              <div>{`${produto.preco} €`}</div>
-              <div>Quantidade em stock: {produto.quantidade}</div>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <button
-                  style={{ width: 200, height: 50 }}
-                  className="btn-login"
-                  onClick={(event) => onSubmit(event, produto.id)}
-                >
-                  Adicionar ao carrinho
-                </button>
-              </div>
-            </div>
-          </form>
-        ))}
+      {filteredProdutos.map((produto) => (
+  <form key={produto.id} onSubmit={(event) => onSubmit(event, produto.id)}>
+    <div
+      id={produto.id}
+      className="card animated fadeInDown key"
+      style={{
+        display: "grid",
+        gridTemplateRows: "1fr auto auto",
+        padding: "10px",
+        borderRadius: "10px"
+      }}
+    >
+      <div>{produto.nome}</div>
+      <div>{produto.descricao}</div>
+      <div>{`${produto.preco} €`}</div>
+      <div>Quantidade em stock: {produto.quantidade}</div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+      {produto.quantidade === 0 ? (
+  <button
+    style={{
+      width: 200,
+      height: 50,
+      backgroundColor: "red",
+      cursor: "not-allowed",
+      color: "white"
+    }}
+    className="btn-login"
+    disabled
+  >
+    Fora de stock
+  </button>
+) : (
+  <button
+    style={{ width: 200, height: 50 }}
+    className="btn-login"
+    onClick={(event) => onSubmit(event, produto.id)}
+  >
+    Adicionar ao carrinho
+  </button>
+)}
+      </div>
+    </div>
+  </form>
+))}
       </div>
     </div>
   );
