@@ -58,10 +58,10 @@ export default function Estatisticas() {
           .reduce((total, marcacao) => total + marcacao.custo, 0)
       );
 
-      // Registrar o tipo de gráfico "doughnut" manualmente
+      // Register the "doughnut" chart type manually
       Chart.register(...registerables);
 
-      // Verificar se há um gráfico existente e destruí-lo
+      // Check if there is an existing chart and destroy it
       const existingChart = Chart.getChart(ctx);
       if (existingChart) {
         existingChart.destroy();
@@ -104,14 +104,6 @@ export default function Estatisticas() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
         <div className="card">
           <h4>Barbeiros</h4>
-          <select className="btn-marcacao1" value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
-            <option value="Todos">Todos</option>
-            {userNames.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
           <div className="card animated fadeInDown">
             <table>
               <thead>
@@ -119,23 +111,32 @@ export default function Estatisticas() {
                   <th>ID</th>
                   <th>Barbeiro</th>
                   <th>Marcações concluídas</th>
+                  <th>Ganhos</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="3" className="text-center">
+                    <td colSpan="4" className="text-center">
                       Loading...
                     </td>
                   </tr>
                 ) : (
-                  filteredUsers.map(user => (
-                    <tr key={user.id}>
-                      <td>{user.id}</td>
-                      <td>{user.name}</td>
-                      <td>{marcacaos.filter(marcacao => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length}</td>
-                    </tr>
-                  ))
+                  filteredUsers.map((user) => {
+                    const total = marcacaos
+                      .filter((marcacao) => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído')
+                      .reduce((acc, marcacao) => acc + marcacao.custo, 0);
+                    return (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.name}</td>
+                        <td>
+                          {marcacaos.filter((marcacao) => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length}
+                        </td>
+                        <td>{total.toFixed(2)}€</td>
+                      </tr>
+                    );
+                  })
                 )}
               </tbody>
             </table>
