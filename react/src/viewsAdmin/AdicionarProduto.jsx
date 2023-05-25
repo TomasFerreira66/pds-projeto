@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
-
+import Axios from "axios";
 export default function AdicionarProduto() {
   const navigate = useNavigate();
   let {id} = useParams();
@@ -57,14 +57,19 @@ export default function AdicionarProduto() {
           }
         })
 
-        
+        const fData = new FormData();
+  fData.append('name', produto.nome);
+  fData.append('image', imageData);
 
-    }
+  Axios.post('http://127.0.0.1:8000/api/upload-image', fData)
+    .then(res => {
+      console.log('response', res);
+    })
+    .catch(e => {
+      console.error('Failure', ev);
+    });
+};
 
-    
-
-
-    
   
 
   return (

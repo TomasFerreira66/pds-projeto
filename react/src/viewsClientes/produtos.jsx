@@ -142,8 +142,12 @@ export default function Produtos() {
     axiosClient
       .get(url)
       .then(({ data }) => {
+        const ProdutosList = data.data.map(produto => ({
+          ...produto,
+          imgUrl: 'src/img/' + produto.nome + '.png'
+        }));
         setLoading(false);
-        setProdutos(data.data);
+        setProdutos(ProdutosList);
       })
       .catch(() => {
         setLoading(false);
@@ -197,19 +201,14 @@ export default function Produtos() {
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
       {filteredProdutos.map((produto) => (
   <form key={produto.id} onSubmit={(event) => onSubmit(event, produto.id)}>
-    <div
-      id={produto.id}
-      className="card animated fadeInDown key"
-      style={{
-        display: "grid",
-        gridTemplateRows: "1fr auto auto",
-        padding: "10px",
-        borderRadius: "10px"
-      }}
-    >
+    <div id={produto.id} className="card animated fadeInDown key" style={{ display: "grid", gridTemplateRows: "1fr auto auto", padding: "10px", borderRadius: "10px" }}>
       <div>{produto.nome}</div>
+      <img className='img-barbeiro' src={produto.imgUrl} alt={produto.nome} style={{paddingTop:'5px', paddingBottom:'5px'}}/>
       <div>{produto.descricao}</div>
       <div>{`${produto.preco} €`}</div>
+      
+
+      
       <div>Quantidade em stock: {produto.quantidade}</div>
       <div style={{ display: "flex", alignItems: "center" }}>
       {produto.quantidade === 0 ? (
