@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Processar() {
   const [carrinho, setUsers] = useState([]);
+  const [produto, setProduto] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
   const { id } = useParams();
@@ -30,11 +31,25 @@ export default function Processar() {
       });
   };
 
+  const getProduto = () => {
+    setLoading(true);
+    axiosClient
+      .get('/produtos')
+      .then(({ data }) => {
+        setLoading(false);
+        setProduto(data.data);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
 
   const [showAdditionalStep, setShowAdditionalStep] = useState(false);
 
   useEffect(() => {
     getCarrinho();
+    getProduto();
   }, []);
 
   const handleNextStep = () => {
@@ -202,16 +217,75 @@ export default function Processar() {
   };
 
   const renderStep3 = () => {
-    const filteredCarrinho = carrinho.filter((carrinho) => carrinho.idCliente === Number(id));
+    const filteredCarrinho = carrinho.filter(
+      (carrinho) => carrinho.estado === "carrinho" && carrinho.idCliente === Number(id)
+    );
+  
+    // Get the list of product names and quantities based on the filtered carrinho
+    const produtoNamesAndQuantities = filteredCarrinho.map((carrinho) => {
+      const matchingProduto = produto.find((prod) => prod.id === carrinho.idProduto);
+      return matchingProduto ? { nome: matchingProduto.nome, quantidade: carrinho.quantidadePedida } : null;
+    }).filter(Boolean);
+  
+    // Calculate the total value of carrinho.preco
+    const totalValue = filteredCarrinho.reduce((acc, curr) => acc + curr.preco, 0);
+
+
+    const openCreditCardForm = () => {
+      const formMarkup = `
+        <div>
+          <h3>Preencha as informações do cartão de crédito:</h3>
+          <div>
+            <label>
+              Número do cartão:
+              <input type="text" name="cardNumber" />
+            </label>
+          </div>
+          <div>
+            <label>
+              Nome do titular:
+              <input type="text" name="cardHolderName" />
+            </label>
+          </div>
+          <div>
+            <label>
+              Data de expiração:
+              <input type="text" name="expirationDate" />
+            </label>
+          </div>
+          <div>
+            <label>
+              CVV:
+              <input type="text" name="cvv" />
+            </label>
+          </div>
+          <button type="button">Finalizar compra</button>
+        </div>
+      `;
+      const newWindow = window.open('', '_blank', 'width=400,height=400');
+      newWindow.document.write(formMarkup);
+    };
   
     return (
       <div>
-        <h3>Pagina de rever o pedido</h3>
-        <h3>O botao de finalizar compra simula como se ele tivesse pago e muda o estado na db de "carrinho" para "encomenda"</h3>
-       
+        <h1>Resumo do seu pedido</h1>
+        <h3>Produtos:</h3>
+      <ul>
+        {produtoNamesAndQuantities.map((produto, index) => (
+          <li key={index}>
+            {produto.nome} - Quantidade: {produto.quantidade}
+          </li>
+        ))}
+      </ul>
+      <h3>Valor a pagar: {totalValue}€</h3>
+      <br></br>
+        <button type="button" onClick={openCreditCardForm}>
+          Proceder para o pagamento
+        </button>
       </div>
     );
   };
+  
 
   const renderSteps = () => {
     switch (currentStep) {
@@ -283,7 +357,7 @@ export default function Processar() {
               axiosClient
                 .put(`/carrinhos/${carrinho.id}`, carrinho)
                 .then(() => {
-                  setNotification('Carrinho atualizado com sucesso');
+                  setNotification('Compra efetuada com sucesso');
                   navigate(`/carrinho/${id}`);
                 })
                 .catch((error) => {
@@ -315,8 +389,6 @@ export default function Processar() {
   return (
     
     <div>
-      
-      <h1>Processar Encomenda</h1>
       <div className="progress-bar">
         <div className="steps">
           <div className={`step ${currentStep === 1 ? "active" : ""}`}></div>

@@ -87,6 +87,7 @@ export default function Carrinho() {
             <tr>
               <th>Produto</th>
               <th>Quantidade</th>
+              <th>Preço</th>
               <th>Descrição</th>
               <th>Ações</th>
             </tr>
@@ -108,11 +109,13 @@ export default function Carrinho() {
                 const produtoNome = produtos[carrinho.idProduto]?.nome || "";
                 const produtoDescricao = produtos[carrinho.idProduto]?.descricao || "";
                 const quantidade = carrinho.quantidadePedida;
+                const preco = carrinho.preco;
                 console.log(produtoDescricao);
                 return (
                   <tr key={carrinho.id}>
                     <td>{produtoNome}</td>
                     <td>{quantidade}</td>
+                    <td>{preco}€</td>
                     <td>{produtoDescricao}</td>
                     <td>
                       <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">

@@ -19,6 +19,7 @@ class CarrinhoResource extends JsonResource
             'idProduto' => $this->idProduto,
             'idCliente' => $this->idCliente,
             'quantidadePedida' => $this->quantidadePedida,
+            'preco' => $this->preco,
             'nif' => $this->nif,
             'morada' => $this->morada,
             'estado' => $this->estado,

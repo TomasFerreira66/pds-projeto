@@ -25,6 +25,7 @@ class UpdateCarrinhoRequest extends FormRequest
             'idProduto' => 'required',
             'idCliente' => 'required',
             'quantidadePedida' => 'required',
+            'preco' => 'integer',
             'nif' => 'integer',
             'morada' => 'string',
             'estado' => 'string'

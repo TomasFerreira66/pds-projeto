@@ -20,6 +20,7 @@ class Carrinho extends Authenticatable
         'idProduto',
         'idCliente',
         'quantidadePedida',
+        'preco',
         'nif',
         'morada', 
         'estado',

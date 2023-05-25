@@ -22,6 +22,7 @@ export default function Produtos() {
     idProduto: '',
     idCliente: localStorage.getItem('userId'),
     quantidadePedida: 1,
+    preco: 1,
     nif: 1,
     morada: 'naloja',
     estado: 'carrinho'
@@ -49,6 +50,7 @@ export default function Produtos() {
       ...produtoEscolhido,
       idProduto: parseInt(produtoId),
       idCliente: parseInt(localStorage.getItem('userId')),
+      preco: produtos.find(produto => produto.id === produtoId).preco
     };
   
     // Retrieve the carrinhos data from the backend
@@ -79,8 +81,9 @@ export default function Produtos() {
               const updatedRow = {
                 ...existingRow,
                 quantidadePedida: existingRow.quantidadePedida + 1,
+                preco: existingRow.preco + updatedProdutoEscolhido.preco
               };
-  
+            
               // Check if the updated quantidadePedida surpasses the quantidade value
               if (updatedRow.quantidadePedida > produto.quantidade) {
                 setErrors({
