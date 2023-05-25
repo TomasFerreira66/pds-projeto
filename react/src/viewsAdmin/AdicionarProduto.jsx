@@ -5,6 +5,7 @@ import {useStateContext} from "../contexts/ContextProvider.jsx";
 
 export default function AdicionarProduto() {
   const navigate = useNavigate();
+  let {id} = useParams();
   const [produto, setProduto] = useState({
     id: null,
     nome: '',
@@ -16,7 +17,29 @@ export default function AdicionarProduto() {
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
-    const {setNotification} = useStateContext()
+  const {setNotification} = useStateContext()
+  const [imageData, setImagedata] = useState('')
+
+  const handleChange = file => {
+
+    setImagedata(file[0]);
+    
+      }
+
+  if (id) {
+    useEffect(() => {
+      setLoading(true)
+      axiosClient.get(`/produtos/${id}`)
+        .then(({data}) => {
+          setLoading(false)
+          setUser(data)
+        })
+        .catch(() => {
+          setLoading(false)
+        })
+    }, [])
+  }
+
 
 
   const onSubmit = ev => {
@@ -33,7 +56,15 @@ export default function AdicionarProduto() {
             setErrors(response.data.errors)
           }
         })
+
+        
+
     }
+
+    
+
+
+    
   
 
   return (
@@ -64,8 +95,8 @@ export default function AdicionarProduto() {
             <option>Tipo</option>
             <option value="Cabelo">Cabelo</option>
             <option value="Barba">Barba</option>
-
           </select>
+          <input name="image" id="image" type="file" onChange={e => handleChange(e.target.files)} required />
           <br></br><br></br>
           <button className="btn">Adicionar produto</button>
         </form>
