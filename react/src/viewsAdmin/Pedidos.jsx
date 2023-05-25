@@ -115,7 +115,8 @@ export default function Pedidos() {
             ))
         )}
       </div>
-      <button onClick={distribuirPedidos}>Distribuir</button>
+      <button onClick={distribuirPedidos} className="btn-login">Distribuir</button>
+
     </div>
   );
 }
