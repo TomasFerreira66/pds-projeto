@@ -128,7 +128,7 @@ export default function Carrinho() {
         </table>
       </div>
       <Link to={`/processar/${user.id}`}>
-        <button className="btn-processar">Processar encomenda</button>
+        <button className="btn-processar">Seguinte</button>
       </Link>
     </div>
   );

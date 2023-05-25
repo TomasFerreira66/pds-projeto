@@ -58,13 +58,13 @@ export default function Pedidos() {
       const pedidosAtualizados = pedidos.map((carrinho) => {
         if (selectedCarrinhosIds.includes(carrinho.id)) {
           // Update the estado directly in the current table
-          axiosClient.patch(`/carrinhos/${carrinho.id}`, { estado: 'Enviado' })
+          axiosClient.patch(`/carrinhos/${carrinho.id}`, { estado: 'Concluído' })
             .catch(() => {
               // Handle error if the update fails
               setNotification('Failed to update estado.');
             });
   
-          return { ...carrinho, estado: 'Enviado' };
+          return { ...carrinho, estado: 'Concluído' };
         }
         return carrinho;
       });

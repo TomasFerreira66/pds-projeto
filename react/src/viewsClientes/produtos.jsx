@@ -216,7 +216,7 @@ export default function Produtos() {
     style={{
       width: 200,
       height: 50,
-      backgroundColor: "red",
+      backgroundColor: "#b72424",
       cursor: "not-allowed",
       color: "white"
     }}
