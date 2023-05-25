@@ -62,7 +62,7 @@ export default function UserForm() {
     axiosClient
       .post('/users', user)
       .then(() => {
-        setNotification('Utilizador criado com sucesso');
+        setNotification('Barbeiro criado com sucesso');
         navigate('/users');
       })
       .catch(err => {
