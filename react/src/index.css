@@ -177,6 +177,10 @@ input:focus {
 }
 
 
+.selected {
+  background-color: lightblue;
+}
+
 .btn-block {
     width: 100%;
 }
