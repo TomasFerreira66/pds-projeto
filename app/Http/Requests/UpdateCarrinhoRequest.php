@@ -22,9 +22,9 @@ class UpdateCarrinhoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idProduto' => 'required',
-            'idCliente' => 'required',
-            'quantidadePedida' => 'required',
+            'idProduto' => 'integer',
+            'idCliente' => 'integer',
+            'quantidadePedida' => 'integer',
             'preco' => 'integer',
             'nif' => 'integer',
             'morada' => 'string',

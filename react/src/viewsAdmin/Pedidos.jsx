@@ -47,16 +47,28 @@ export default function Pedidos() {
 
   const distribuirPedidos = () => {
     setLoading(true);
-
+  
+    // Get the IDs of the selected carrinhos
+    const selectedCarrinhosIds = pedidos
+      .filter((carrinho) => carrinho.estado === 'Pago' && carrinho.selected)
+      .map((carrinho) => carrinho.id);
+  
     // Simulação de uma chamada assíncrona para atualizar o estado dos carrinhos
     setTimeout(() => {
       const pedidosAtualizados = pedidos.map((carrinho) => {
-        if (carrinho.estado === 'Pago' && carrinho.selected) {
+        if (selectedCarrinhosIds.includes(carrinho.id)) {
+          // Update the estado directly in the current table
+          axiosClient.patch(`/carrinhos/${carrinho.id}`, { estado: 'Enviado' })
+            .catch(() => {
+              // Handle error if the update fails
+              setNotification('Failed to update estado.');
+            });
+  
           return { ...carrinho, estado: 'Enviado' };
         }
         return carrinho;
       });
-
+  
       setPedidos(pedidosAtualizados);
       setLoading(false);
     }, 2000); // Tempo de espera simulado para demonstração
