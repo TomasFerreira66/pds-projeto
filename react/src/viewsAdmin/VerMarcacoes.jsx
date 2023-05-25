@@ -159,7 +159,7 @@ export default function Marcacaos() {
                 .map((marcacao) => (
                   <tr key={marcacao.id}>
                     <td>{marcacao.id}</td>
-                    <td>{marcacao.servico}</td>
+                    <td>{marcacao.servico} ({marcacao.custo} €)</td>
                     <td>
                       {new Date(marcacao.data).toLocaleString("pt-PT", {
                         day: "numeric",

@@ -88,7 +88,6 @@ export default function Carrinho() {
               <th>Produto</th>
               <th>Quantidade</th>
               <th>Preço</th>
-              <th>Descrição</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -115,8 +114,7 @@ export default function Carrinho() {
                   <tr key={carrinho.id}>
                     <td>{produtoNome}</td>
                     <td>{quantidade}</td>
-                    <td>{preco}€</td>
-                    <td>{produtoDescricao}</td>
+                    <td>{preco} €</td>
                     <td>
                       <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
                         Remover

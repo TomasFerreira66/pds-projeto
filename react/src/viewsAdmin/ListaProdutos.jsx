@@ -73,7 +73,6 @@ export default function ListaProdutos() {
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Descrição</th>
             <th>Preço</th>
             <th>Quantidade</th>
             <th>Tipo</th> 
@@ -95,7 +94,6 @@ export default function ListaProdutos() {
               <tr key={produto.id}>
                 <td>{produto.id}</td>
                 <td>{produto.nome}</td>
-                <td>{produto.descricao}</td>
                 <td>{`${produto.preco} €`}</td>
                 <td>{produto.quantidade}</td>  
                 <td>{produto.tipo}</td>        

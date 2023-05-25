@@ -91,7 +91,7 @@ export default function Pedidos() {
   return (
     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
       <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-        <h2>Lista de Pedidos</h2>
+        <h2>Lista de pedidos</h2>
       </div>
       &nbsp;
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
