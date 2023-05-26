@@ -26,7 +26,7 @@ export default function PaginaInicialOriginal() {
             <button className="btn-login">Iniciar sessão</button>
           </Link>
         </header>
-        <div className='card animated fadeInDown' style={{ marginLeft: '100px', marginRight: '100px' }}>
+        <div style={{ marginLeft: '100px', marginRight: '100px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '10vh' }}>
             <Link to={`/login`}>
               <button style={{ width:"400px", fontSize:"23px", height:"70px" }} className="btn-marcacao">FAZER MARCAÇÃO</button>
