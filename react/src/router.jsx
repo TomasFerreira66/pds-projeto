@@ -24,6 +24,7 @@ import NovaMarcacao from "./viewsClientes/NovaMarcacao.jsx";
 import Carrinho from "./viewsClientes/carrinho.jsx";
 import Contactosguest from "./viewsClientes/ContactosGuest.jsx";
 import Processar from "./viewsClientes/processar.jsx";
+import HistoricoEncomendas from "./viewsClientes/historicoEncomendas.jsx";
 //barbeiro
 import Agenda from "./viewsBarbeiro/agenda.jsx";
 
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
         {
           path: '/historico/:id',
           element: <Historico key="userUpdate"/>
+        },
+        {
+          path: '/historicoEncomendas/:id',
+          element: <HistoricoEncomendas key="userUpdate"/>
         },
         {
           path: '/novaMarcacao/:id',
