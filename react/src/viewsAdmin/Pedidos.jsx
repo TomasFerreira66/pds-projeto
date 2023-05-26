@@ -157,7 +157,7 @@ export default function Pedidos() {
                     {`${users[carrinho.idCliente] || "-"}`}
                   </div>
                   <div style={{ marginBottom: "10px" }}>
-                    {`${carrinho.quantidadePedida} unidades - ${
+                    {`${carrinho.quantidadePedida} unidade(s) - ${
                       produtos[carrinho.idProduto] || "-"
                     }`}
                   </div>
