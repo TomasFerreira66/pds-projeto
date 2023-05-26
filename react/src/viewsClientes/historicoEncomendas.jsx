@@ -97,6 +97,7 @@ export default function historicoEncomendas() {
                     <div style={{ fontSize: "18px", marginTop: "10px" }}>{produtoNome}</div>
                     <div style={{ fontSize: "18px", marginTop: "10px" }}>Quantidade: {quantidade}</div>
                     <div style={{ fontSize: "18px", marginTop: "10px" }}>{preco} €</div>
+                    <div style={{ fontSize: "18px", marginTop: "10px", color:"red", fontWeight:"bold" }}>Encomenda Processada </div>
                   </div>
                 </div>
               );
