@@ -24,7 +24,7 @@ export default function Produtos() {
     quantidadePedida: 1,
     preco: 1,
     nif: 1,
-    morada: 'naloja',
+    morada: 'IPCA Barber Shop',
     estado: 'carrinho'
   });
 
