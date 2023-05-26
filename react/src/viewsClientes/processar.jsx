@@ -101,66 +101,76 @@ export default function Processar() {
 
     }
     return (
-      <div>
-        <h3>Envio</h3>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label>
-            <input
-              type="radio"
-              name="deliverMethod"
-              value="method1"
-              checked={metodoEnvio === "method1"}
-              onChange={handleMetodoEnvioChange}
-            />{" "}
-            Domiciliário
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="deliverMethod"
-              value="method2"
-              checked={metodoEnvio === "method2"}
-              onChange={handleMetodoEnvioChange}
-            />{" "}
-            Na Loja
+      <div className="card animated fadeInDown" style={{ marginLeft: '100px', marginRight: '100px' }}>
+        <h2>Envio</h2>
+        &nbsp;&nbsp;
+        <div style={{ marginBottom: "20px", width: "100%" }}>
+          <label style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", width: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="radio"
+                name="deliverMethod"
+                value="method1"
+                checked={metodoEnvio === "method1"}
+                onChange={handleMetodoEnvioChange}
+              />
+              <span style={{ marginLeft: "5px", whiteSpace: "nowrap" }}>Ao domicílio</span>
+            </div>
+            &nbsp;
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="radio"
+                name="deliverMethod"
+                value="method2"
+                checked={metodoEnvio === "method2"}
+                onChange={handleMetodoEnvioChange}
+              />
+              <span style={{ marginLeft: "5px", whiteSpace: "nowrap" }}>Recolha na loja</span>
+            </div>
           </label>
         </div>
-  
+    
         {showAdditionalStep && (
-          <form onSubmit={onUpdateSubmit}>
-          <div>
-            <label htmlFor="morada">Morada:</label>
-            <input
-              type="text"
-              id="morada"
-              name="morada"
-              value={morada}
-              onChange={(e) => setMorada(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="nif">NIF:</label>
-            <input
-              type="text"
-              id="nif"
-              name="nif"
-              value={nif}
-              onChange={(e) => setNif(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn-finalizar">Guardar dados</button>
-        </form>
+          <form onSubmit={onUpdateSubmit} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-start" }}>
+            &nbsp;&nbsp;
+            <div style={{ marginBottom: "20px", width: "100%" }}>
+              <label htmlFor="morada">Morada:</label>
+              <input
+                type="text"
+                id="morada"
+                name="morada"
+                value={morada}
+                onChange={(e) => setMorada(e.target.value)}
+              />
+            </div>
+            <div style={{ marginBottom: "20px", width: "100%" }}>
+              <label htmlFor="nif">NIF:</label>
+              <input
+                type="text"
+                id="nif"
+                name="nif"
+                value={nif}
+                onChange={(e) => setNif(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="btn-finalizar" style={{ margin: "0" }}>
+              Guardar dados
+            </button>
+          </form>
         )}
       </div>
     );
+    
   };
 
   const renderStep2 = () => {
     return (
-      <div>
-        <h3>Pagamento</h3>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label>
+      <div className="card animated fadeInDown" style={{ marginLeft: '100px' , marginRight: '100px'}}>
+        <h2>Pagamento</h2>
+        &nbsp;&nbsp;
+        <div style={{ marginBottom: "20px", width: "100%" }}>
+        <label style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", width: "100%" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <input
               type="radio"
               name="paymentMethod"
@@ -168,7 +178,7 @@ export default function Processar() {
               checked={metodoPagamento === "method1"}
               onChange={handleMetodoPagamentoChange}
             />{" "}
-            Visa
+            <span style={{ marginLeft: "5px" }}>Visa</span>
             <img
               src="../src/img/visa.png"
               alt="Carrinho"
@@ -176,8 +186,11 @@ export default function Processar() {
               height="23"
               className="image-with-border"
             />
+            </div>
+            &nbsp;
           </label>
-          <label>
+          <div style={{ display: "flex", alignItems: "center" }}>
+          <label style={{ display: "flex", alignItems: "center" }}>
             <input
               type="radio"
               name="paymentMethod"
@@ -185,7 +198,7 @@ export default function Processar() {
               checked={metodoPagamento === "method2"}
               onChange={handleMetodoPagamentoChange}
             />{" "}
-            MasterCard
+            <span style={{ marginLeft: "5px" }}>MasterCard</span>
             <img
               src="../src/img/mastercard.png"
               alt="Carrinho"
@@ -194,7 +207,10 @@ export default function Processar() {
               className="image-with-border"
             />
           </label>
-          <label>
+          </div>
+          &nbsp;
+          <div style={{ display: "flex", alignItems: "center" }}>
+          <label style={{ display: "flex", alignItems: "center" }}>
             <input
               type="radio"
               name="paymentMethod"
@@ -202,7 +218,7 @@ export default function Processar() {
               checked={metodoPagamento === "method3"}
               onChange={handleMetodoPagamentoChange}
             />{" "}
-            Multibanco
+            <span style={{ marginLeft: "5px" }}>Multibanco</span>
             <img
               src="../src/img/multibanco.png"
               alt="Carrinho"
@@ -211,9 +227,11 @@ export default function Processar() {
               className="image-with-border"
             />
           </label>
+          </div>
         </div>
       </div>
     );
+    
   };
 
   const renderStep3 = () => {
@@ -267,23 +285,25 @@ export default function Processar() {
     };
   
     return (
-      <div>
-        <h1>Resumo do seu pedido</h1>
-        <h3>Produtos:</h3>
-      <ul>
-        {produtoNamesAndQuantities.map((produto, index) => (
-          <li key={index}>
-            {produto.nome} - Quantidade: {produto.quantidade}
-          </li>
-        ))}
-      </ul>
-      <h3>Valor a pagar: {totalValue}€</h3>
-      <br></br>
-        <button type="button" onClick={openCreditCardForm}>
+      <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
+        <h2>Resumo do seu pedido</h2>
+        <div className="card-container">
+          {produtoNamesAndQuantities.map((produto, index) => (
+            <div className="card" key={index}>
+              <p style={{ fontSize: "25px"}}>{produto.nome}</p>
+              <p>Quantidade: {produto.quantidade}</p>
+            </div>
+          ))}
+        </div>
+        <div className="card animated fadeInDown">
+        <div style={{ fontSize: "25px"}}>Total: {totalValue} €</div>
+        </div>
+        <button className="btn-finalizar" style={{ width:"250px"}} type="button" onClick={openCreditCardForm}>
           Proceder para o pagamento
         </button>
       </div>
     );
+    
   };
   
 
@@ -303,8 +323,8 @@ export default function Processar() {
   const renderNextButton = () => {
     if (currentStep < totalSteps) {
       return (
-        <button onClick={handleNextStep} className="btn-finalizar">
-          Próximo
+        <button onClick={handleNextStep} className="btn-finalizar" style={{ justifyContent: "center", margin: "0 auto", marginLeft: '100px'}}>
+          Seguinte
         </button>
       );
     }
@@ -314,7 +334,7 @@ export default function Processar() {
   const renderPreviousButton = () => {
     if (currentStep > 1) {
       return (
-        <button onClick={handlePreviousStep} className="btn-finalizar" style={{marginRight: "10px"}}>
+        <button onClick={handlePreviousStep} className="btn-finalizar" style={{marginRight: "10px", marginLeft: '100px'}}>
           Anterior
         </button>
       );
@@ -379,7 +399,7 @@ export default function Processar() {
     if (currentStep === totalSteps) {
       return (
         <button className="btn-finalizar" onClick={handleFinalizarEncomenda}>
-          Finalizar Encomenda
+          Comprar
         </button>
       );
     }

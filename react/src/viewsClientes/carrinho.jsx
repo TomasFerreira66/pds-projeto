@@ -10,6 +10,8 @@ export default function Carrinho() {
   const { id } = useParams();
   const { user } = useStateContext();
   const [produtos, setProdutos] = useState({});
+  const [total, setTotal] = useState(0);
+  const [hasProducts, setHasProducts] = useState(false);
 
   const getCarrinho = () => {
     setLoading(true);
@@ -19,6 +21,14 @@ export default function Carrinho() {
         setLoading(false);
         setUsers(data.data);
         getNomeProdutos(data.data);
+
+        const filteredCarrinhos = data.data.filter(
+          (carrinho) => carrinho.idCliente === Number(id) && carrinho.estado === "carrinho"
+        );
+        setHasProducts(filteredCarrinhos.length > 0);
+
+        const total = filteredCarrinhos.reduce((acc, carrinho) => acc + carrinho.preco, 0);
+        setTotal(total);
       })
       .catch(() => {
         setLoading(false);
@@ -36,7 +46,7 @@ export default function Carrinho() {
             ...prevState,
             [idProduto]: {
               nome: nestedData.nome,
-              descricao:nestedData.descricao,
+              descricao: nestedData.descricao,
             },
           }));
         } else {
@@ -81,55 +91,56 @@ export default function Carrinho() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2>Carrinho</h2>
       </div>
-      <div className="card animated fadeInDown">
-        <table>
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Quantidade</th>
-              <th>Preço</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          {loading && (
-            <tbody>
-              <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
+      {loading ? (
+        <div className="card animated fadeInDown">
+          Loading...
+        </div>
+      ) : (
+        <div>
+          {hasProducts ? (
+            <>
+              {users
+                .filter((carrinho) => carrinho.idCliente === Number(id) && carrinho.estado === "carrinho")
+                .map((carrinho, index) => {
+                  const produtoNome = produtos[carrinho.idProduto]?.nome || "";
+                  const produtoDescricao = produtos[carrinho.idProduto]?.descricao || "";
+                  const quantidade = carrinho.quantidadePedida;
+                  const preco = carrinho.preco;
+                  const isLeftCard = index % 2 === 0;
+
+                  return (
+                    <div
+                      key={carrinho.id}
+                      className={`card animated fadeInDown ${isLeftCard ? "left-card" : "right-card"}`}
+                    >
+                      <div style={{ fontSize: "25px"}}>{produtoNome}</div>
+                      <div>Quantidade: {quantidade}</div>
+                      <div>Preço: {preco} €</div>
+                      &nbsp;&nbsp;
+                      <div>
+                        <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
+                          Remover
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              {total > 0 && (
+                <div className="card animated fadeInDown">
+                  <div style={{ fontSize: "25px", fontWeight: "bold" }}>Total: {total} €</div>
+                </div>
+              )}
+              <Link to={`/processar/${user.id}`}>
+                <button className="btn-processar">Seguinte</button>
+              </Link>
+            </>
+          ) : (
+            <div className="card animated fadeInDown">
+              Neste momento não existem produtos no carrinho.
+            </div>
           )}
-          {!loading && (
-            <tbody>
-            {users
-              .filter((carrinho) => carrinho.idCliente === Number(id) && carrinho.estado === "carrinho")
-              .map((carrinho) => {
-                const produtoNome = produtos[carrinho.idProduto]?.nome || "";
-                const produtoDescricao = produtos[carrinho.idProduto]?.descricao || "";
-                const quantidade = carrinho.quantidadePedida;
-                const preco = carrinho.preco;
-                console.log(produtoDescricao);
-                return (
-                  <tr key={carrinho.id}>
-                    <td>{produtoNome}</td>
-                    <td>{quantidade}</td>
-                    <td>{preco} €</td>
-                    <td>
-                      <button onClick={() => onDeleteClick(carrinho)} className="btn-delete">
-                        Remover
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-          )}
-        </table>
-      </div>
-      <Link to={`/processar/${user.id}`}>
-        <button className="btn-processar">Seguinte</button>
-      </Link>
+        </div>
+      )}
     </div>
   );
 }
