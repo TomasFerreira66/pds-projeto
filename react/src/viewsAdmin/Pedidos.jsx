@@ -21,9 +21,7 @@ export default function Pedidos() {
         const newUsers = {};
         responses.forEach((response) => {
           newUsers[response.data.id] = response.data.name;
-          console.log(response)
         });
-  
         setUsers(newUsers);
       })
       .catch(() => {
@@ -39,14 +37,9 @@ export default function Pedidos() {
       .then((responses) => {
         const newProdutos = {};
         responses.forEach((response) => {
-          
           newProdutos[response.data.data.id] = response.data.data.nome;
-          
-          console.log(response)
         });
-        
         setProdutos(newProdutos);
-        
       })
       .catch(() => {
         setProdutos({});
@@ -135,60 +128,72 @@ export default function Pedidos() {
         <h2>Lista de pedidos</h2>
       </div>
       &nbsp;
-      <div
-        className="card-container"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "10px",
-        }}
-      >
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          pedidos
-            .filter((carrinho) => carrinho.estado === "Pago")
-            .map((carrinho) => (
-              <div
-                key={carrinho.id}
-                className="card animated fadeInDown"
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  position: "relative",
-                  height: "150px",
-                }}
-              >
-                <div style={{ marginBottom: "10px" }}>
-                  {`${users[carrinho.idCliente] || "-"}`}
-                </div>
-                <div style={{ marginBottom: "10px" }}>
-                  {`${carrinho.quantidadePedida}x ${
-                    produtos[carrinho.idProduto] || "-"
-                  }`}
-                  
-                </div>
-                
-
-                <div style={{ fontSize: "18px", marginTop: "10px" }}>
-                  {carrinho.morada}
-                </div>
+      {pedidos.filter((carrinho) => carrinho.estado === "Pago").length > 0 ? (
+        <div
+          className="card-container"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "10px",
+          }}
+        >
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            pedidos
+              .filter((carrinho) => carrinho.estado === "Pago")
+              .map((carrinho) => (
                 <div
-                  style={{ position: "absolute", bottom: "10px", right: "10px" }}
+                  key={carrinho.id}
+                  className="card animated fadeInDown"
+                  style={{
+                    padding: "10px",
+                    borderRadius: "10px",
+                    position: "relative",
+                    height: "150px",
+                  }}
                 >
-                  <input
-                    type="checkbox"
-                    checked={carrinho.selected}
-                    onChange={() => togglePedidoSelecionado(carrinho.id)}
-                  />
+                  <div style={{ marginBottom: "10px" }}>
+                    {`${users[carrinho.idCliente] || "-"}`}
+                  </div>
+                  <div style={{ marginBottom: "10px" }}>
+                    {`${carrinho.quantidadePedida} unidades - ${
+                      produtos[carrinho.idProduto] || "-"
+                    }`}
+                  </div>
+                  <div style={{ fontSize: "18px", marginTop: "10px" }}>
+                    {carrinho.morada}
+                  </div>
+                  <div
+                    style={{ position: "absolute", bottom: "10px", right: "10px" }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={carrinho.selected}
+                      onChange={() => togglePedidoSelecionado(carrinho.id)}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))
-        )}
-      </div>
-      <button onClick={distribuirPedidos} className="btn-login">
-        Concluir
-      </button>
+              ))
+          )}
+        </div>
+      ) : (
+        <div
+          className="card animated fadeInDown"
+          style={{
+            padding: "10px",
+            borderRadius: "10px",
+            textAlign: "left",
+          }}
+        >
+          Neste momento não existem pedidos pendentes.
+        </div>
+      )}
+      {pedidos.filter((carrinho) => carrinho.estado === "Pago").length > 0 && (
+        <button onClick={distribuirPedidos} className="btn-login">
+          Concluir
+        </button>
+      )}
     </div>
   );
 }

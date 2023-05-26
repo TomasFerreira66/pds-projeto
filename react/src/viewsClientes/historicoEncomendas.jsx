@@ -93,6 +93,7 @@ export default function historicoEncomendas() {
               return (
                 <div key={carrinho.id} style={{ marginBottom: "20px" }}>
                   <div className="card" style={{ padding: "10px", borderRadius: "10px" }}>
+                    <div style={{ fontSize: "18px" }}>Nº {carrinho.id}</div>
                     <div style={{ fontSize: "18px", marginTop: "10px" }}>{produtoNome}</div>
                     <div style={{ fontSize: "18px", marginTop: "10px" }}>Quantidade: {quantidade}</div>
                     <div style={{ fontSize: "18px", marginTop: "10px" }}>{preco} €</div>

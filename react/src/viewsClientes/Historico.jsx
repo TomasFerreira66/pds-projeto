@@ -55,47 +55,32 @@ export default function Historico() {
           Loading...
         </div>
       )}
+      &nbsp;&nbsp;
       {!loading && users.filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído").length === 0 && (
         <div className="card animated fadeInDown">
           Neste momento não existem marcações concluídas.
         </div>
       )}
       {!loading && users.filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído").length > 0 && (
-        <div className="card animated fadeInDown">
-          <table>
-            <thead>
-              <tr>
-                <th>Nº</th>
-                <th>Serviço</th>
-                <th>Custo</th>
-                <th>Barbeiro</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users
-                .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído")
-                .map(marcacao => {
-                  return (
-                    <tr key={marcacao.id}>
-                      <td>{marcacao.id}</td>
-                      <td>{marcacao.servico}</td>
-                      <td>{marcacao.custo} €</td>
-                      <td>{barbeiros[marcacao.idBarbeiro] || "-"}</td>
-                      <td>
-                        {new Date(marcacao.data).toLocaleString("pt-PT", {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "numeric"
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+        <div>
+          {users
+            .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído")
+            .map(marcacao => {
+              return (
+                <div key={marcacao.id} className="card" style={{ width: '100%', marginBottom: '10px', padding: '10px' }}>
+                  <div>{marcacao.id} - {barbeiros[marcacao.idBarbeiro] || "-"}</div>
+                  <div style={{ marginTop: "10px" }}>{marcacao.servico}</div>
+                  <div style={{ marginTop: "10px" }}>{marcacao.custo} €</div>
+                  <div style={{ marginTop: "10px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric"
+                  })}</div>
+                </div>
+              );
+            })}
         </div>
       )}
     </div>
