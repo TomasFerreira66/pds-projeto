@@ -53,8 +53,16 @@ export default function Processar() {
   }, []);
 
   const handleNextStep = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
+    if (
+      (currentStep === 1 && metodoEnvio !== "") ||
+      (currentStep === 2 && metodoPagamento !== "")
+    ) {
+      setCurrentStep((prevStep) => prevStep + 1);
+    } else {
+      setNotification("Por favor, selecione um método de envio ou pagamento.");
+    }
   };
+  
   
   const handlePreviousStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
