@@ -226,7 +226,7 @@ export default function Estatisticas() {
                         <td>
                           {marcacaos.filter((marcacao) => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído').length}
                         </td>
-                        <td>{total.toFixed(2)}€</td>
+                        <td>{total.toFixed(2)} €</td>
                       </tr>
                     );
                   })
