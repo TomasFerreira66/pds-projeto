@@ -101,7 +101,9 @@ export default function PaginaMain() {
               <div className="dropdown">
                 <ul>
                   <li><Link onClick={() => setDropdownVisible(false)} to={'/Perfil/' + user.id}>Definições</Link></li>
-                  <li><Link onClick={() => setDropdownVisible(false)} to={'/historicoEncomendas/' + user.id}>Histórico de Encomendas</Link></li>
+                  {user.tipo === 'Cliente' && (
+                    <li><Link onClick={() => setDropdownVisible(false)} to={'/historicoEncomendas/' + user.id}>Encomendas</Link></li>
+                  )}
                   <li><a onClick={(e) => { onLogout(e); setDropdownVisible(false); }} href="#">Terminar sessão</a></li>
                 </ul>
               </div>

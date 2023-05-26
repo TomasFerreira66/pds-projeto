@@ -71,42 +71,38 @@ export default function historicoEncomendas() {
   );
 
   return (
-     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
-    <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-        <h2>As suas encomendas:</h2>
+    <div style={{ marginLeft: '100px', marginRight: '100px' }}>
+      <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+        <h2>Histórico de encomendas</h2>
         <br /><br /><br />
       </div>
-      
-          {loading && (
-            <tbody>
-              <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-                </td>
-              </tr>
-            </tbody>
-          )}
-          {!loading && (
-            <div className="card-container" style={{ display: "flex", gap: "10px" }}>
-            {filteredProducts.map((carrinho) => {
+
+      {loading && <p>Loading...</p>}
+      {!loading && (
+        <div>
+          {filteredProducts.length === 0 ? (
+            <div className="card" style={{ padding: "10px", borderRadius: "10px" }}>
+              Neste momento não existem encomendas concluídas.
+            </div>
+          ) : (
+            filteredProducts.map((carrinho) => {
               const produtoNome = produtos[carrinho.idProduto]?.nome || "";
               const quantidade = carrinho.quantidadePedida;
               const preco = carrinho.preco;
-          
+
               return (
-                <div key={carrinho.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height: "150px", flex: "1" }}>
-                  <div style={{ fontSize: "18px", marginTop: "10px" }}>{produtoNome}</div>
-                  <div style={{ fontSize: "18px", marginTop: "10px" }}>{quantidade}</div>
-                  <div style={{ fontSize: "18px", marginTop: "10px" }}>{preco} €</div>
+                <div key={carrinho.id} style={{ marginBottom: "20px" }}>
+                  <div className="card" style={{ padding: "10px", borderRadius: "10px" }}>
+                    <div style={{ fontSize: "18px", marginTop: "10px" }}>{produtoNome}</div>
+                    <div style={{ fontSize: "18px", marginTop: "10px" }}>Quantidade: {quantidade}</div>
+                    <div style={{ fontSize: "18px", marginTop: "10px" }}>{preco} €</div>
+                  </div>
                 </div>
               );
-            })}
-          </div>
-          
+            })
           )}
-        
-      </div>
-      
-    
+        </div>
+      )}
+    </div>
   );
 }

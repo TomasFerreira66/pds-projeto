@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
-import emailjs from 'emailjs-com';
-import { parseISO, format } from 'date-fns';
 
 export default function Agenda() {
   const [marcacaos, setMarcacao] = useState([]);
@@ -101,6 +99,7 @@ export default function Agenda() {
       });
   };
   
+  const hasMarcacoes = marcacaos.some(marcacao => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo");
 
   return (
     <div style={{ marginLeft: "100px", marginRight: "100px" }}>
@@ -108,32 +107,38 @@ export default function Agenda() {
         <h2>As suas marcações</h2>
       </div>
       &nbsp;
-      <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
-        {marcacaos
-          .filter((marcacao) => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
-          .map((marcacao) => (
-            <div key={marcacao.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height:'150px' }}>
-              <div style={{ marginBottom: "10px" }}>{`${marcacao.id} - ${clientes[marcacao.idCliente] || "-"}`}</div>
-              <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.servico}</div>
-              <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.custo} €</div>
-              <div style={{ fontSize: "18px", marginTop: "10px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
-                day: "numeric",
-                month: "numeric",
-                year: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              })}</div>
-              <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-                <button onClick={() => concluirMarcacao(marcacao)} className="btn-add" style={{ marginRight: "10px" }}>
-                  Concluir
-                </button>
-                <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">
-                  Cancelar
-                </button>
+      {hasMarcacoes ? (
+        <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+          {marcacaos
+            .filter((marcacao) => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
+            .map((marcacao) => (
+              <div key={marcacao.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height:'150px' }}>
+                <div style={{ marginBottom: "10px" }}>{`${marcacao.id} - ${clientes[marcacao.idCliente] || "-"}`}</div>
+                <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.servico}</div>
+                <div style={{ fontSize: "18px", marginTop: "10px" }}>{marcacao.custo} €</div>
+                <div style={{ fontSize: "18px", marginTop: "10px" }}>{new Date(marcacao.data).toLocaleString("pt-PT", {
+                  day: "numeric",
+                  month: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}</div>
+                <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+                  <button onClick={() => concluirMarcacao(marcacao)} className="btn-add" style={{ marginRight: "10px" }}>
+                    Concluir
+                  </button>
+                  <button onClick={() => onDeleteClick(marcacao)} className="btn-delete">
+                    Cancelar
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
+      ) : (
+        <div className="card animated fadeInDown">
+          Neste momento não existem marcações futuras.
+        </div>
+      )}
     </div>
   );
 }

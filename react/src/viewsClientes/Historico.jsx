@@ -26,10 +26,11 @@ export default function Historico() {
         setBarbeiros({});
       });
   };
-  
+
   const getMarcacoes = () => {
     setLoading(true);
-    axiosClient.get('/marcacaos')
+    axiosClient
+      .get("/marcacaos")
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
@@ -39,37 +40,38 @@ export default function Historico() {
         setLoading(false);
       });
   };
-  
+
   useEffect(() => {
     getMarcacoes();
   }, []);
 
   return (
-    <div style={{ marginLeft: '100px', marginRight: '100px' }}>
-      <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ marginLeft: "100px", marginRight: "100px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>Histórico de marcações</h2>
       </div>
-      <div className="card animated fadeInDown">
-        <table>
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th>Serviço</th>
-              <th>Custo</th>
-              <th>Barbeiro</th>
-              <th>Data</th>
-            </tr>
-          </thead>
-          {loading &&
-            <tbody>
+      {loading && (
+        <div className="card animated fadeInDown">
+          Loading...
+        </div>
+      )}
+      {!loading && users.filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído").length === 0 && (
+        <div className="card animated fadeInDown">
+          Neste momento não existem marcações concluídas.
+        </div>
+      )}
+      {!loading && users.filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído").length > 0 && (
+        <div className="card animated fadeInDown">
+          <table>
+            <thead>
               <tr>
-                <td colSpan="6" className="text-center">
-                  Loading...
-              </td>
+                <th>Nº</th>
+                <th>Serviço</th>
+                <th>Custo</th>
+                <th>Barbeiro</th>
+                <th>Data</th>
               </tr>
-            </tbody>
-          }
-          {!loading &&
+            </thead>
             <tbody>
               {users
                 .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído")
@@ -81,7 +83,7 @@ export default function Historico() {
                       <td>{marcacao.custo} €</td>
                       <td>{barbeiros[marcacao.idBarbeiro] || "-"}</td>
                       <td>
-                        {new Date (marcacao.data).toLocaleString("pt-PT", {
+                        {new Date(marcacao.data).toLocaleString("pt-PT", {
                           day: "numeric",
                           month: "numeric",
                           year: "numeric",
@@ -93,9 +95,9 @@ export default function Historico() {
                   );
                 })}
             </tbody>
-          }
-        </table>
-      </div>
+          </table>
+        </div>
+      )}
     </div>
-  )
+  );
 }

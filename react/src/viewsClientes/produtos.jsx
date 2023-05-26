@@ -209,7 +209,7 @@ export default function Produtos() {
       
 
       
-      <div>Quantidade em stock: {produto.quantidade}</div>
+      <div style={{ fontSize:"17px" }}>Quantidade em stock: {produto.quantidade}</div>
       <div style={{ display: "flex", alignItems: "center" }}>
       {produto.quantidade === 0 ? (
   <button

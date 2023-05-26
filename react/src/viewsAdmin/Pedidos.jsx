@@ -160,7 +160,7 @@ export default function Pedidos() {
                 }}
               >
                 <div style={{ marginBottom: "10px" }}>
-                  {`${carrinho.id} - ${users[carrinho.idCliente] || "-"}`}
+                  {`${users[carrinho.idCliente] || "-"}`}
                 </div>
                 <div style={{ marginBottom: "10px" }}>
                   {`${carrinho.quantidadePedida}x ${
@@ -187,7 +187,7 @@ export default function Pedidos() {
         )}
       </div>
       <button onClick={distribuirPedidos} className="btn-login">
-        Distribuir
+        Concluir
       </button>
     </div>
   );
