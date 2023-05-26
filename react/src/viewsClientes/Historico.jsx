@@ -4,109 +4,98 @@ import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 export default function Historico() {
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setNotification } = useStateContext();
+  const [barbeiros, setBarbeiros] = useState({});
   const { id } = useParams();
   const { user } = useStateContext();
-  const [produtos, setProdutos] = useState({});
-  const [users, setUsers] = useState([]);
-  const [carrinhos, setCarrinhos] = useState({});
 
-  const getCarrinho = () => {
+  const getBarbeiro = (marcacoes) => {
+    const barbeiroIds = [...new Set(marcacoes.map((marcacao) => marcacao.idBarbeiro))];
+    const promises = barbeiroIds.map((id) => axiosClient.get(`/users/${id}`));
+    Promise.all(promises)
+      .then((responses) => {
+        const newBarbeiros = {};
+        responses.forEach((response) => {
+          newBarbeiros[response.data.id] = response.data.name;
+        });
+        setBarbeiros(newBarbeiros);
+      })
+      .catch(() => {
+        setBarbeiros({});
+      });
+  };
+  
+  const getMarcacoes = () => {
     setLoading(true);
-    axiosClient
-      .get('/carrinhos')
+    axiosClient.get('/marcacaos')
       .then(({ data }) => {
         setLoading(false);
         setUsers(data.data);
-        getNomeProdutos(data.data);
+        getBarbeiro(data.data);
       })
       .catch(() => {
         setLoading(false);
       });
   };
-
-  const getProduto = (idProduto) => {
-    axiosClient
-      .get(`/produtos/${idProduto}`)
-      .then((response) => {
-        const { data } = response;
-        const nestedData = data.data;
-        if (nestedData && nestedData.nome && nestedData.descricao) {
-          setProdutos((prevState) => ({
-            ...prevState,
-            [idProduto]: {
-              nome: nestedData.nome,
-              descricao: nestedData.descricao,
-            },
-          }));
-        } else {
-          console.log(`Product nome not found for idProduto ${idProduto}`);
-        }
-      })
-      .catch((error) => {
-        console.log(`Error fetching product data for idProduto ${idProduto}:`, error);
-      });
-  };
-
-  const getNomeProdutos = (carrinhos) => {
-    carrinhos.forEach((carrinho) => {
-      const idProduto = carrinho.idProduto;
-      if (!produtos[idProduto]) {
-        getProduto(idProduto);
-        setProdutos((prevState) => ({
-          ...prevState,
-        }));
-      }
-    });
-  };
-
+  
   useEffect(() => {
-    getCarrinho();
+    getMarcacoes();
   }, []);
 
-  // Filter and map the products with the "estado" as "Concluído"
-  const filteredProducts = users.filter(
-    (carrinho) => carrinho.idCliente === Number(id) && carrinho.estado === "Concluído"
-  );
-
   return (
-     <div style={{ marginLeft: '100px', marginRight: '100px' }}>
-    <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-        <h2>As suas encomendas:</h2>
-        <br /><br /><br />
+    <div style={{ marginLeft: '100px', marginRight: '100px' }}>
+      <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+        <h2>Histórico de marcações</h2>
       </div>
-      
-          {loading && (
+      <div className="card animated fadeInDown">
+        <table>
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th>Serviço</th>
+              <th>Custo</th>
+              <th>Barbeiro</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          {loading &&
             <tbody>
               <tr>
                 <td colSpan="6" className="text-center">
                   Loading...
-                </td>
+              </td>
               </tr>
             </tbody>
-          )}
-          {!loading && (
-            <div className="card-container" style={{ display: "flex", gap: "10px" }}>
-            {filteredProducts.map((carrinho) => {
-              const produtoNome = produtos[carrinho.idProduto]?.nome || "";
-              const quantidade = carrinho.quantidadePedida;
-              const preco = carrinho.preco;
-          
-              return (
-                <div key={carrinho.id} className="card animated fadeInDown" style={{ padding: "10px", borderRadius: "10px", position: "relative", height: "150px", flex: "1" }}>
-                  <div style={{ fontSize: "18px", marginTop: "10px" }}>{produtoNome}</div>
-                  <div style={{ fontSize: "18px", marginTop: "10px" }}>{quantidade}</div>
-                  <div style={{ fontSize: "18px", marginTop: "10px" }}>{preco} €</div>
-                </div>
-              );
-            })}
-          </div>
-          
-          )}
-        
+          }
+          {!loading &&
+            <tbody>
+              {users
+                .filter(marcacao => marcacao.idCliente === Number(id) && marcacao.estado === "Concluído")
+                .map(marcacao => {
+                  return (
+                    <tr key={marcacao.id}>
+                      <td>{marcacao.id}</td>
+                      <td>{marcacao.servico}</td>
+                      <td>{marcacao.custo} €</td>
+                      <td>{barbeiros[marcacao.idBarbeiro] || "-"}</td>
+                      <td>
+                        {new Date (marcacao.data).toLocaleString("pt-PT", {
+                          day: "numeric",
+                          month: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "numeric"
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          }
+        </table>
       </div>
-      
-    
-  );
+    </div>
+  )
 }
