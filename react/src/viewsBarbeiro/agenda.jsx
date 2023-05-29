@@ -138,7 +138,7 @@ export default function Agenda() {
         </div>
       ) : (
         <div className="card animated fadeInDown">
-          Neste momento não existem marcações futuras.
+          Neste momento não existem marcações.
         </div>
       )}
     </div>
