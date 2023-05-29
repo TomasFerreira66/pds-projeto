@@ -203,7 +203,7 @@ export default function Produtos() {
   <form key={produto.id} onSubmit={(event) => onSubmit(event, produto.id)}>
     <div id={produto.id} className="card animated fadeInDown key" style={{ display: "grid", gridTemplateRows: "1fr auto auto", padding: "10px", borderRadius: "10px" }}>
       <div>{produto.nome}</div>
-      <img className='img-barbeiro' src={produto.imgUrl} alt={produto.nome} style={{paddingTop:'5px', paddingBottom:'5px'}}/>
+      <img className='img-produtos' src={produto.imgUrl} alt={produto.nome} style={{paddingTop:'5px', paddingBottom:'5px'}}/>
       <div>{produto.descricao}</div>
       <div>{`${produto.preco} €`}</div>
       
