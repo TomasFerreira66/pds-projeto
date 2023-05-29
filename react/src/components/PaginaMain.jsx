@@ -79,14 +79,14 @@ export default function PaginaMain() {
       )}
       <div className="content">
         <header>
-          <div>
+            <a href="/paginainicial">
             <img
               src="../src/img/IPCA-BarberShop.png"
               alt="Imagem de login"
               className="imagem-login"
               style={{ width: "170px", height: "90px" }}
             />
-          </div>
+            </a>
           <div>
             {user.tipo === 'Cliente' && (
               <Link to={`/carrinho/${user.id}`}>
