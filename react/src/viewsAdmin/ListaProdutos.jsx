@@ -71,7 +71,6 @@ export default function ListaProdutos() {
         <table>
           <thead>
           <tr>
-            <th>ID</th>
             <th>Nome</th>
             <th>Preço</th>
             <th>Quantidade</th>
@@ -92,7 +91,6 @@ export default function ListaProdutos() {
             <tbody>
             {produtos.filter(produtos => filter === 'Todos' || produtos.tipo === filter).map(produto => (
               <tr key={produto.id}>
-                <td>{produto.id}</td>
                 <td>{produto.nome}</td>
                 <td>{`${produto.preco} €`}</td>
                 <td>{produto.quantidade}</td>  
