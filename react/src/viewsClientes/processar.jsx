@@ -258,39 +258,39 @@ export default function Processar() {
 
 
     const openCreditCardForm = () => {
-      const formMarkup = `
-        <div>
-          <h3>Preencha as informações do cartão de crédito:</h3>
-          <div>
-            <label>
-              Número do cartão:
-              <input type="text" name="cardNumber" />
-            </label>
-          </div>
-          <div>
-            <label>
-              Nome do titular:
-              <input type="text" name="cardHolderName" />
-            </label>
-          </div>
-          <div>
-            <label>
-              Data de expiração:
-              <input type="text" name="expirationDate" />
-            </label>
-          </div>
-          <div>
-            <label>
-              CVV:
-              <input type="text" name="cvv" />
-            </label>
-          </div>
-          <button type="button">Finalizar compra</button>
-        </div>
-      `;
-      const newWindow = window.open('', '_blank', 'width=400,height=400');
-      newWindow.document.write(formMarkup);
-    };
+  const formMarkup = `
+    <div>
+      <h3>Preencha as informações do cartão de crédito:</h3>
+      <div>
+        <label>
+          Número do cartão:
+          <input type="text" name="cardNumber" />
+        </label>
+      </div>
+      <div>
+        <label>
+          Nome do titular:
+          <input type="text" name="cardHolderName" />
+        </label>
+      </div>
+      <div>
+        <label>
+          Data de expiração:
+          <input type="text" name="expirationDate" />
+        </label>
+      </div>
+      <div>
+        <label>
+          CVV:
+          <input type="text" name="cvv" />
+        </label>
+      </div>
+      <button type="button" onclick="window.close()">Finalizar compra</button>
+    </div>
+  `;
+  const newWindow = window.open('', '_blank', 'width=400,height=400');
+  newWindow.document.write(formMarkup);
+};
   
     return (
       <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
