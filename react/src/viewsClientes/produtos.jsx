@@ -167,16 +167,17 @@ export default function Produtos() {
   };
 
   const handleSearch = (event) => {
-    const term = event.target.value.toLowerCase();
+    const term = event.target.value;
     setSearchTerm(term);
   };
-
+  
   const filteredProdutos = produtos.filter(
     (produto) =>
-      produto.nome.toLowerCase().includes(searchTerm) ||
-      produto.descricao.toLowerCase().includes(searchTerm) ||
-      produto.tipo.toLowerCase().includes(searchTerm)
+      produto.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      produto.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      produto.tipo.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   return (
     <div style={{ marginLeft: "100px", marginRight: "100px" }}>
