@@ -77,7 +77,7 @@ export default function Marcacoes() {
           <div>Loading...</div>
         ) : marcacoes.filter((marcacao) => marcacao.idCliente === Number(id) && marcacao.estado === "Ativo").length === 0 ? (
           <div className="card animated fadeInDown" style={{ gridColumn: "1/4" }}>
-            Neste momento não existem marcações futuras.
+            Neste momento não existem marcações.
           </div>
         ) : (
           marcacoes
