@@ -49,13 +49,8 @@ export default function Carrinho() {
               descricao: nestedData.descricao,
             },
           }));
-        } else {
-          console.log(`Product nome not found for idProduto ${idProduto}`);
         }
       })
-      .catch((error) => {
-        console.log(`Error fetching product data for idProduto ${idProduto}:`, error);
-      });
   };
 
   const getNomeProdutos = (carrinhos) => {

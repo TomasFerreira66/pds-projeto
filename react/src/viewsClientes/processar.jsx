@@ -3,7 +3,7 @@ import axiosClient from "../axios-client.js";
 import { Link, useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 import { useNavigate } from "react-router-dom";
-
+import emailjs from 'emailjs-com';
 
 export default function Processar() {
   const [carrinho, setUsers] = useState([]);
@@ -17,6 +17,20 @@ export default function Processar() {
   const totalSteps = 3;
   const [morada, setMorada] = useState("");
   const [nif, setNif] = useState("");
+  const [email, setEmail] = useState("");
+
+  const getEmail = () => {
+    setLoading(true);
+    axiosClient
+      .get(`/users/${id}`)
+      .then(( data ) => {
+        setLoading(false);
+        setEmail(data.data.email);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   const getCarrinho = () => {
     setLoading(true);
@@ -50,6 +64,7 @@ export default function Processar() {
   useEffect(() => {
     getCarrinho();
     getProduto();
+    getEmail();
   }, []);
 
   const handleNextStep = () => {
@@ -78,9 +93,6 @@ export default function Processar() {
   };
 
   
-
-  
-
   const renderStep1 = () => {
     const onUpdateSubmit = (event) => {
       event.preventDefault();
@@ -106,7 +118,6 @@ export default function Processar() {
           });
       });
       
-
     }
     return (
       <div className="card animated fadeInDown" style={{ marginLeft: '100px', marginRight: '100px' }}>
@@ -361,47 +372,61 @@ export default function Processar() {
         carrinho.estado === 'carrinho' && carrinho.idCliente === Number(id)
     );
   
-    // Update the morada and nif for each filtered carrinho
-    filteredCarrinhos.forEach((carrinho) => {
-      // Retrieve the produto with the same id as carrinho.idProduto
-      axiosClient
-        .get(`/produtos/${carrinho.idProduto}`)
-        .then(({ data }) => {
-          const produto = data.data;
+    // Calculate the total value of the carrinho
+    const totalValue = filteredCarrinhos.reduce((acc, curr) => acc + curr.preco, 0);
   
-          // Calculate the updated quantidade in the produtos table
-          const updatedQuantidade = produto.quantidade - carrinho.quantidadePedida;
+    // Get the list of product names, quantities, and prices based on the filtered carrinho
+    const produtoDetails = filteredCarrinhos.map((carrinho) => {
+      const matchingProduto = produto.find((prod) => prod.id === carrinho.idProduto);
+      return matchingProduto
+        ? {
+            nome: matchingProduto.nome,
+            quantidade: carrinho.quantidadePedida,
+            preco: carrinho.preco,
+          }
+        : null;
+    }).filter(Boolean);
   
-          // Update the quantidade value in the produtos table
-          axiosClient
-            .put(`/produtos/${carrinho.idProduto}`, {
-              quantidade: updatedQuantidade,
-            })
-            .then(() => {
-              // Update the estado value for the current carrinho
-              carrinho.estado = 'Pago';
+    const emailMessage = `Detalhes da encomenda:\n${produtoDetails
+      .map(
+        (produto) =>
+          `- Produto: ${produto.nome}\n  Quantidade: ${produto.quantidade}\n  Preço: ${produto.preco} €\n`
+      )
+      .join('\n')}\n\nTotal: ${totalValue} €`;
   
-              // Send the updated carrinho data to the server for storage or further processing
-              axiosClient
-                .put(`/carrinhos/${carrinho.id}`, carrinho)
-                .then(() => {
-                  setNotification('Compra efetuada com sucesso');
-                  navigate(`/carrinho/${id}`);
-                })
-                .catch((error) => {
-                  console.log('Error updating carrinho:', error);
-                });
-            })
-            .catch((error) => {
-              console.log('Error updating quantidade in produtos:', error);
-            });
-        })
-        .catch((error) => {
-          console.log('Error retrieving produto:', error);
-        });
-    });
+    // Update the carrinho, send the email, and navigate to the next page
+    Promise.all(
+      filteredCarrinhos.map((carrinho) =>
+        axiosClient.put(`/carrinhos/${carrinho.id}`, { estado: 'Pago' })
+      )
+    )
+      .then(() => {
+        // Email sending logic
+        const templateParams = {
+          to_email: email, 
+          subject: 'Confirmação de encomenda',
+          message: emailMessage,
+        };
+  
+        emailjs
+          .send('service_0w001s9', 'template_8fnwbbv', templateParams, '_FMgspLMXmcmeyJNc')
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+  
+        setNotification('Compra efetuada com sucesso');
+        navigate(`/carrinho/${id}`);
+      })
+      .catch((error) => {
+        console.log('Error updating carrinho:', error);
+      });
   };
-  
+    
   
   const renderFinishButton = () => {
     if (currentStep === totalSteps) {
@@ -433,4 +458,3 @@ export default function Processar() {
     </div>
   );
 }
-
