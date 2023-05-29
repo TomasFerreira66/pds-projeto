@@ -65,10 +65,10 @@ export default function PaginaInicialOriginal() {
           <div className="slide-container card animated fadeInDown" style={{ maxWidth: "900px", margin: "0 auto" }}>
             <Carousel autoPlay showThumbs={false} infiniteLoop>
               <div>
-                <img style={{ height: "450px", borderRadius: "10px" }} src="../src/img/slide1.png" alt="slide 1" />
+                <img style={{ height: "450px", borderRadius: "10px" }} src="../src/img/barbearia.png" alt="slide 1" />
               </div>
               <div>
-                <img style={{ height: "450px", borderRadius: "10px" }} src="../src/img/slide2.png" alt="slide 2" />
+                <img style={{ height: "450px", borderRadius: "10px" }} src="../src/img/slide1.png" alt="slide 2" />
               </div>
               <div>
                 <img style={{ height: "450px", borderRadius: "10px" }} src="../src/img/slide3.png" alt="slide 3" />
