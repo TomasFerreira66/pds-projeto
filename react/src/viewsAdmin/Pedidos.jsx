@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
-import { Link, useParams } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
+import { useParams } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider.jsx"; // obter estados e funções
 
 export default function Pedidos() {
   const [pedidos, setPedidos] = useState([]);
@@ -12,39 +12,16 @@ export default function Pedidos() {
   const { id } = useParams();
   const { user } = useStateContext();
 
-  const getUsers = (pedidos) => {
-    const userIds = [...new Set(pedidos.map((carrinho) => carrinho.idCliente))];
-    const promises = userIds.map((id) => axiosClient.get(`/users/${id}`));
-    
-    Promise.all(promises)
-      .then((responses) => {
-        const newUsers = {};
-        responses.forEach((response) => {
-          newUsers[response.data.id] = response.data.name;
-        });
-        setUsers(newUsers);
-      })
-      .catch(() => {
-        setUsers({});
-      });
-  };
+  useEffect(() => {
+    getPedidos();
+  }, []);
 
-  const getProdutos = (pedidos) => {
-    const produtoIds = [...new Set(pedidos.map((carrinho) => carrinho.idProduto))];
-    const promises = produtoIds.map((id) => axiosClient.get(`/produtos/${id}`));
-    
-    Promise.all(promises)
-      .then((responses) => {
-        const newProdutos = {};
-        responses.forEach((response) => {
-          newProdutos[response.data.data.id] = response.data.data.nome;
-        });
-        setProdutos(newProdutos);
-      })
-      .catch(() => {
-        setProdutos({});
-      });
-  };
+  useEffect(() => {
+    if (pedidos.length > 0) {
+      getUsers(pedidos);
+      getProdutos(pedidos);
+    }
+  }, [pedidos]);
 
   const getPedidos = () => {
     setLoading(true);
@@ -59,35 +36,60 @@ export default function Pedidos() {
       });
   };
 
-  useEffect(() => {
-    getPedidos();
-  }, []);
+  const getUsers = (pedidos) => {
+    // extrai os id's dos clientes e são armazenados em userIds
+    const userIds = [...new Set(pedidos.map((carrinho) => carrinho.idCliente))];
+    // array de promessas onde cada promessa é uma requisição
+    const promises = userIds.map((id) => axiosClient.get(`/users/${id}`));
 
-  useEffect(() => {
-    if (pedidos.length > 0) {
-      getUsers(pedidos);
-      getProdutos(pedidos);
-    }
-  }, [pedidos]);
+    Promise.all(promises) // aguardar que todas as promessas sejam resolvidas
+      .then((responses) => {
+        const newUsers = {};
+        responses.forEach((response) => {
+          // para cada resposta da requisição é adicionado uma entrada em newUsers
+          newUsers[response.data.id] = response.data.name;
+        });
+        setUsers(newUsers);
+      })
+      .catch(() => {
+        setUsers({});
+      });
+  };
+
+  const getProdutos = (pedidos) => {
+    // extrai os id's dos produtos e são armazenados em produtoIds
+    const produtoIds = [...new Set(pedidos.map((carrinho) => carrinho.idProduto))];
+    // array de promessas onde cada promessa é uma requisição
+    const promises = produtoIds.map((id) => axiosClient.get(`/produtos/${id}`));
+
+    Promise.all(promises) // aguardar que todas as promessas sejam resolvidas
+      .then((responses) => {
+        const newProdutos = {};
+        responses.forEach((response) => {
+          // para cada resposta da requisição é adicionado uma entrada em newProdutos
+          newProdutos[response.data.data.id] = response.data.data.nome;
+        });
+        setProdutos(newProdutos);
+      })
+      .catch(() => {
+        setProdutos({});
+      });
+  };
 
   const distribuirPedidos = () => {
     setLoading(true);
 
-    // Get the IDs of the selected carrinhos
     const selectedCarrinhosIds = pedidos
       .filter((carrinho) => carrinho.estado === "Pago" && carrinho.selected)
       .map((carrinho) => carrinho.id);
 
-    // Simulação de uma chamada assíncrona para atualizar o estado dos carrinhos
     setTimeout(() => {
       const pedidosAtualizados = pedidos.map((carrinho) => {
         if (selectedCarrinhosIds.includes(carrinho.id)) {
-          // Update the estado directly in the current table
           axiosClient
             .patch(`/carrinhos/${carrinho.id}`, { estado: "Concluído" })
             .catch(() => {
-              // Handle error if the update fails
-              setNotification("Failed to update estado.");
+              setNotification("Erro ao concluir o pedido");
             });
 
           return { ...carrinho, estado: "Concluído" };
@@ -97,9 +99,7 @@ export default function Pedidos() {
 
       setPedidos(pedidosAtualizados);
       setLoading(false);
-    }, 2000); // Tempo de espera simulado para demonstração
-
-    // Lógica adicional para distribuir os pedidos
+    }, 2000);
   };
 
   const togglePedidoSelecionado = (id) => {
