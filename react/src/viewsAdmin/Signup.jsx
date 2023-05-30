@@ -1,24 +1,22 @@
 import { Link } from 'react-router-dom';
 import { createRef, useState } from 'react';
 import axiosClient from '../axios-client.js';
-import { useStateContext } from '../contexts/ContextProvider.jsx';
-import { useNavigate } from 'react-router-dom';
+import { useStateContext } from '../contexts/ContextProvider.jsx'; // obter estados e funções
+import { useNavigate } from 'react-router-dom'; 
 
 export default function Signup() {
   const nameRef = createRef();
   const emailRef = createRef();
   const passwordRef = createRef();
   const passwordConfirmationRef = createRef();
-  const tipoRef = createRef();
-  const { setUser, setToken } = useStateContext();
   const [errors, setErrors] = useState(null);
   const navigate = useNavigate();
   const {setNotification} = useStateContext()
 
   const onSubmit = ev => {
-    ev.preventDefault();
+    ev.preventDefault(); // evitar o comportamento padrão de um link
 
-    const payload = {
+    const valores = {
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -27,20 +25,14 @@ export default function Signup() {
     };
 
     axiosClient
-      .post('/signup', payload)
-      .then(({ data }) => {
-        // Armazenar os dados do usuário e o token em variáveis locais
-        const { user, token } = data;
+      .post('/signup', valores)
+      .then(({ }) => {
 
-        // Limpar os campos do formulário
+        // limpar os campos do formulário
         nameRef.current.value = '';
         emailRef.current.value = '';
         passwordRef.current.value = '';
         passwordConfirmationRef.current.value = '';
-
-        // Exibir mensagem de sucesso ou realizar outras ações necessárias
-        console.log('Registro bem-sucedido!');
-        setNotification('Marcação criada com sucesso');
         navigate('/login');
 
       })
@@ -69,7 +61,6 @@ export default function Signup() {
           <input ref={emailRef} type="email" placeholder="Email" />
           <input ref={passwordRef} type="password" placeholder="Palavra-passe" />
           <input ref={passwordConfirmationRef} type="password" placeholder="Confirmar palavra-passe" />
-
           <button className="btn btn-block">Seguinte</button>
           <p className="message">
             Já tem conta? <Link to="/login">Login</Link>
