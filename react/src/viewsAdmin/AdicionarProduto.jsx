@@ -29,7 +29,7 @@ export default function AdicionarProduto() {
   }, [id]);
 
   const onSubmit = (ev) => {
-    ev.preventDefault();
+    ev.preventDefault(); // evitar o comportamento padrão de um link
 
     axiosClient
       .post("/produtos", produto)

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import axiosClient from "../axios-client.js";
 import { Link } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
+import { useStateContext } from "../contexts/ContextProvider.jsx"; // obter estados e funções
 
 export default function ListaProdutos() {
   const [produtos, setProdutos] = useState([]);

@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axiosClient from "../axios-client.js";
-import { createRef } from "react";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
+import { createRef } from "react"; // capturar os valores dos campos
+import { useStateContext } from "../contexts/ContextProvider.jsx"; // obter estados e funções
 import { useState } from "react";
 
 export default function Login() {
@@ -9,25 +9,23 @@ export default function Login() {
   const passwordRef = createRef();
   const { setUser, setToken } = useStateContext();
   const [errors, setErrors] = useState(null);
-  const navigate = useNavigate();
 
   const onSubmit = (ev) => {
-    ev.preventDefault();
+    ev.preventDefault(); // evitar o comportamento padrão de um link
 
-    const payload = {
+    const valores = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
     setErrors(null);
     axiosClient
-      .post("/login", payload)
+      .post("/login", valores)
       .then(({ data }) => {
-  
-          setUser(data.user);
-          setToken(data.token);
-          localStorage.setItem('userId', data.user.id); // Armazena o ID do usuário na localStorage
+        setUser(data.user); // atualiza o estado user com os dados obtidos na resposta
+        setToken(data.token); // atualiza o token com os dados obtidos na resposta
+        localStorage.setItem("userId", data.user.id); // armazena o id do utilizador em localStorage
       })
-      .catch((err) => {
+      .catch((err) => { // se ocorrer algum erro
         const response = err.response;
         if (response && response.status === 422) {
           if (response.data.errors) {

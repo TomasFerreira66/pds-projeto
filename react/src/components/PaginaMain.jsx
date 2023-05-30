@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { useStateContext } from "../contexts/ContextProvider";
+import { useStateContext } from "../contexts/ContextProvider"; // obter estados e funções
 import axiosClient from "../axios-client.js";
 
 export default function PaginaMain() {
