@@ -6,8 +6,6 @@ export default function GuestLayout(){
     if (token){
         return <Navigate to="/"/>
     }
-    //
-
     return (
         <div>
             <Outlet/>

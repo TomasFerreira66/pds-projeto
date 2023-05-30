@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
-import { Link } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 export default function Marcacaos() {
   const [marcacaos, setMarcacaos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { setNotification } = useStateContext();
   const [filter, setFilter] = useState("Todos");
   const [estadoFilter, setEstadoFilter] = useState("Todos");
   const [sortOrder, setSortOrder] = useState("desc");
   const [clientes, setClientes] = useState({});
 
-  useEffect(() => {
+  useEffect(() => { //usado para lidar com a lógica do componente
     getMarcacaos();
     getUsers();
   }, []);

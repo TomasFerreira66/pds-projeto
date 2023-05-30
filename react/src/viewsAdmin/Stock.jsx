@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
-import { Link } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider.jsx";
 
 export default function Stock() {
   const [produtos, setProdutos] = useState([]);
@@ -14,9 +12,8 @@ export default function Stock() {
 
   const getProdutos = () => {
     setLoading(true);
-    const url = "/produtos";
     axiosClient
-      .get(url)
+      .get("/produtos")
       .then(({ data }) => {
         const produtosFiltrados = data.data.filter(
           (produto) => produto.quantidade <= 5
