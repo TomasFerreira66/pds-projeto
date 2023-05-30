@@ -5,8 +5,6 @@ import { Chart, registerables } from 'chart.js';
 export default function Estatisticas() {
   const [loading, setLoading] = useState(false);
   const [usersList, setUsersList] = useState([]);
-  const [selectedUser, setSelectedUser] = useState('Todos');
-  const [userNames, setUserNames] = useState([]);
   const [barbeiroUsers, setBarbeiroUsers] = useState([]);
   const [marcacaos, setMarcacaos] = useState([]);
   const [produtos, setProdutos] = useState([]);
@@ -28,9 +26,7 @@ export default function Estatisticas() {
       .then(({ data }) => {
         setLoading(false);
         const barbeiroUsers = data.data.filter((user) => user.tipo === 'Barbeiro');
-        const names = barbeiroUsers.map((user) => user.name);
-        setUsersList(names);
-        setUserNames(names);
+        setUsersList(barbeiroUsers.map((user) => user.name));
         setBarbeiroUsers(barbeiroUsers);
       })
       .catch(() => {
@@ -77,35 +73,32 @@ export default function Estatisticas() {
       });
   };
 
-  const filteredUsers = selectedUser === 'Todos' ? barbeiroUsers : barbeiroUsers.filter((user) => user.name === selectedUser);
-
   useEffect(() => {
     if (chartRefBarbeiros.current) {
-      const ctx = chartRefBarbeiros.current.getContext('2d');
-      const labels = filteredUsers.map((user) => user.name);
-      const data = filteredUsers.map((user) =>
+      const ctx = chartRefBarbeiros.current.getContext('2d'); // contexto de renderização 2D do canvas
+      const labels = barbeiroUsers.map((user) => user.name);
+      const data = barbeiroUsers.map((user) =>
         marcacaos
-          .filter((marcacao) => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído')
+          .filter((marcacao) => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído') // quantidade de marcações concluídas de cada barbeiro
           .reduce((total, marcacao) => total + marcacao.custo, 0)
       );
 
-      Chart.register(...registerables);
+      Chart.register(...registerables); // regista os plugin's necessários do Chart.js
 
-      const existingChart = Chart.getChart(ctx);
-      if (existingChart) {
-        existingChart.destroy();
-      }
+      // se existir um gráfico, é destruído para evitar conflitos
+      const existingChart = Chart.getChart(ctx); 
+      if (existingChart) existingChart.destroy();
 
-      const backgroundColors = barbeiroUsers.map((_, index) => `hsl(${(index * 360) / barbeiroUsers.length}, 70%, 50%)`);
+      const backgroundColors = barbeiroUsers.map((_, index) => `hsl(${(index * 360) / barbeiroUsers.length}, 70%, 50%)`); // cada barbeiro com uma cor diferente
 
       new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: labels,
+          labels,
           datasets: [
             {
-              label: 'My Dataset',
-              data: data,
+              label: 'Barbeiros',
+              data,
               backgroundColor: backgroundColors,
             },
           ],
@@ -115,9 +108,9 @@ export default function Estatisticas() {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const label = labels[context.dataIndex];
-                  const totalEarnings = data[context.dataIndex];
-                  return `${label}: ${totalEarnings.toFixed(2)} €`;
+                  const label = labels[context.dataIndex]; // nome do barbeiro
+                  const ganhosBarbeiro = data[context.dataIndex]; // total de ganhos do barbeiro
+                  return `${label}: ${ganhosBarbeiro.toFixed(2)} €`;
                 },
               },
             },
@@ -125,51 +118,44 @@ export default function Estatisticas() {
         },
       });
     }
-  }, [filteredUsers, marcacaos]);
+  }, [barbeiroUsers, marcacaos]);
 
-  const calculateProductSales = (productId) => {
-    return carrinhos.filter((carrinho) => carrinho.idProduto === productId && carrinho.estado === 'Concluído').length;
-  };
+  const calcularVendasProduto = (productId) =>
+    carrinhos.filter((carrinho) => carrinho.idProduto === productId && carrinho.estado === 'Concluído').length; // quantidade de vendas concluídas de cada produto
 
-  const calculateProductEarnings = (productId) => {
-    const relevantCarrinhos = carrinhos.filter((carrinho) => carrinho.idProduto === productId && carrinho.estado === 'Concluído');
-    let totalEarnings = 0;
-    relevantCarrinhos.forEach((carrinho) => {
-      const preco = Number(carrinho.preco);
-      const quantidadePedida = Number(carrinho.quantidadePedida);
-      if (!isNaN(preco) && !isNaN(quantidadePedida)) {
-        totalEarnings += preco * quantidadePedida;
-      } else {
-        console.log(`Invalid price or quantity for carrinho with id ${carrinho.id}`);
-        console.log(`Price: ${carrinho.preco}, Quantity: ${carrinho.quantidadePedida}`);
-      }
+  const calcularGanhosProduto = (productId) => {
+    const pedidos = carrinhos.filter((carrinho) => carrinho.idProduto === productId && carrinho.estado === 'Concluído');
+    let totalGanho = 0;
+    pedidos.forEach((carrinho) => {
+      const preco = (carrinho.preco); 
+      const quantidadePedida = (carrinho.quantidadePedida);
+      totalGanho += preco * quantidadePedida;
     });
-    return totalEarnings;
+    return totalGanho;
   };
 
   useEffect(() => {
     if (chartRefProdutos.current) {
       const ctx = chartRefProdutos.current.getContext('2d');
       const labels = produtos.map((produto) => produto.nome);
-      const data = produtos.map((produto) => calculateProductEarnings(produto.id));
+      const data = produtos.map((produto) => calcularGanhosProduto(produto.id));
 
-      Chart.register(...registerables);
+      Chart.register(...registerables); // regista os plugin's necessários do Chart.js
 
+      // se existir um gráfico, é destruído para evitar conflitos
       const existingChart = Chart.getChart(ctx);
-      if (existingChart) {
-        existingChart.destroy();
-      }
+      if (existingChart) existingChart.destroy();
 
-      const backgroundColors = produtos.map((_, index) => `hsl(${(index * 360) / produtos.length}, 70%, 50%)`);
+      const backgroundColors = produtos.map((_, index) => `hsl(${(index * 360) / produtos.length}, 70%, 50%)`); // cada produto com uma cor diferente
 
       new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: labels,
+          labels,
           datasets: [
             {
-              label: 'My Dataset',
-              data: data,
+              label: 'Produtos',
+              data,
               backgroundColor: backgroundColors,
             },
           ],
@@ -179,9 +165,9 @@ export default function Estatisticas() {
             tooltip: {
               callbacks: {
                 label: (context) => {
-                  const label = labels[context.dataIndex];
-                  const totalEarnings = data[context.dataIndex];
-                  return `${label}: ${totalEarnings.toFixed(2)} €`;
+                  const label = labels[context.dataIndex]; // nome do produto
+                  const totalGanho = data[context.dataIndex]; // total de ganhos do produto
+                  return `${label}: ${totalGanho.toFixed(2)} €`;
                 },
               },
             },
@@ -215,7 +201,7 @@ export default function Estatisticas() {
                     </td>
                   </tr>
                 ) : (
-                  filteredUsers.map((user) => {
+                  barbeiroUsers.map((user) => {
                     const total = marcacaos
                       .filter((marcacao) => marcacao.idBarbeiro === user.id && marcacao.estado === 'Concluído')
                       .reduce((acc, marcacao) => acc + marcacao.custo, 0);
@@ -261,14 +247,14 @@ export default function Estatisticas() {
                   </tr>
                 ) : (
                   produtos.map((produto) => {
-                    const sales = calculateProductSales(produto.id);
-                    const earnings = calculateProductEarnings(produto.id);
+                    const vendas = calcularVendasProduto(produto.id);
+                    const ganhos = calcularGanhosProduto(produto.id);
                     return (
                       <tr key={produto.id}>
                         <td>{produto.id}</td>
                         <td>{produto.nome}</td>
-                        <td>{sales}</td>
-                        <td>{earnings.toFixed(2)} €</td>
+                        <td>{vendas}</td>
+                        <td>{ganhos.toFixed(2)} €</td>
                       </tr>
                     );
                   })
