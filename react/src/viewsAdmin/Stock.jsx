@@ -27,33 +27,33 @@ export default function Stock() {
   };
 
   const handleQuantidadeChange = (event, produtoId) => {
-    const value = event.target.value;
+    const value = event.target.value; // obtem o valor atual da quantidade
     setQuantidades((prevQuantidades) => ({
-      ...prevQuantidades,
-      [produtoId]: value,
+      ...prevQuantidades, // criado um novo objeto para copiar as propriedades existentes de prevQuantidades
+      [produtoId]: value, // atualiza a quantidade
     }));
   };
 
   const handleAtualizarQuantidade = (produtoId) => {
-    const quantidade = parseInt(quantidades[produtoId]);
+    const quantidade = parseInt(quantidades[produtoId]); // obter a quantidade digitada
     const url = `/produtos/${produtoId}`;
     axiosClient.get(url).then(({ data }) => {
       const quantidadeExistente = data.data.quantidade;
       const novaQuantidade = quantidadeExistente + quantidade;
-      axiosClient.patch(url, { quantidade: novaQuantidade }).then(() => {
+      axiosClient.patch(url, { quantidade: novaQuantidade }).then(() => { // nova requisição para atualizar a quantidade do produto
         const updatedProdutos = produtos.map((produto) => {
-          if (produto.id === produtoId) {
+          if (produto.id === produtoId) { // se o produto.id for igual ao produto que estamos a atualizar
             return {
-              ...produto,
-              quantidade: novaQuantidade,
+              ...produto, // devolve um novo objeto de produto
+              quantidade: novaQuantidade, // atualiza a quantidade
             };
           }
-          return produto;
+          return produto; // caso contrário, devolve o próprio produto sem fazer alterações
         });
         setProdutos(updatedProdutos);
         setQuantidades((prevQuantidades) => ({
           ...prevQuantidades,
-          [produtoId]: "", // Limpa a quantidade do produto após atualização
+          [produtoId]: "", // limpa a quantidade do produto após atualização
         }));
       });
     });
@@ -71,7 +71,7 @@ export default function Stock() {
         <h2>Stock</h2>
         <div></div>
       </div>
-      &nbsp;
+      <br />
       <div
         className="card-container"
         style={{
@@ -87,9 +87,7 @@ export default function Stock() {
               className="card animated fadeInDown"
               style={{ padding: "10px", borderRadius: "10px" }}
             >
-              <div
-                style={{ fontWeight: "bold", marginBottom: "10px" }}
-              >
+              <div style={{ fontWeight: "bold", marginBottom: "10px" }}>
                 {produto.nome}
               </div>
               <div>Quantidade em stock: {produto.quantidade}</div>
@@ -105,9 +103,7 @@ export default function Stock() {
                   type="number"
                   min="0"
                   value={quantidades[produto.id] || ""}
-                  onChange={(event) =>
-                    handleQuantidadeChange(event, produto.id)
-                  }
+                  onChange={(event) => handleQuantidadeChange(event, produto.id)}
                 />
                 <button
                   style={{ height: 40 }}
