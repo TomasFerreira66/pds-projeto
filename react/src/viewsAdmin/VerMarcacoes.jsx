@@ -29,16 +29,15 @@ export default function Marcacaos() {
     sortMarcacaos(event.target.value);
   };
 
-
   const getUsers = () => {
     axiosClient
       .get("/users")
       .then(({ data }) => {
-        const usersMap = {};
+        const users = {};
         data.forEach((user) => {
-          usersMap[user.id] = user.name; // Assuming `name` is the property that holds the user's name
+          users[user.id] = user.name;
         });
-        setClientes(usersMap);
+        setClientes(users);
       })
       .catch(() => {
         setLoading(false);
@@ -48,6 +47,7 @@ export default function Marcacaos() {
   const getMarcacaos = (filter = "Todos", estadoFilter = "Todos") => {
     setLoading(true);
     let url = "/marcacaos";
+    // construir a url com base nos filtros
     if (filter !== "Todos" && estadoFilter !== "Todos") {
       url += `?servico=${filter}&estado=${estadoFilter}`;
     } else if (filter !== "Todos") {
@@ -55,20 +55,24 @@ export default function Marcacaos() {
     } else if (estadoFilter !== "Todos") {
       url += `?estado=${estadoFilter}`;
     }
+
     axiosClient
       .get(url)
       .then(({ data }) => {
         setLoading(false);
         setMarcacaos(data.data);
 
-        const uniqueUserIds = [
+        const userId = [
+          // buscar os id's dos barbeiros e dos clientes nas marcações
           ...new Set(data.data.map((marcacao) => [marcacao.idBarbeiro, marcacao.idCliente]).flat()),
         ];
-        const userPromises = uniqueUserIds.map((userId) => {
+        // array de promessas
+        // cada elemento é uma requisição para obter informações
+        const userPromises = userId.map((userId) => {
           return axiosClient.get(`/users/${userId}`);
         });
 
-        Promise.all(userPromises)
+        Promise.all(userPromises) // aguardar a resolução de todas as promessas
           .then((responses) => {
             const userMap = {};
             responses.forEach((response) => {
@@ -89,11 +93,12 @@ export default function Marcacaos() {
   };
 
   const sortMarcacaos = (order) => {
-    let sortedMarcacaos = [...marcacaos];
+    let sortedMarcacaos = [...marcacaos]; // cria uma cópia do estado marcacaos
     sortedMarcacaos.sort((a, b) => {
       const dateA = new Date(a.data);
       const dateB = new Date(b.data);
       if (order === "asc") {
+        // determina a diferença entre datas para fazer a ordem
         return dateA - dateB;
       } else {
         return dateB - dateA;

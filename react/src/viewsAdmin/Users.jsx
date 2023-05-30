@@ -9,29 +9,29 @@ export default function Users() {
   const { setNotification } = useStateContext();
   const [filter, setFilter] = useState("Todos");
   const [sortOrder, setSortOrder] = useState("desc");
-  const [specialtyFilter, setSpecialtyFilter] = useState("Todos"); // Novo estado para o filtro de especialidade
+  const [filtroEspecialidade, setFiltroEspecialidade] = useState("Todos");
 
   useEffect(() => {
     getUsers();
   }, []);
 
-  const handleFilterChange = (event) => {
+  const handleFilterChange = (event) => { // chamada quando o valor do filtro de tipos de utilizadores é alterado
     setFilter(event.target.value);
-    getUsers(event.target.value, specialtyFilter);
+    getUsers(event.target.value, filtroEspecialidade);
   };
 
-  const handleSortChange = (event) => {
+  const handleSortChange = (event) => { // chamada quando o valor do filtro de ordenação é alterado
     setSortOrder(event.target.value);
     sortUsers(event.target.value);
   };
 
-  const handleSpecialtyFilterChange = (event) => {
-    setSpecialtyFilter(event.target.value);
+  const handleFiltroEspecialidadeChange = (event) => { // chamada quando o valor do filtro de especialidades é alterado
+    setFiltroEspecialidade(event.target.value);
     getUsers(filter, event.target.value);
   };
 
   const onDeleteClick = (user) => {
-    if (!window.confirm("De certeza que queres eliminar este utilizador?")) {
+    if (!window.confirm("De certeza que pretende eliminar este utilizador?")) {
       return;
     }
 
@@ -39,29 +39,26 @@ export default function Users() {
       .delete(`/users/${user.id}`)
       .then(() => {
         if (user.type === "Barbeiro") {
-          // Delete associated records in `/marcacaos` table
           axiosClient
             .delete(`/marcacaos?idBarbeiro=${user.id}`)
             .then(() => {
               setNotification("Utilizador e registos associados eliminados com sucesso");
-              getUsers(filter, specialtyFilter);
+              getUsers(filter, filtroEspecialidade);
             })
             .catch((error) => {
-              console.error("Error deleting associated records:", error);
               setNotification("Erro ao eliminar os registos associados");
             });
         } else {
           setNotification("Utilizador eliminado com sucesso");
-          getUsers(filter, specialtyFilter);
+          getUsers(filter, filtroEspecialidade);
         }
       })
       .catch((error) => {
-        console.error("Error deleting user:", error);
         setNotification("Erro ao eliminar o utilizador");
       });
   };
 
-  const getUsers = (filter = "Todos", specialtyFilter = "Todos") => {
+  const getUsers = (filter = "Todos", filtroEspecialidade = "Todos") => {
     setLoading(true);
     let url = "/users";
     axiosClient
@@ -72,11 +69,11 @@ export default function Users() {
         if (filter !== "Todos") {
           filteredUsers = filteredUsers.filter((user) => user.tipo === filter);
         }
-        if (specialtyFilter !== "Todos") {
-          filteredUsers = filteredUsers.filter((user) => user.especialidade === specialtyFilter);
+        if (filtroEspecialidade !== "Todos") {
+          filteredUsers = filteredUsers.filter((user) => user.especialidade === filtroEspecialidade);
         }
-        // Ordenar os usuários por tipo
-        filteredUsers.sort((a, b) => (a.tipo > b.tipo) ? 1 : -1);
+        // ordenar os utilizadores por tipo
+        filteredUsers.sort((a, b) => (a.tipo > b.tipo) ? 1 : -1); // a e b representam os elementos de filteredUsers
         setUsers(filteredUsers);
       })
       .catch(() => {
@@ -85,11 +82,12 @@ export default function Users() {
   };
   
   const sortUsers = (order) => {
-    let sortedUsers = [...users];
+    let sortedUsers = [...users]; // cria uma cópia do estado users
     sortedUsers.sort((a, b) => {
       const dateA = new Date(a.created_at);
       const dateB = new Date(b.created_at);
       if (order === "asc") {
+        // determina a diferença entre datas para fazer a ordem
         return dateA - dateB;
       } else {
         return dateB - dateA;
@@ -112,7 +110,7 @@ export default function Users() {
             <option value="admin">Admin</option>
             <option value="Cliente">Cliente</option>
           </select>
-          <select name="filtro1" value={specialtyFilter} onChange={handleSpecialtyFilterChange}>
+          <select name="filtro1" value={filtroEspecialidade} onChange={handleFiltroEspecialidadeChange}>
             <option value="Todos">Especialidade</option>
             <option value="Corte">Corte</option>
             <option value="Barba">Barba</option>

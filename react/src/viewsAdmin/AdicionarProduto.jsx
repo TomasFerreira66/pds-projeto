@@ -29,8 +29,7 @@ export default function AdicionarProduto() {
   }, [id]);
 
   const onSubmit = (ev) => {
-    ev.preventDefault(); // evitar o comportamento padrão de um link
-
+    ev.preventDefault();
     axiosClient
       .post("/produtos", produto)
       .then(() => {
@@ -44,10 +43,12 @@ export default function AdicionarProduto() {
         }
       });
 
+    // preparação dos dados para upload de imagem
     const fData = new FormData();
     fData.append("name", produto.nome);
     fData.append("image", imageData);
 
+    // requisição para fazer upload da imagem
     Axios.post("http://127.0.0.1:8000/api/upload-image", fData)
       .then((res) => console.log("response", res))
       .catch((e) => console.error("Failure", ev));

@@ -11,7 +11,7 @@ export default function Login() {
   const [errors, setErrors] = useState(null);
 
   const onSubmit = (ev) => {
-    ev.preventDefault(); // evitar o comportamento padrão de um link
+    ev.preventDefault(); 
 
     const valores = {
       email: emailRef.current.value,

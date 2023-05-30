@@ -14,7 +14,7 @@ export default function Signup() {
   const {setNotification} = useStateContext()
 
   const onSubmit = ev => {
-    ev.preventDefault(); // evitar o comportamento padrão de um link
+    ev.preventDefault(); 
 
     const valores = {
       name: nameRef.current.value,

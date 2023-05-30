@@ -116,7 +116,6 @@ const router = createBrowserRouter([
         },
       ]
     },
-    
     {
       path: '/',
       element: <GuestLayout/>,
@@ -139,7 +138,6 @@ const router = createBrowserRouter([
         },
       ]
     },
-
     {
       path: "*",
       element: <NotFound/>

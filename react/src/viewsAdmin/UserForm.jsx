@@ -2,7 +2,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../contexts/ContextProvider.jsx";
-
 import Axios from "axios";
 
 export default function UserForm() {
@@ -17,17 +16,15 @@ export default function UserForm() {
     tipo: 'Barbeiro',
     especialidade: '',
   })
+
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [filtro, setFiltro] = useState("Todos") 
   const {setNotification} = useStateContext()
   const [imageData, setImagedata] = useState('')
 
-  const handleChange = file => {
-
-    setImagedata(file[0]);
-    
-      }
+  const handleImagem = file => {
+    setImagedata(file[0]); // contém os dados do ficheiro selecionado
+  }
 
   if (id) {
     useEffect(() => {
@@ -73,10 +70,12 @@ export default function UserForm() {
       });
   }
 
+  // preparação dos dados para upload de imagem
   const fData = new FormData();
   fData.append('name', user.name);
   fData.append('image', imageData);
 
+  // requisição para fazer upload da imagem
   Axios.post('http://127.0.0.1:8000/api/upload-image', fData)
     .then(res => {
       console.log('response', res);
@@ -85,11 +84,6 @@ export default function UserForm() {
       console.error('Failure', ev);
     });
 };
-
-  
-  
-
-  
 
   return (
     <>
@@ -111,6 +105,10 @@ export default function UserForm() {
         }
         {!loading && (
           <form onSubmit={onSubmit}>
+            {/* onChange: evento que ocorre quando o valor do campo é alterado
+              ev: evento passado como parâmetro
+              ev.target.value: novo valor do campo
+           */}
           <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Nome"/>
           <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
           <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Palavra-passe"/>
@@ -121,8 +119,7 @@ export default function UserForm() {
             <option value="Barba">Barba</option>
             <option value="Corte + Barba">Corte + Barba</option>
           </select>  
-          <input name="image" id="image" type="file" onChange={e => handleChange(e.target.files)} required />
-    
+          <input name="image" id="image" type="file" onChange={e => handleImagem(e.target.files)} required />
           <br></br><br></br>
           <button className="btn">Guardar</button>
         </form>
