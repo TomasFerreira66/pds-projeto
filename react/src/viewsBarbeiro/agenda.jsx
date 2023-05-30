@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client.js";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 import { format, parseISO } from "date-fns";
 import emailjs from 'emailjs-com';
@@ -12,14 +12,18 @@ export default function Agenda() {
   const { setNotification } = useStateContext();
   const { id } = useParams();
 
+  useEffect(() => {
+    getMarcacoes();
+  }, []);
+
   const getCliente = (marcacoes) => {
-    const clienteIds = [...new Set(marcacoes.map((marcacao) => marcacao.idCliente))];
+    const clienteIds = [...new Set(marcacoes.map((marcacao) => marcacao.idCliente))]; // obter valores de idCliente
     const promises = clienteIds.map((id) => axiosClient.get(`/users/${id}`));
-    Promise.all(promises)
+    Promise.all(promises) // aguardar que todas as promessas sejam resolvidas
       .then((responses) => {
-        const newClientes = {};
+        const newClientes = {}; // objeto usado para armazenar dados dos clientes
         responses.forEach((response) => {
-          newClientes[response.data.id] = response.data.name;
+          newClientes[response.data.id] = response.data.name; // o nome do cliente é atribuido a newClientes ao usar o id do cliente como chave
         });
         setClientes(newClientes);
       })
@@ -42,10 +46,6 @@ export default function Agenda() {
       });
   };
 
-  useEffect(() => {
-    getMarcacoes();
-  }, []);
-
   const concluirMarcacao = (marcacao) => {
     axiosClient
       .put(`/marcacaos/${marcacao.id}`, { estado: "Concluído" })
@@ -59,10 +59,9 @@ export default function Agenda() {
   };
 
   const onDeleteClick = (marcacao) => {
-    if (!window.confirm("Tem a certeza de que deseja cancelar esta marcação?")) {
+    if (!window.confirm("Tem a certeza de que pretende cancelar esta marcação?")) {
       return;
     }
-  
     axiosClient
       .delete(`/marcacaos/${marcacao.id}`)
       .then(() => {
@@ -92,7 +91,6 @@ export default function Agenda() {
                   });
               })
               .catch(err => console.log(err));
-  
           })
           .catch(err => console.log(err));
       })
@@ -101,7 +99,7 @@ export default function Agenda() {
       });
   };
   
-  const hasMarcacoes = marcacaos.some(marcacao => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo");
+  const temMarcacoes = marcacaos.some(marcacao => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo");
 
   return (
     <div style={{ marginLeft: "100px", marginRight: "100px" }}>
@@ -109,7 +107,7 @@ export default function Agenda() {
         <h2>As suas marcações</h2>
       </div>
       &nbsp;
-      {hasMarcacoes ? (
+      {temMarcacoes ? (
         <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
           {marcacaos
             .filter((marcacao) => marcacao.idBarbeiro === Number(id) && marcacao.estado === "Ativo")
