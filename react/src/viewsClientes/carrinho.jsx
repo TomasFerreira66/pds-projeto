@@ -13,8 +13,6 @@ export default function Carrinho() {
   const [total, setTotal] = useState(0);
   const [hasProducts, setHasProducts] = useState(false);
 
-
-  //vai buscar à tabela carrinho as rows onde esta associado o cliente logado e onde o estado é carrinho
   const getCarrinho = () => {
     setLoading(true);
     axiosClient
@@ -36,8 +34,6 @@ export default function Carrinho() {
         setLoading(false);
       });
   };
-
-
 
   const getProduto = (idProduto) => {
     axiosClient
@@ -73,8 +69,6 @@ export default function Carrinho() {
     getCarrinho();
   }, []);
 
-
-  //apaga da db o produto pedido
   const onDeleteClick = (carrinho) => {
     if (!window.confirm("De certeza que queres retirar este produto do teu carrinho?")) {
       return;
@@ -115,7 +109,6 @@ export default function Carrinho() {
                       className={`card animated fadeInDown ${isLeftCard ? "left-card" : "right-card"}`}
                     >
                       <div style={{ fontSize: "25px"}}>{produtoNome}</div>
-                      <div>{produtoDescricao}</div>
                       <div>Quantidade: {quantidade}</div>
                       <div>Preço: {preco} €</div>
                       &nbsp;&nbsp;
