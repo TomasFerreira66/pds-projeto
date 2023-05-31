@@ -2,8 +2,8 @@
 
 
 ## IPCA BarberShop
-Esta *web app* é um sistema para a gestão de uma barbearia.
-Existem três tipos de utilizadores: clientes, barbeiros e administradores.
+Esta *web app* é um sistema para a gestão de uma barbearia, desenvolvida em **Laravel (back-end)** e **React (front-end)** que visa facilitar a administração e o funcionamento diário de uma barbearia.
+O sistema atende a três tipos de utilizadores: clientes, barbeiros e administradores.
 
 #### Funcionalidades para clientes:
 - Registar: os clientes podem-se registar ao fornecer o nome, e-mail e palavra-passe.
@@ -34,8 +34,8 @@ Durante o desenvolvimento deste projeto, foi utilizado um software ALM de apoio 
 
 ## Autores
 
-Nelson Leonardo Olveira de Araújo (Product Owner)
-Marcos Alberto Lopes de Vasconcelos (Scrum Master)
-Tomás Fernandes Ferreira
-Diogo Miguel Barbosa de Oliveira
-Rafael Gomes Carvalho Ramalho
+- Nelson Leonardo Olveira de Araújo (Product Owner)
+- Marcos Alberto Lopes de Vasconcelos (Scrum Master)
+- Tomás Fernandes Ferreira
+- Diogo Miguel Barbosa de Oliveira
+- Rafael Gomes Carvalho Ramalho
