@@ -11,6 +11,8 @@ export default function Historico() {
   const { id } = useParams();
   const { user } = useStateContext();
 
+
+  //Busca o nome do barbeiro com base no idBarbeiro da tabela marcacaos
   const getBarbeiro = (marcacoes) => {
     const barbeiroIds = [...new Set(marcacoes.map((marcacao) => marcacao.idBarbeiro))];
     const promises = barbeiroIds.map((id) => axiosClient.get(`/users/${id}`));

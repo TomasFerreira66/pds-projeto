@@ -32,13 +32,7 @@ export default function Produtos() {
     getProdutos();
   }, []);
 
-  const handleFilterChange = (event) => {
-    const newFilter = event.target.value;
-    setLoading(true);
-    setFilter(newFilter);
-    getProdutos(newFilter);
-  };
-
+ 
   const handleSortChange = (event) => {
     setSortOrder(event.target.value);
     sortProdutos(event.target.value);
@@ -53,13 +47,13 @@ export default function Produtos() {
       preco: produtos.find(produto => produto.id === produtoId).preco
     };
   
-    // Retrieve the carrinhos data from the backend
+    //Buscamos os dados da tabela carrinhos
     axiosClient
       .get('/carrinhos')
       .then(({ data }) => {
         const carrinhos = data.data;
   
-        // Check if the same idProduto and idCliente already exist in the carrinhos table
+        //Verifica se o idProduto e idCliente ja existe em alguma row
         const existingRow = carrinhos.find(
           (row) =>
             row.idProduto === updatedProdutoEscolhido.idProduto &&
@@ -67,24 +61,22 @@ export default function Produtos() {
             row.estado === 'carrinho'
         );
   
-        console.log('Updated Produto Escolhido:', updatedProdutoEscolhido);
-        console.log('Existing Row:', existingRow);
   
-        // Retrieve the produto with the same id as idProduto
+        // Vai à tabela produtos e verifica os produtos com o mesmo id que idProdutos (idProdutos é um campo na tabela carrinhos com os ids dos produtos que o cliente adicionou ao carrinho)
         axiosClient
           .get(`/produtos/${updatedProdutoEscolhido.idProduto}`)
           .then(({ data }) => {
             const produto = data.data;
   
             if (existingRow) {
-              // If the row exists, update the quantidadePedida value
+              // Se o produto ja existir na tabela então a quantidade é aumentada
               const updatedRow = {
                 ...existingRow,
                 quantidadePedida: existingRow.quantidadePedida + 1,
                 preco: existingRow.preco + updatedProdutoEscolhido.preco
               };
             
-              // Check if the updated quantidadePedida surpasses the quantidade value
+              // Verifica se a quantidade pedida passa os valores de stock
               if (updatedRow.quantidadePedida > produto.quantidade) {
                 setErrors({
                   quantidadePedida:
@@ -105,7 +97,7 @@ export default function Produtos() {
                   });
               }
             } else {
-              // If the row doesn't exist, add a new row
+              // Se este produto ainda não existir na tabela, adiciona uma nova row
               axiosClient
                 .post('/carrinhos', updatedProdutoEscolhido)
                 .then(() => {
@@ -122,17 +114,18 @@ export default function Produtos() {
           .catch((err) => {
             const response = err.response;
             if (response && response.status === 404) {
-              // Handle error when the produto with the given idProduto is not found
+              // Erro caso o produto nao seja encontrado
               setErrors({ produto: 'Produto não encontrado.' });
             }
           });
       })
       .catch(() => {
-        // Handle error while retrieving carrinhos data
         setLoading(false);
       });
   };
   
+
+  //busca informação sobre os produtos e as imagens respetivas
   const getProdutos = (filtro = 'Todos') => {
     setLoading(true);
     let url = '/produtos';
@@ -199,6 +192,7 @@ export default function Produtos() {
         </div>
       </div>
       <br />
+
       <div className="card-container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
       {filteredProdutos.map((produto) => (
   <form key={produto.id} onSubmit={(event) => onSubmit(event, produto.id)}>
@@ -213,25 +207,11 @@ export default function Produtos() {
       <div style={{ fontSize:"17px" }}>Quantidade em stock: {produto.quantidade}</div>
       <div style={{ display: "flex", alignItems: "center" }}>
       {produto.quantidade === 0 ? (
-  <button
-    style={{
-      width: 200,
-      height: 50,
-      backgroundColor: "#b72424",
-      cursor: "not-allowed",
-      color: "white"
-    }}
-    className="btn-login"
-    disabled
-  >
+  <button style={{ width: 200, height: 50, backgroundColor: "#b72424", cursor: "not-allowed", color: "white"  }} className="btn-login" disabled>
     Fora de stock
   </button>
 ) : (
-  <button
-    style={{ width: 200, height: 50 }}
-    className="btn-login"
-    onClick={(event) => onSubmit(event, produto.id)}
-  >
+  <button style={{ width: 200, height: 50 }} className="btn-login" onClick={(event) => onSubmit(event, produto.id)} >
     Adicionar ao carrinho
   </button>
 )}

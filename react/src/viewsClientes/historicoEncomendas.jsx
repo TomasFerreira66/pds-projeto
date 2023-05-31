@@ -65,7 +65,7 @@ export default function historicoEncomendas() {
     getCarrinho();
   }, []);
 
-  // Filter and map the products with the "estado" as "Concluído"
+  // Filtra os pedidos do usuário se o estado estiver concluido
   const filteredProducts = users.filter(
     (carrinho) => carrinho.idCliente === Number(id) && carrinho.estado === "Concluído"
   );

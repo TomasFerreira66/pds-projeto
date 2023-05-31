@@ -85,7 +85,7 @@ export default function Processar() {
 
   const handleMetodoEnvioChange = (event) => {
     setMetodoEnvio(event.target.value);
-    setShowAdditionalStep(event.target.value === "method1"); // "method1" represents Domiciliario
+    setShowAdditionalStep(event.target.value === "method1"); // "method1" representa Domiciliario
   };
 
   const handleMetodoPagamentoChange = (event) => {
@@ -97,18 +97,17 @@ export default function Processar() {
     const onUpdateSubmit = (event) => {
       event.preventDefault();
   
-      // Filter the carrinhos based on the condition (estado = "carrinho" and idCliente matches the current user)
+      // Filtra os carrinhos com base na condição (estado = "carrinho" e idCliente corresponde ao usuário atual)
       const filteredCarrinhos = carrinho.filter(
         (carrinho) => carrinho.estado === "carrinho" && carrinho.idCliente === Number(id)
       );
   
-      // Update the morada and nif for each filtered carrinho
       filteredCarrinhos.forEach((carrinho) => {
-        // Update the morada and nif values for the current carrinho
+        //Atualizar os valores da morada e do NIF para o carrinho atual
         carrinho.morada = morada;
         carrinho.nif = nif;
   
-        // Send the updated carrinho data to the server for storage or further processing
+        // Enviar os dados atualizados do carrinho para o servidor para armazenamento ou processamento adicional
         axiosClient.put(`/carrinhos/${carrinho.id}`, carrinho)
           .then(() => {
             setNotification('Carrinho atualizado com sucesso');
@@ -258,13 +257,13 @@ export default function Processar() {
       (carrinho) => carrinho.estado === "carrinho" && carrinho.idCliente === Number(id)
     );
   
-    // Get the list of product names and quantities based on the filtered carrinho
+    //Obtem a lista de nomes de produtos e quantidades com base no carrinho filtrado
     const produtoNamesAndQuantities = filteredCarrinho.map((carrinho) => {
       const matchingProduto = produto.find((prod) => prod.id === carrinho.idProduto);
       return matchingProduto ? { nome: matchingProduto.nome, quantidade: carrinho.quantidadePedida } : null;
     }).filter(Boolean);
   
-    // Calculate the total value of carrinho.preco
+   //Calcula o valor total
     const totalValue = filteredCarrinho.reduce((acc, curr) => acc + curr.preco, 0);
 
 
@@ -366,16 +365,16 @@ export default function Processar() {
   const handleFinalizarEncomenda = (event) => {
     event.preventDefault();
   
-    // Filter the carrinhos based on the condition (estado = "carrinho" and idCliente matches the current user)
+    // Filtra os carrinhos com base na condição (estado = "carrinho" e idCliente corresponde ao usuário atual)
     const filteredCarrinhos = carrinho.filter(
       (carrinho) =>
         carrinho.estado === 'carrinho' && carrinho.idCliente === Number(id)
     );
   
-    // Calculate the total value of the carrinho
+    // Calcula o valor total do carrinho
     const totalValue = filteredCarrinhos.reduce((acc, curr) => acc + curr.preco, 0);
   
-    // Get the list of product names, quantities, and prices based on the filtered carrinho
+    // Obtem a lista de nomes de produtos, quantidades e preços com base no carrinho filtrado
     const produtoDetails = filteredCarrinhos.map((carrinho) => {
       const matchingProduto = produto.find((prod) => prod.id === carrinho.idProduto);
       return matchingProduto
@@ -394,14 +393,13 @@ export default function Processar() {
       )
       .join('\n')}\n\nTotal: ${totalValue} €`;
   
-    // Update the carrinho, send the email, and navigate to the next page
+    // Muda o estado do carrinho, manda o email e vai para a pagina principal
     Promise.all(
       filteredCarrinhos.map((carrinho) =>
         axiosClient.put(`/carrinhos/${carrinho.id}`, { estado: 'Pago' })
       )
     )
       .then(() => {
-        // Email sending logic
         const templateParams = {
           to_email: email, 
           subject: 'Confirmação de encomenda',

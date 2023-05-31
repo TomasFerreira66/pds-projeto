@@ -32,15 +32,12 @@ export default function NovaMarcacao() {
     getEspecialidades();
   }, []);
 
-  const mudarData = (ev) => {
-    setDataHoraSelecionada(ev);
-    setMarcacao({ ...marcacao, data: new Date(ev) });
-  };
-
+  // Obtem os barbeiros
   const getBarbeiros = () => {
     axiosClient
       .get('/users')
       .then(({ data }) => {
+        // Filtra apenas os usuarios que sao barbeiros
         const barbeirosList = data.data
           .filter((user) => user.tipo === 'Barbeiro')
           .map((barbeiro) => ({
@@ -51,6 +48,7 @@ export default function NovaMarcacao() {
       .catch(() => {});
   };
 
+  // Obtem a lista de especialidades
   const getEspecialidades = () => {
     axiosClient
       .get('/users')
@@ -66,10 +64,12 @@ export default function NovaMarcacao() {
       .catch(() => {});
   };
 
+
   const getBarbeirosEspecialidade = (especialidadeSelecionada) => {
     axiosClient
       .get('/users')
       .then(({ data }) => {
+        //Filtra os barbeiros com base na especialidade
         const barbeirosList = data.data
           .filter(
             (user) =>
@@ -92,16 +92,19 @@ export default function NovaMarcacao() {
         setNotification('Marcação criada com sucesso');
         navigate('/paginainicial');
 
+        //Email cliente
         axiosClient
           .get(`/users/${marcacao.idCliente}`)
           .then((response) => {
             const clientEmail = response.data.email;
 
+            //Nome barbeiro
             axiosClient
               .get(`/users/${marcacao.idBarbeiro}`)
               .then((response) => {
                 const nomeBarbeiro = response.data.name;
 
+                
                 const templateParams = {
                   to_email: clientEmail,
                   subject: 'Confirmação de marcação',
@@ -111,6 +114,7 @@ export default function NovaMarcacao() {
                   )}.`,
                 };
 
+                // Envia um email para o cliente de confirmação
                 emailjs
                   .send('service_hgpw1ul', 'template_849x1az', templateParams, '19c0R-gO8pAzmZ2sf')
                   .then(
@@ -122,9 +126,9 @@ export default function NovaMarcacao() {
                     }
                   );
               })
-              .catch((err) => console.log(err)); // handle error here
+              .catch((err) => console.log(err));
           })
-          .catch((err) => console.log(err)); // handle error here
+          .catch((err) => console.log(err)); 
       })
       .catch((err) => {
         const response = err.response;
@@ -134,6 +138,7 @@ export default function NovaMarcacao() {
       });
   };
 
+  // Custo
   function getCustoByEspecialidade(especialidade) {
     switch (especialidade) {
       case 'Corte':
