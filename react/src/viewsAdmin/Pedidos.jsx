@@ -162,7 +162,7 @@ export default function Pedidos() {
                     }`}
                   </div>
                   <div style={{ fontSize: "18px", marginTop: "10px" }}>
-                    {carrinho.morada}
+                   Morada de entrega: {carrinho.morada}
                   </div>
                   <div
                     style={{ position: "absolute", bottom: "10px", right: "10px" }}
