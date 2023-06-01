@@ -155,9 +155,11 @@ export default function Users() {
                   <td>{user.especialidade}</td>
                   <td>{new Date(user.created_at).toLocaleDateString()}</td>
                   <td>
-                    <Link to={`/users/${user.id}`} className="btn-edit">
-                      Editar
-                    </Link>
+                  {user.tipo !== "Cliente" && ( // Verifica se o tipo do usuário é diferente de "Cliente"
+                      <Link to={`/users/${user.id}`} className="btn-edit">
+                        Editar
+                      </Link>
+                    )}
                     <button onClick={() => onDeleteClick(user)} className="btn-delete">
                       Apagar
                     </button>
