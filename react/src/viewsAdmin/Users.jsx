@@ -155,7 +155,7 @@ export default function Users() {
                   <td>{user.especialidade}</td>
                   <td>{new Date(user.created_at).toLocaleDateString()}</td>
                   <td>
-                  {user.tipo !== "Cliente" && ( // Verifica se o tipo do usuário é diferente de "Cliente"
+                  {user.tipo === "Barbeiro" &&(
                       <Link to={`/users/${user.id}`} className="btn-edit">
                         Editar
                       </Link>
