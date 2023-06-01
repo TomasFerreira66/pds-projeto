@@ -85,54 +85,72 @@ export default function NovaMarcacao() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-
-    axiosClient
-      .post('/marcacaos', marcacao)
-      .then(() => {
-        setNotification('Marcação criada com sucesso');
-        navigate('/paginainicial');
-
+  
+    axiosClient.get('/marcacaos')
+      .then((res) => {
+        const existingMarcacoes = res.data.data;
+        const hasExistingMarcacao = existingMarcacoes.some(marcacaoExistente =>
+          new Date(marcacaoExistente.data).getTime() === new Date(marcacao.data).getTime()
+        );
+  
+        if(hasExistingMarcacao) {
+          setNotification('Não é possível agendar a marcação para esse horário');
+          return;
+        }
+  
+        // Se não houver uma marcação existente, continua com a criação da marcação
         axiosClient
-          .get(`/users/${marcacao.idCliente}`)
-          .then((response) => {
-            const clientEmail = response.data.email;
-
+          .post('/marcacaos', marcacao)
+          .then(() => {
+            setNotification('Marcação criada com sucesso');
+            navigate('/paginainicial');
+  
             axiosClient
-              .get(`/users/${marcacao.idBarbeiro}`)
+              .get(`/users/${marcacao.idCliente}`)
               .then((response) => {
-                const nomeBarbeiro = response.data.name;
-
-                const templateParams = {
-                  to_email: clientEmail,
-                  subject: 'Confirmação de marcação',
-                  message: `A sua marcação para o serviço ${marcacao.servico} com o barbeiro ${nomeBarbeiro} foi marcada para o dia ${format(
-                    marcacao.data,
-                    "dd/MM/yyyy 'às' HH:mm"
-                  )}.`,
-                };
-
-                emailjs
-                  .send('service_hgpw1ul', 'template_849x1az', templateParams, '19c0R-gO8pAzmZ2sf')
-                  .then(
-                    (result) => {
-                      console.log(result.text);
-                    },
-                    (error) => {
-                      console.log(error.text);
-                    }
-                  );
+                const clientEmail = response.data.email;
+  
+                axiosClient
+                  .get(`/users/${marcacao.idBarbeiro}`)
+                  .then((response) => {
+                    const nomeBarbeiro = response.data.name;
+  
+                    const templateParams = {
+                      to_email: clientEmail,
+                      subject: 'Confirmação de marcação',
+                      message: `A sua marcação para o serviço ${marcacao.servico} com o barbeiro ${nomeBarbeiro} foi marcada para o dia ${format(
+                        marcacao.data,
+                        "dd/MM/yyyy 'às' HH:mm"
+                      )}.`,
+                    };
+  
+                    emailjs
+                      .send('service_hgpw1ul', 'template_849x1az', templateParams, '19c0R-gO8pAzmZ2sf')
+                      .then(
+                        (result) => {
+                          console.log(result.text);
+                        },
+                        (error) => {
+                          console.log(error.text);
+                        }
+                      );
+                  })
+                  .catch((err) => console.log(err)); // handle error here
               })
               .catch((err) => console.log(err)); // handle error here
           })
-          .catch((err) => console.log(err)); // handle error here
+          .catch((err) => {
+            const response = err.response;
+            if (response && response.status === 422) {
+              setErrors(response.data.errors);
+            }
+          });
       })
       .catch((err) => {
-        const response = err.response;
-        if (response && response.status === 422) {
-          setErrors(response.data.errors);
-        }
+        console.log(err); // handle error here
       });
   };
+  
 
   function getCustoByEspecialidade(especialidade) {
     switch (especialidade) {
