@@ -15,8 +15,23 @@ export default function NovaMarcacao() {
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const [dataHoraSelecionada, setDataHoraSelecionada] = useState(new Date());
+  const dataInicial = new Date();
+  dataInicial.setHours(9,0,0,0);
+  const now = new Date();
+  let initialTime;
 
+  if (now.getHours() < 9 || (now.getHours() === 17 && now.getMinutes() > 30)) {
+    initialTime = new Date();
+    initialTime.setHours(9, 0, 0);
+  } else if (now.getHours() >= 17) {
+    initialTime = new Date(now.setDate(now.getDate() + 1));
+    initialTime.setHours(9, 0, 0);
+  } else {
+    initialTime = new Date();
+    initialTime.setMinutes(Math.ceil(now.getMinutes() / 30) * 30, 0);
+  }
+
+  const [dataHoraSelecionada, setDataHoraSelecionada] = useState(initialTime);
   const [marcacao, setMarcacao] = useState({
     id: null,
     servico: '',
@@ -33,10 +48,14 @@ export default function NovaMarcacao() {
   }, []);
 
   const mudarData = (ev) => {
-    setDataHoraSelecionada(ev);
-    setMarcacao({ ...marcacao, data: new Date(ev) });
+    const date = new Date(ev);
+    if (date.toDateString() !== new Date().toDateString()) {
+      date.setHours(9, 0, 0);
+    }
+    setDataHoraSelecionada(date);
+    setMarcacao({ ...marcacao, data: date });
   };
-
+  
   const getBarbeiros = () => {
     axiosClient
       .get('/users')
@@ -151,7 +170,6 @@ export default function NovaMarcacao() {
       });
   };
   
-
   function getCustoByEspecialidade(especialidade) {
     switch (especialidade) {
       case 'Corte':
@@ -245,7 +263,7 @@ export default function NovaMarcacao() {
               dateFormat="dd/MM/yyyy HH:mm"
               minDate={new Date()}
               maxDate={new Date('2030-12-31')}
-              minTime={new Date().setHours(9, 0)}
+              minTime={dataHoraSelecionada.getDate() === new Date().getDate() ? new Date() : new Date().setHours(9, 0)}
               maxTime={new Date().setHours(17, 30)}
               filterDate={(date) => {
                 const day = date.getDay();
@@ -258,8 +276,6 @@ export default function NovaMarcacao() {
             </div>
           </div>
         </form>
-
-
         )}
       </div>
     </>
