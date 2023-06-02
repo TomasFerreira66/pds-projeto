@@ -8,6 +8,19 @@ import emailjs from 'emailjs-com';
 import { format } from 'date-fns';
 
 export default function NovaMarcacao() {
+  const today = new Date();
+const nextAvailableDay = new Date(today);
+nextAvailableDay.setHours(9, 0, 0, 0); // Set the time to 9:00 AM
+
+// If today is Friday or Saturday, set the next available day to Monday
+if (today.getDay() === 5) {
+  nextAvailableDay.setDate(today.getDate() + 3);
+} else if (today.getDay() === 6) {
+  nextAvailableDay.setDate(today.getDate() + 2);
+} else {
+  nextAvailableDay.setDate(today.getDate() + 1);
+}
+
   const navigate = useNavigate();
   const { setNotification } = useStateContext();
   const [errors, setErrors] = useState(null);
@@ -15,7 +28,7 @@ export default function NovaMarcacao() {
   const [especialidades, setEspecialidades] = useState([]);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const [dataHoraSelecionada, setDataHoraSelecionada] = useState(new Date());
+  const [dataHoraSelecionada, setDataHoraSelecionada] = useState(nextAvailableDay);
 
   const [marcacao, setMarcacao] = useState({
     id: null,
@@ -36,6 +49,8 @@ export default function NovaMarcacao() {
     setDataHoraSelecionada(ev);
     setMarcacao({ ...marcacao, data: new Date(ev) });
   };
+
+  
 
   const getBarbeiros = () => {
     axiosClient
@@ -243,14 +258,18 @@ export default function NovaMarcacao() {
               timeIntervals={30}
               timeFormat="HH:mm"
               dateFormat="dd/MM/yyyy HH:mm"
-              minDate={new Date()}
+              minDate={nextAvailableDay}
               maxDate={new Date('2030-12-31')}
               minTime={new Date().setHours(9, 0)}
               maxTime={new Date().setHours(17, 30)}
               filterDate={(date) => {
-                const day = date.getDay();
-                return day !== 6 && day !== 0;
+                const day = date.getDay(); // Sunday: 0, Monday: 1, ...
+                const currentDate = new Date().setHours(0, 0, 0, 0); // Current date without time
+              
+                // Disallow weekends (Saturday and Sunday) and the current day
+                return day !== 0 && day !== 6 && date.getTime() >= currentDate;
               }}
+              
             />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
