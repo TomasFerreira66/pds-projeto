@@ -340,7 +340,7 @@ export default function Processar() {
           <input type="text" name="cvv" />
         </label>
       </div>
-      <button type="button" onClick={handleFinishButtonClick}>Finalizar compra</button>
+      <button type="button" className="btn-finalizar" onClick={handleFinishButtonClick}>Confirmar Dados</button>
     </div>
 
       </div>
@@ -456,7 +456,7 @@ export default function Processar() {
     if (currentStep === totalSteps && isFinishButtonClicked) {
       return (
         <button onClick={handleFinalizarEncomenda} className="btn-finalizar">
-          Comprar
+          Finalizar Compra
         </button>
       );
     }
