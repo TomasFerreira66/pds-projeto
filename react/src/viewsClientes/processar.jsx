@@ -5,6 +5,7 @@ import { useStateContext } from "../contexts/ContextProvider.jsx";
 import { useNavigate } from "react-router-dom";
 import emailjs from 'emailjs-com';
 
+
 export default function Processar() {
   const [carrinho, setUsers] = useState([]);
   const [produto, setProduto] = useState([]);
@@ -18,6 +19,33 @@ export default function Processar() {
   const [morada, setMorada] = useState("");
   const [nif, setNif] = useState("");
   const [email, setEmail] = useState("");
+  const [isFinishButtonClicked, setIsFinishButtonClicked] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+
+  const handleFinishButtonClick = () => {
+    const cardNumberInput = document.querySelector('input[name="cardNumber"]');
+    const cardHolderNameInput = document.querySelector('input[name="cardHolderName"]');
+    const expirationDateInput = document.querySelector('input[name="expirationDate"]');
+    const cvvInput = document.querySelector('input[name="cvv"]');
+
+    // Check if any of the input fields are empty
+    if (!cardNumberInput.value || !cardHolderNameInput.value || !expirationDateInput.value || !cvvInput.value) {
+      // Display an error message or perform error handling
+      window.alert('Por favor preencha todos os campos');
+      return;
+    }
+
+    // If all fields are filled, continue with the purchase logic
+    setIsFinishButtonClicked(true);~
+    window.alert('Dados validados com sucesso!')
+    // Your code to process the purchase goes here
+  };
+
+
+  const handleFinalizarCompra = () => {
+    setIsFinishButtonClicked(true);
+  };
 
   const getEmail = () => {
     setLoading(true);
@@ -266,11 +294,27 @@ export default function Processar() {
   
     // Calculate the total value of carrinho.preco
     const totalValue = filteredCarrinho.reduce((acc, curr) => acc + curr.preco, 0);
+  
+  
+    return (
+      <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
+        <h2>Resumo do seu pedido</h2>
+        <div className="card-container">
+          {produtoNamesAndQuantities.map((produto, index) => (
+            <div className="card" key={index}>
+              <p style={{ fontSize: "25px"}}>{produto.nome}</p>
+              <p>Quantidade: {produto.quantidade}</p>
+            </div>
+          ))}
+        </div>
+        <div className="card animated fadeInDown">
+        <div style={{ fontSize: "25px"}}>Total: {totalValue} €</div>
+        </div>
+       
 
-
-    const openCreditCardForm = () => {
-  const formMarkup = `
-    <div>
+       
+ <br></br>
+        <div>
       <h3>Preencha as informações do cartão de crédito:</h3>
       <div>
         <label>
@@ -296,30 +340,9 @@ export default function Processar() {
           <input type="text" name="cvv" />
         </label>
       </div>
-      <button type="button" onclick="window.close()">Finalizar compra</button>
+      <button type="button" onClick={handleFinishButtonClick}>Finalizar compra</button>
     </div>
-  `;
-  const newWindow = window.open('', '_blank', 'width=400,height=400');
-  newWindow.document.write(formMarkup);
-};
-  
-    return (
-      <div style={{ marginLeft: '100px' , marginRight: '100px'}}>
-        <h2>Resumo do seu pedido</h2>
-        <div className="card-container">
-          {produtoNamesAndQuantities.map((produto, index) => (
-            <div className="card" key={index}>
-              <p style={{ fontSize: "25px"}}>{produto.nome}</p>
-              <p>Quantidade: {produto.quantidade}</p>
-            </div>
-          ))}
-        </div>
-        <div className="card animated fadeInDown">
-        <div style={{ fontSize: "25px"}}>Total: {totalValue} €</div>
-        </div>
-        <button className="btn-finalizar" style={{ width:"250px"}} type="button" onClick={openCreditCardForm}>
-          Proceder para o pagamento
-        </button>
+
       </div>
     );
     
@@ -429,9 +452,10 @@ export default function Processar() {
     
   
   const renderFinishButton = () => {
-    if (currentStep === totalSteps) {
+    console.log(isFinishButtonClicked);
+    if (currentStep === totalSteps && isFinishButtonClicked) {
       return (
-        <button className="btn-finalizar" onClick={handleFinalizarEncomenda}>
+        <button onClick={handleFinalizarEncomenda} className="btn-finalizar">
           Comprar
         </button>
       );
